@@ -26,7 +26,7 @@ const tools = await Promise.all(registry
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
       {tools.map((tool: any) => (
         <a href={`/${tool.slug}`} class="glass-panel" style="display: block; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none;">
-          <h2 style="color: var(--text-primary);">{tool.definition.title}</h2>
+          <h2 style="color: var(--accent-light);">{tool.definition.title}</h2>
           <p style="margin-bottom: 0;">{tool.definition.description}</p>
         </a>
       ))}

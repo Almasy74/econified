@@ -33,7 +33,7 @@ tools.sort((a, b) => a.priority - b.priority);
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
       {tools.map((tool: any) => (
         <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none;">
-          <h2 style="color: var(--primary-light); margin-bottom: 0.5rem; font-size: 1.25rem;">{tool.definition.title}</h2>
+          <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">{tool.definition.title}</h2>
           <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">{tool.definition.description}</p>
         </a>
       ))}

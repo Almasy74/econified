@@ -44,7 +44,7 @@ relatedTools = relatedTools.filter(tool => tool !== null).slice(0, 4);
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
       {relatedTools.map((tool) => (
         <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; font-size: 0.9rem;" data-analytics="related-tool-click">
-          <strong style="display: block; margin-bottom: 0.25rem;">{tool.title}</strong>
+          <strong style="display: block; margin-bottom: 0.25rem; color: var(--accent-light);">{tool.title}</strong>
           <span style="color: var(--text-secondary);">{tool.description}</span>
         </a>
       ))}

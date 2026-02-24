@@ -5,6 +5,7 @@
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --accent: #3b82f6;
+  --accent-light: #60a5fa;
   --accent-glow: rgba(59, 130, 246, 0.4);
   --surface: rgba(30, 41, 59, 0.6);
   --surface-border: rgba(255, 255, 255, 0.1);
@@ -139,7 +140,7 @@ a {
 }
 
 a:hover {
-  color: #60a5fa;
+  color: var(--accent-light);
 }
 
 header {
