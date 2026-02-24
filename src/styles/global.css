@@ -159,6 +159,22 @@ header {
   align-items: center;
 }
 
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-container nav a {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.nav-container nav a:hover {
+  color: var(--accent);
+}
+
 .brand {
   font-size: 1.5rem;
   font-weight: 700;
@@ -171,7 +187,7 @@ header {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 3rem 2rem;
 }
