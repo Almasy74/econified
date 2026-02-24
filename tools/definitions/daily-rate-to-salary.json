@@ -78,5 +78,12 @@
         "conversion",
         "freelance",
         "contracting"
+    ],
+    "nextDecision": "freelance-rate-calculator",
+    "upstreamDecision": "hourly-to-salary",
+    "useCases": [
+        "Convert day rates to salary",
+        "Compare short-term contracts",
+        "Calculate annual equivalents"
     ]
 }

@@ -15,16 +15,33 @@ export async function getStaticPaths() {
     const defData = await fs.readFile(defPath, 'utf-8');
     const definition = JSON.parse(defData);
 
+    let nextDecisionData = null;
+    let upstreamDecisionData = null;
+
+    if (definition.nextDecision) {
+        try {
+            const ndPath = path.resolve(`tools/definitions/${definition.nextDecision}.json`);
+            nextDecisionData = { slug: definition.nextDecision, title: JSON.parse(await fs.readFile(ndPath, 'utf-8')).title };
+        } catch(e) {}
+    }
+
+    if (definition.upstreamDecision) {
+        try {
+            const udPath = path.resolve(`tools/definitions/${definition.upstreamDecision}.json`);
+            upstreamDecisionData = { slug: definition.upstreamDecision, title: JSON.parse(await fs.readFile(udPath, 'utf-8')).title };
+        } catch(e) {}
+    }
+
     return {
       params: { slug: entry.slug },
-      props: { tool: entry, definition }
+      props: { tool: entry, definition, nextDecisionData, upstreamDecisionData }
     };
   }));
 
   return paths;
 }
 
-const { tool, definition } = Astro.props;
+const { tool, definition, nextDecisionData, upstreamDecisionData } = Astro.props;
 
 // Generate Meta Tags
 const metaTitle = `${definition.title} – Econified`;
@@ -83,16 +100,28 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
     <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
       <a href="/" style="color: inherit;">Home</a> &rsaquo; {definition.title}
     </nav>
-    <h1>{definition.title}</h1>
+    <div class="tool-header" style="margin-bottom: 1.5rem;">
+      <h1 style="margin-bottom: 0.5rem;">{definition.title}</h1>
+      <div class="freshness-signal" style="font-size: 0.85rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem;">
+        <span aria-hidden="true">&#x1F5D2;&#xFE0F;</span> Last Updated: <time datetime={tool.updatedAt}>{new Date(tool.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      </div>
+    </div>
     <p class="lead">{definition.description}</p>
 
-    <!-- AEO Capability Block -->
     <div class="capability-block" role="list">
        <span class="badge" role="listitem"><strong>What this tool does:</strong> {definition.description}</span>
        <span class="badge" role="listitem"><strong>Inputs:</strong> {definition.inputs.map((i:any)=>i.label).join(', ')}</span>
        <span class="badge" role="listitem"><strong>Outputs:</strong> {definition.outputs.map((o:any)=>o.label).join(', ')}</span>
        <span class="badge" role="listitem"><strong>Processing:</strong> Runs locally in your browser</span>
        <span class="badge" role="listitem"><strong>Privacy:</strong> No inputs stored or sent</span>
+    </div>
+
+    <!-- Explicit AEO Use Cases -->
+    <div class="use-cases-block" style="margin-bottom: 2rem; padding: 1rem; background: rgba(30, 41, 59, 0.4); border-radius: 6px; border-left: 3px solid var(--primary-light);">
+      <h3 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 1rem; color: var(--text-primary);">When to use this tool:</h3>
+      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
+        {definition.useCases.map((useCase: string) => <li>{useCase}</li>)}
+      </ul>
     </div>
 
     {tool.adPolicy === 'highIntent' && (
@@ -161,6 +190,25 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
         ))}
       </div>
     </div>
+
+    <!-- The Decision Graph -->
+    {(nextDecisionData || upstreamDecisionData) && (
+      <nav class="decision-graph" aria-label="Decision Pathway" style="margin-top: 4rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; border-top: 1px solid var(--surface-border); padding-top: 2rem;">
+        {upstreamDecisionData ? (
+          <a href={`/${upstreamDecisionData.slug}/`} class="glass-panel" data-analytics="decision-upstream" style="flex: 1; min-width: 250px; text-decoration: none;">
+            <span style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">&larr; Previous Step</span>
+            <strong style="display: block; margin-top: 0.25rem; color: var(--text-primary);">{upstreamDecisionData.title}</strong>
+          </a>
+        ) : <div style="flex: 1; min-width: 250px;"></div>}
+        
+        {nextDecisionData && (
+          <a href={`/${nextDecisionData.slug}/`} class="glass-panel" data-analytics="decision-next" style="flex: 1; min-width: 250px; text-decoration: none; text-align: right;">
+            <span style="font-size: 0.8rem; color: var(--primary-light); text-transform: uppercase; letter-spacing: 0.05em;">Next Step &rarr;</span>
+            <strong style="display: block; margin-top: 0.25rem; color: var(--text-primary);">{nextDecisionData.title}</strong>
+          </a>
+        )}
+      </nav>
+    )}
     
     <RelatedTools currentSlug={tool.slug} clusters={definition.clusters || []} />
   </main>

@@ -65,5 +65,12 @@
     "clusters": [
         "conversion",
         "salary-basics"
+    ],
+    "nextDecision": "monthly-to-yearly-salary",
+    "upstreamDecision": "salary-to-hourly",
+    "useCases": [
+        "Budget monthly expenses",
+        "Compare payroll structures",
+        "Evaluate expected income"
     ]
 }

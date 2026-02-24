@@ -77,5 +77,12 @@
     "clusters": [
         "conversion",
         "salary-basics"
+    ],
+    "nextDecision": "freelance-rate-calculator",
+    "upstreamDecision": "hourly-to-salary",
+    "useCases": [
+        "Calculate hourly worth",
+        "Compare contractor rates",
+        "Evaluate overtime value"
     ]
 }

@@ -70,5 +70,12 @@
     "clusters": [
         "conversion",
         "freelance"
+    ],
+    "nextDecision": "monthly-to-yearly-salary",
+    "upstreamDecision": "hourly-to-salary",
+    "useCases": [
+        "Project yearly earnings",
+        "Compare weekly contracts",
+        "Understand annualized income"
     ]
 }

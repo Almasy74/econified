@@ -83,5 +83,12 @@
     "clusters": [
         "comparison",
         "remote"
+    ],
+    "nextDecision": null,
+    "upstreamDecision": "contractor-vs-employee",
+    "useCases": [
+        "Plan relocation impact",
+        "Negotiate remote baseline",
+        "Compare regional cost of living"
     ]
 }

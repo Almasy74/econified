@@ -98,5 +98,12 @@
     "clusters": [
         "conversion",
         "freelance"
+    ],
+    "nextDecision": "contractor-vs-employee",
+    "upstreamDecision": "salary-to-hourly",
+    "useCases": [
+        "Set minimum project rates",
+        "Account for unpaid time",
+        "Calculate safety buffer"
     ]
 }

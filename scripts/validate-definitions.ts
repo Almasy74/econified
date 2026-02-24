@@ -31,7 +31,10 @@ const definitionSchema = z.object({
         a: z.string()
     })).min(6, "Must define at least 6 FAQs").max(10, "Cannot have more than 10 FAQs"),
 
-    clusters: z.array(z.string()).min(1)
+    clusters: z.array(z.string()).min(1),
+    useCases: z.array(z.string()).length(3, "Must define exactly 3 use cases"),
+    nextDecision: z.string().nullable().optional(),
+    upstreamDecision: z.string().nullable().optional()
 });
 
 async function validateDefinitions() {

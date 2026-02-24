@@ -105,5 +105,12 @@
         "comparison",
         "contracting",
         "salary-basics"
+    ],
+    "nextDecision": "remote-pay-adjuster",
+    "upstreamDecision": "freelance-rate-calculator",
+    "useCases": [
+        "Evaluate distinct job offers",
+        "Assess overhead differences",
+        "Compare true total compensation"
     ]
 }

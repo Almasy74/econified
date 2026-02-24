@@ -65,5 +65,12 @@
     "clusters": [
         "conversion",
         "salary-basics"
+    ],
+    "nextDecision": "annual-salary-to-monthly",
+    "upstreamDecision": "salary-to-hourly",
+    "useCases": [
+        "Project annual income",
+        "Compare yearly contracts",
+        "Plan long-term budgets"
     ]
 }

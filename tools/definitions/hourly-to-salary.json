@@ -82,5 +82,12 @@
     "clusters": [
         "conversion",
         "salary-basics"
+    ],
+    "nextDecision": "salary-to-hourly",
+    "upstreamDecision": null,
+    "useCases": [
+        "Compare a job offer",
+        "Estimate freelance equivalent",
+        "Understand effective pay"
     ]
 }
