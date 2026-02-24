@@ -1,0 +1,174 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Section 1: Brand & Info -->
+      <div class="footer-section brand-info">
+        <h3>Econified</h3>
+        <p>
+          Econified is a global platform providing interactive, browser-based salary and work decision tools. 
+          Our calculators are informational only and do not constitute financial, legal, or professional advice.
+          All calculations run locally in your browser to ensure maximum privacy.
+        </p>
+      </div>
+
+      <!-- Section 2: Navigation -->
+      <div class="footer-section nav-links">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="/tools/">Explore Tools</a></li>
+          <li><a href="/#methodology">How it Works</a></li>
+          <li><a href="/#about">About Econified</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section nav-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/terms/">Terms of Use</a></li>
+          <li><a href="/disclaimer/">Disclaimer</a></li>
+          <li><a href="/cookies/">Cookie Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Section 3: Contact & Support -->
+      <div class="footer-section contact-info">
+        <h4>Support</h4>
+        <p>Questions or feedback?</p>
+        <a href="mailto:info@econified.com" class="email-link">info@econified.com</a>
+      </div>
+    </div>
+
+    <!-- Section 4 & 5: Disclosures -->
+    <div class="footer-bottom">
+      <div class="disclosure-group">
+        <p class="data-statement">
+          <strong>Privacy & Data:</strong> Your inputs never leave your computer. We do not store personal financial data. 
+          Anonymous analytics may be used to improve tool performance.
+        </p>
+        <p class="ads-disclosure">
+          <strong>Advertising:</strong> This site may display advertising (e.g. Google AdSense) to keep our professional tools free for everyone.
+        </p>
+      </div>
+      
+      <div class="copyright">
+        &copy; {currentYear} Econified. All rights reserved.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 5rem;
+    padding: 4rem 0 2rem;
+    background: rgba(15, 23, 42, 0.8);
+    border-top: 1px solid var(--surface-border);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-section h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .footer-section h4 {
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-section p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-section ul li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-section ul li a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-section ul li a:hover {
+    color: var(--primary-light);
+  }
+
+  .email-link {
+    color: var(--primary-light);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .disclosure-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .disclosure-group p {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .disclosure-group strong {
+    color: var(--text-primary);
+  }
+
+  .copyright {
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 1rem;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 968px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .site-footer {
+      padding-top: 3rem;
+    }
+  }
+</style>
