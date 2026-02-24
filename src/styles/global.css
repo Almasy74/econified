@@ -124,11 +124,12 @@ label {
 }
 
 .result-value {
-  font-size: 4rem;
+  font-size: clamp(2rem, 12vw, 4rem);
   font-weight: 700;
   color: var(--text-primary);
   margin: 0.5rem 0;
   text-shadow: 0 0 20px var(--accent-glow);
+  word-break: break-all;
 }
 
 a {
@@ -157,11 +158,24 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .nav-container {
+    padding: 1rem 1rem;
+  }
 }
 
 nav {
   display: flex;
   gap: 2rem;
+}
+
+@media (max-width: 640px) {
+  nav {
+    gap: 0.75rem;
+  }
 }
 
 .nav-container nav a {
@@ -180,6 +194,13 @@ nav {
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 1.25rem;
+  }
 }
 
 .brand span {
@@ -190,6 +211,20 @@ nav {
   max-width: 1000px;
   margin: 0 auto;
   padding: 3rem 2rem;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 2rem 1rem;
+  }
+
+  .glass-panel {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+  }
 }
 
 .capability-block {
