@@ -1,0 +1,82 @@
+{
+    "title": "Daily Rate to Salary Calculator",
+    "description": "Convert your daily consulting or contract rate into an equivalent annual salary.",
+    "inputs": [
+        {
+            "name": "dailyRate",
+            "type": "number",
+            "unit": "currency",
+            "label": "Daily Rate",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "daysPerWeek",
+            "type": "number",
+            "label": "Working Days per Week",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "weeksPerYear",
+            "type": "number",
+            "label": "Weeks Worked per Year",
+            "min": 0,
+            "step": 1
+        }
+    ],
+    "outputs": [
+        {
+            "name": "annualSalary",
+            "unit": "currency",
+            "label": "Equivalent Annual Salary"
+        },
+        {
+            "name": "monthlySalary",
+            "unit": "currency",
+            "label": "Monthly Equivalent"
+        }
+    ],
+    "methodSummary": [
+        "Annual Salary = Daily Rate × Days per Week × Weeks Worked"
+    ],
+    "assumptions": [
+        "Assumes a flat consulting daily rate without half-day fractional billing.",
+        "Assumes 52 weeks in a calendar year."
+    ],
+    "insights": [
+        "Never multiply your daily rate by 260 (52 weeks × 5 days) without subtracting vacations, sick days, and non-billable bench time. 220 or 230 days is a safer maximum.",
+        "A £400 daily rate might seem incredibly high, but once you subtract self-employment taxes, missing pension contributions, and unpaid holidays, it roughly equates to a £65k salary, not £100k+."
+    ],
+    "faqs": [
+        {
+            "q": "How many working days are there in a standard year?",
+            "a": "There are generally 260 to 262 working days (Monday-Friday) in a year, depending on leap years."
+        },
+        {
+            "q": "Should I charge a higher daily rate than my current salary division?",
+            "a": "Yes. Daily rate contractors should typically charge a 30-50% premium over their salaried daily equivalent to absorb the risk of downtime and lack of benefits."
+        },
+        {
+            "q": "How do I account for public holidays?",
+            "a": "Subtract the public holidays from your total working weeks. Instead of 52 weeks, calculate using 46 or 47 weeks."
+        },
+        {
+            "q": "Why is daily rate common in IT and Consulting?",
+            "a": "It simplifies billing for clients. They don't have to track your hourly movements, and you are paid for output per day rather than punching a clock."
+        },
+        {
+            "q": "Does this tool work if my weekly days vary?",
+            "a": "Use an average. If you work 3 days one week and 5 the next, input 4 days per week."
+        },
+        {
+            "q": "Can I use this to compare a contract offer to an employment offer?",
+            "a": "Yes, but remember to discount the calculated annual salary by around 20-30% to find the true 'salaried' equivalent value."
+        }
+    ],
+    "clusters": [
+        "conversion",
+        "freelance",
+        "contracting"
+    ]
+}

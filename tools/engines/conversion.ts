@@ -9,7 +9,24 @@ export function calculateSalaryToHourly(inputs: Record<string, number>) {
   return { hourlyRate };
 }
 
-export function calculateFreelanceRateCalculator(inputs: Record<string, number>) {
-  const freelanceHourlyRate = inputs.targetSalary / (inputs.billableHoursPerWeek * inputs.weeksWorked);
-  return { freelanceHourlyRate };
+export function calculateMonthlyToYearly(inputs: Record<string, number>) {
+  const annualSalary = inputs.monthlySalary * inputs.monthsWorked;
+  return { annualSalary };
+}
+
+export function calculateDailyRateToSalary(inputs: Record<string, number>) {
+  const annualSalary = inputs.dailyRate * inputs.daysPerWeek * inputs.weeksPerYear;
+  const monthlySalary = annualSalary / 12;
+  return { annualSalary, monthlySalary };
+}
+
+export function calculateAnnualSalaryToMonthly(inputs: Record<string, number>) {
+  const monthlySalary = inputs.annualSalary / inputs.monthsPaid;
+  return { monthlySalary };
+}
+
+export function calculateWeeklyToAnnualPay(inputs: Record<string, number>) {
+  const annualSalary = inputs.weeklyPay * inputs.weeksWorked;
+  const monthlySalary = annualSalary / 12;
+  return { annualSalary, monthlySalary };
 }

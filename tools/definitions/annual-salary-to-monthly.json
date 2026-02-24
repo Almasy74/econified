@@ -1,0 +1,69 @@
+{
+    "title": "Annual Salary to Monthly Calculator",
+    "description": "Convert your annual gross salary into a standardized monthly equivalent.",
+    "inputs": [
+        {
+            "name": "annualSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Annual Salary (Gross)",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "monthsPaid",
+            "type": "number",
+            "label": "Number of Monthly Payments per Year",
+            "min": 0,
+            "step": 1
+        }
+    ],
+    "outputs": [
+        {
+            "name": "monthlySalary",
+            "unit": "currency",
+            "label": "Monthly Gross Salary"
+        }
+    ],
+    "methodSummary": [
+        "Monthly Salary = Annual Salary / Months Paid"
+    ],
+    "assumptions": [
+        "This calculation produces Gross Pay, before any income taxes, social security, or insurance are deducted.",
+        "Assumes standard 12 monthly payments unless working in regions with a 13th or 14th month bonus structure."
+    ],
+    "insights": [
+        "A higher gross monthly salary might result in a lower actual take-home if pushing you into a significantly higher progressive tax bracket without matching deductions.",
+        "If comparing to an hourly contract, remember that months are not simply 4 weeks. Contract math must account for the 4.33 average weeks per month."
+    ],
+    "faqs": [
+        {
+            "q": "Why is the input for 'Months Paid' editable?",
+            "a": "Because in many European countries or unionized jobs, standard pay is distributed over 13 or 14 payments (including summer and winter bonuses) rather than 12."
+        },
+        {
+            "q": "Does this tool calculate my net take-home pay?",
+            "a": "No. Tax structures vary wildly by jurisdiction. This tool calculates the proportional division of your contractual Gross Salary."
+        },
+        {
+            "q": "How can I figure out my take-home pay from this number?",
+            "a": "You must apply your local, state, and national income tax brackets to your Annual Salary, subtract deductions, and divide the remaining Net result by 12."
+        },
+        {
+            "q": "What happens if I receive quarterly bonuses?",
+            "a": "Bonuses are not strictly guaranteed base salary. Do not include performance bonuses in your 'Annual Salary' input if you want to find your reliable base monthly cash flow."
+        },
+        {
+            "q": "Why doesn't my monthly salary track directly to 160 hours worked?",
+            "a": "Because a month averages 173.3 billable working hours. Dividing annual salary by 12 smoothes out short months (February) and longer months."
+        },
+        {
+            "q": "Is the calculated monthly salary what my employer pays in total?",
+            "a": "No, your employer pays an additional 'burden rate' adding 20-40% to your gross salary to cover their portion of taxes, benefits, and workplace insurance."
+        }
+    ],
+    "clusters": [
+        "conversion",
+        "salary-basics"
+    ]
+}

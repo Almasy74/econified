@@ -7,14 +7,16 @@ const registryPath = path.resolve('tools/registry.json');
 const registryData = await fs.readFile(registryPath, 'utf-8');
 const registry = JSON.parse(registryData);
 
-const tools = await Promise.all(registry.map(async (entry: any) => {
-  const defPath = path.resolve(`tools/definitions/${entry.slug}.json`);
+const tools = await Promise.all(registry
+  .filter((entry: any) => entry.status === 'active')
+  .map(async (entry: any) => {
+    const defPath = path.resolve(`tools/definitions/${entry.slug}.json`);
   const defData = await fs.readFile(defPath, 'utf-8');
   return { ...entry, definition: JSON.parse(defData) };
 }));
 ---
 
-<Layout title="Econified | Master Your Work Decisions">
+<Layout title="Econified | Master Your Work Decisions" canonicalUrl="https://econified.com/">
   <main class="container">
     <div style="text-align: center; margin-bottom: 4rem;">
       <h1>Make Data-Driven Career Decisions.</h1>

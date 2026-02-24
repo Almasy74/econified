@@ -4,9 +4,10 @@ import '../styles/global.css';
 interface Props {
 	title: string;
 	description?: string;
+	canonicalUrl?: string;
 }
 
-const { title, description = "Global Salary & Work Decision Platform" } = Astro.props;
+const { title, description = "Global Salary & Work Decision Platform", canonicalUrl } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -15,6 +16,7 @@ const { title, description = "Global Salary & Work Decision Platform" } = Astro.
 		<meta charset="UTF-8" />
 		<meta name="description" content={description}>
 		<meta name="viewport" content="width=device-width" />
+		{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>

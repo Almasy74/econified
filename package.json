@@ -4,11 +4,17 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "start": "astro dev",
+    "build": "tsx scripts/validate-definitions.ts && astro build && tsx scripts/sitemap-audit.ts",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^5.17.1"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.7.0",
+    "tsx": "^4.21.0",
+    "zod": "^3.25.76"
   }
 }

@@ -6,17 +6,37 @@
             "name": "targetSalary",
             "type": "number",
             "unit": "currency",
-            "label": "Target Annual Income"
+            "label": "Target Annual Income",
+            "min": 0,
+            "step": 1000,
+            "placeholder": "e.g. 100000"
+        },
+        {
+            "name": "overheadPercent",
+            "type": "number",
+            "label": "Overhead & Benefits Buffer (%)",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "placeholder": "e.g. 30"
         },
         {
             "name": "billableHoursPerWeek",
             "type": "number",
-            "label": "Billable Hours per Week"
+            "label": "Billable Hours per Week",
+            "min": 1,
+            "max": 168,
+            "step": 0.5,
+            "placeholder": "e.g. 25"
         },
         {
             "name": "weeksWorked",
             "type": "number",
-            "label": "Weeks Worked per Year"
+            "label": "Weeks Worked per Year",
+            "min": 1,
+            "max": 52,
+            "step": 1,
+            "placeholder": "e.g. 46"
         }
     ],
     "outputs": [
@@ -24,23 +44,55 @@
             "name": "freelanceHourlyRate",
             "unit": "currency",
             "label": "Required Hourly Rate"
+        },
+        {
+            "name": "freelanceDayRate",
+            "unit": "currency",
+            "label": "Required Day Rate (8h)"
+        },
+        {
+            "name": "effectiveAnnualRevenue",
+            "unit": "currency",
+            "label": "Effective Annual Revenue Needed"
         }
     ],
     "methodSummary": [
-        "Freelance hourly rate = target annual income / (billable hours per week × weeks worked per year)"
+        "Effective Revenue = Target Salary + Overhead Buffer",
+        "Required Hourly Rate = Effective Revenue / (Billable Hours per Week × Weeks Worked)"
     ],
     "assumptions": [
-        "Assumes business expenses and extra taxes are either part of target income or calculated separately.",
-        "Billable hours are often only 50-60% of total working hours."
+        "Assumes business expenses and extra taxes are handled via the strictly added overhead percentage.",
+        "Day rate assumes a standard 8-hour billable day."
     ],
     "insights": [
-        "A common mistake freelancers make is assuming 40 billable hours per week; administration and sales drastically reduce this.",
-        "If leaving employment, add at least 30% to your target salary to cover benefits, self-employment taxes, and equipment risk."
+        "Many overestimate billability. 60-70% utilization is often more realistic than 90% when accounting for sales and admin.",
+        "Add a strict buffer for pensions, health insurance, and sick days (often 20-35%).",
+        "Shorter contracts and higher risk require a considerably higher base rate to cover the 'bench time'."
     ],
     "faqs": [
         {
+            "q": "What is the difference between billable and non-billable hours?",
+            "a": "Billable hours are what you actually charge the client for. Non-billable hours include sales, invoicing, meetings, and administration that you must do but cannot invoice."
+        },
+        {
+            "q": "Why shouldn't I assume 52 weeks worked per year?",
+            "a": "Because you will need to take vacations, observe public holidays, and take sick days. 46-48 weeks is a much safer planning metric for freelancers."
+        },
+        {
+            "q": "What must be included in the overhead percentage?",
+            "a": "You must include self-employment taxes, healthcare premiums, retirement contributions, software licenses, and liability insurance that an employer would typically cover."
+        },
+        {
+            "q": "How do I compare this required rate to a permanent job offer?",
+            "a": "Add the value of the employer's benefits (pension match, bonuses, paid time off) to the base salary offer before comparing it against your required freelance revenue."
+        },
+        {
             "q": "Why shouldn't I just take my old hourly salary wage and charge that?",
             "a": "Because your employer covers non-billable time, taxes, software, healthcare, and assumes the financial risk of no-work periods. You must charge a premium to absorb these costs."
+        },
+        {
+            "q": "Is it better to charge hourly or by project?",
+            "a": "This tool helps establish your baseline value per hour. You can use this minimum baseline to accurately price flat-fee projects by estimating the total hours it will take."
         }
     ],
     "clusters": [

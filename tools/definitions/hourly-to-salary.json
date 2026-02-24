@@ -1,22 +1,33 @@
 {
     "title": "Hourly to Salary Calculator",
-    "description": "Convert hourly pay into annual salary using configurable work assumptions.",
+    "description": "Convert hourly pay into annual salary using adjustable assumptions (hours/week, weeks/year).",
     "inputs": [
         {
             "name": "hourlyRate",
             "type": "number",
             "unit": "currency",
-            "label": "Hourly Rate"
+            "label": "Hourly Rate",
+            "min": 0,
+            "step": 0.5,
+            "placeholder": "e.g. 50"
         },
         {
             "name": "hoursPerWeek",
             "type": "number",
-            "label": "Hours per Week"
+            "label": "Hours per Week",
+            "min": 1,
+            "max": 168,
+            "step": 0.5,
+            "placeholder": "e.g. 40"
         },
         {
             "name": "weeksPerYear",
             "type": "number",
-            "label": "Weeks per Year"
+            "label": "Weeks per Year",
+            "min": 1,
+            "max": 52,
+            "step": 1,
+            "placeholder": "e.g. 52"
         }
     ],
     "outputs": [
@@ -35,17 +46,37 @@
         "Annual salary = hourly rate × hours per week × weeks worked"
     ],
     "assumptions": [
-        "Default assumes 52 working weeks unless changed.",
-        "Does not factor in variable taxes or deductions."
+        "Calculates Gross Pay (before taxes).",
+        "If you work unpaid overtime, set hours/week to your actual average."
     ],
     "insights": [
-        "Many salaried roles include unpaid overtime which lowers effective hourly pay.",
-        "Contractors typically price 20–40% higher due to risk and benefits gaps."
+        "Unpaid overtime lowers your real hourly rate → model this by increasing your hours/week.",
+        "Contractor vs Employee: Same 'annual equivalent' doesn't mean same financial outcome because pensions, PTO, insurance, and risk are often excluded."
     ],
     "faqs": [
         {
-            "q": "How many hours per year is full-time?",
-            "a": "Full-time commonly ranges between 1,750–2,080 hours annually depending on country."
+            "q": "Why do two people with the same hourly rate have different annual salaries?",
+            "a": "Annual salary scales directly with hours worked and weeks paid. A contractor working 40 hours for 46 weeks will earn less annually than an employee paid for 52 weeks at the same hourly rate."
+        },
+        {
+            "q": "What happens to my annual salary if I work unpaid overtime?",
+            "a": "Working unpaid overtime mathematically decreases your true hourly rate while keeping your annual salary fixed in the calculation."
+        },
+        {
+            "q": "Why is the default set to 52 weeks per year?",
+            "a": "Salaried positions generally pay you for 52 weeks, including paid time off (PTO). If you are strictly paid only for weeks worked, you should lower the weeks metric."
+        },
+        {
+            "q": "Does this calculation include taxes?",
+            "a": "No. This tool calculates Gross Pay (before taxes). Net Pay depends heavily on your local tax region, brackets, and personal deductions."
+        },
+        {
+            "q": "Is a contract rate directly comparable to a salary rate?",
+            "a": "No, directly converting an hourly contract rate to an annual salary is misleading because contractors lack PTO, health benefits, and pay self-employment taxes."
+        },
+        {
+            "q": "How does an annual bonus factor into this calculation?",
+            "a": "This tool strictly calculates base pay from hourly wages. If you receive predictable bonuses, calculate the base annual salary here first, then add the bonus separately."
         }
     ],
     "clusters": [

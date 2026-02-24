@@ -1,0 +1,74 @@
+{
+    "title": "Weekly Pay to Annual Calculator",
+    "description": "Calculate your total annual income based on your projected weekly pay.",
+    "inputs": [
+        {
+            "name": "weeklyPay",
+            "type": "number",
+            "unit": "currency",
+            "label": "Weekly Pay",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "weeksWorked",
+            "type": "number",
+            "label": "Weeks Worked per Year",
+            "min": 0,
+            "step": 1
+        }
+    ],
+    "outputs": [
+        {
+            "name": "annualSalary",
+            "unit": "currency",
+            "label": "Total Annual Income"
+        },
+        {
+            "name": "monthlySalary",
+            "unit": "currency",
+            "label": "Monthly Average"
+        }
+    ],
+    "methodSummary": [
+        "Annual Income = Weekly Pay × Weeks Worked per Year"
+    ],
+    "assumptions": [
+        "Assumes the target weekly pay stays strictly consistent throughout the timeframe.",
+        "Defaults to 52 weeks in a calendar year if calculating full-time equivalent without unpaid breaks."
+    ],
+    "insights": [
+        "Using 52 weeks is mathematically inaccurate for hourly workers because it assumes zero unpaid sick days, holidays, or vacations over the entire year. 48 or 50 is a much safer estimation metric.",
+        "If your weekly pay fluctuates wildly (e.g., hospitality shifts), find your total pay over the last 4 weeks, divide by 4, and use that running average here."
+    ],
+    "faqs": [
+        {
+            "q": "Why is assuming 52 weeks of pay risky?",
+            "a": "If you are strictly paid weekly based on hours, assuming 52 weeks means you are literally planning to work every single weekday without a single vacation day or sick day."
+        },
+        {
+            "q": "How do I calculate a short-term contract?",
+            "a": "Change the 'Weeks Worked per Year' to however long the contract lasts. This will show you exactly what that specific contract will yield."
+        },
+        {
+            "q": "How many weeks are in a standard working year with holidays?",
+            "a": "A standard European full-time contract implies roughly 46-47 actual working weeks, with the remainder being paid vacation. If you are hourly, use 47 to estimate realistic annual yield."
+        },
+        {
+            "q": "Does this calculation include taxes?",
+            "a": "No, this produces the Gross annual income. Taxes must be calculated distinctly against the final annual sum."
+        },
+        {
+            "q": "Why is the Monthly Average calculated by dividing by 12?",
+            "a": "While you might be paid weekly, most fixed expenses (rent, utilities) occur on a monthly cadence. Dividing the annual total by 12 provides the safest monthly budgeting baseline."
+        },
+        {
+            "q": "What if my weekly pay includes overtime?",
+            "a": "If you consistently work overtime, include it in your weekly average. However, doing so builds a budget dependent on working more than standard hours, which carries a high risk of burnout."
+        }
+    ],
+    "clusters": [
+        "conversion",
+        "freelance"
+    ]
+}

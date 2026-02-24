@@ -1,0 +1,53 @@
+---
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+interface Props {
+  currentSlug: string;
+  clusters: string[];
+}
+
+const { currentSlug, clusters } = Astro.props;
+
+// Fetch the registry to find related tools
+const registryPath = path.resolve('tools/registry.json');
+const registryData = await fs.readFile(registryPath, 'utf-8');
+const registry = JSON.parse(registryData);
+
+// Find related tools (excluding the current one) that share at least one cluster and are active
+let relatedTools = await Promise.all(registry
+  .filter((entry: any) => entry.slug !== currentSlug && entry.status === 'active')
+  .map(async (entry: any) => {
+    const defPath = path.resolve(`tools/definitions/${entry.slug}.json`);
+    const defData = await fs.readFile(defPath, 'utf-8');
+    const definition = JSON.parse(defData);
+    
+    // Check overlap
+    const hasOverlap = definition.clusters?.some(cl => clusters.includes(cl));
+    if (hasOverlap) {
+      return {
+        slug: entry.slug,
+        title: definition.title,
+        description: definition.description
+      };
+    }
+    return null;
+  }));
+
+// Filter out nulls and limit to max 4 related links for UI clarity
+relatedTools = relatedTools.filter(tool => tool !== null).slice(0, 4);
+
+---
+{relatedTools.length > 0 && (
+  <div class="content-section" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--surface-border);">
+    <h2>Related Career Tools</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+      {relatedTools.map((tool) => (
+        <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; font-size: 0.9rem;" data-analytics="related-tool-click">
+          <strong style="display: block; margin-bottom: 0.25rem;">{tool.title}</strong>
+          <span style="color: var(--text-secondary);">{tool.description}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}

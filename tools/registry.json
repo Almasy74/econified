@@ -9,7 +9,9 @@
     "defaults": {
       "hoursPerWeek": 37.5,
       "weeksPerYear": 52
-    }
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
   },
   {
     "slug": "salary-to-hourly",
@@ -21,19 +23,113 @@
     "defaults": {
       "hoursPerWeek": 37.5,
       "weeksPerYear": 52
-    }
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
   },
   {
     "slug": "freelance-rate-calculator",
     "tier": 0,
-    "engine": "conversion",
+    "engine": "freelance",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
     "priority": 2,
     "defaults": {
       "targetSalary": 100000,
+      "overheadPercent": 30,
       "billableHoursPerWeek": 25,
       "weeksWorked": 46
-    }
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "monthly-to-yearly-salary",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "highIntent",
+    "priority": 1,
+    "defaults": {
+      "monthlySalary": 5000,
+      "monthsWorked": 12
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "daily-rate-to-salary",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "dailyRate": 500,
+      "daysPerWeek": 5,
+      "weeksPerYear": 46
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "annual-salary-to-monthly",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "highIntent",
+    "priority": 1,
+    "defaults": {
+      "annualSalary": 60000,
+      "monthsPaid": 12
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "weekly-to-annual-pay",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "standard",
+    "priority": 2,
+    "defaults": {
+      "weeklyPay": 1200,
+      "weeksWorked": 48
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "contractor-vs-employee",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "employeeSalary": 100000,
+      "contractorHourlyRate": 75,
+      "contractorHoursPerWeek": 40,
+      "contractorWeeksPerYear": 46,
+      "contractorOverheadPercent": 30
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "remote-pay-adjuster",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "baseSalary": 120000,
+      "targetIndex": 90,
+      "homeIndex": 125
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
   }
 ]

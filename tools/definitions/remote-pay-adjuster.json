@@ -1,0 +1,87 @@
+{
+    "title": "Remote Pay Cost of Living Adjuster",
+    "description": "Calculate how much a remote salary offer is truly worth in your local city by applying cost-of-living index numbers.",
+    "inputs": [
+        {
+            "name": "baseSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Base Salary Offer",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "targetIndex",
+            "type": "number",
+            "label": "Your Local City Index (e.g., 120)",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "homeIndex",
+            "type": "number",
+            "label": "Company HQ City Index (e.g., 100)",
+            "min": 0,
+            "step": 1
+        }
+    ],
+    "outputs": [
+        {
+            "name": "adjustedPay",
+            "unit": "currency",
+            "label": "Cost of Living Adjusted Pay"
+        },
+        {
+            "name": "difference",
+            "unit": "currency",
+            "label": "Equivalent Value Difference"
+        },
+        {
+            "name": "differencePercent",
+            "unit": "percent",
+            "label": "Adjustment Delta %"
+        }
+    ],
+    "methodSummary": [
+        "Ratio = Your Local Index / Company HQ Index",
+        "Adjusted Pay = Base Salary Offer × Ratio"
+    ],
+    "assumptions": [
+        "You must input your own local indices (such as from Numbeo or government metrics).",
+        "Relies on the baseline assumption that an index of 100 represents the average baseline comparison."
+    ],
+    "insights": [
+        "A $100k offer from a company based in San Francisco (Index ~130) equates to roughly $70k in purchasing power if you live in a mid-tier Midwest city (Index ~90).",
+        "Many remote companies use exact index formulas to localize your pay. Understanding this math lets you negotiate effectively before accepting."
+    ],
+    "faqs": [
+        {
+            "q": "Where do I find these index numbers?",
+            "a": "You can use public databases like Numbeo or Expatistan. Look for the 'Cost of Living Index' for the two respective cities."
+        },
+        {
+            "q": "What does an index of 100 mean?",
+            "a": "An index of 100 is typically the baseline city (often New York City in global datasets). If a city has an index of 80, it is 20% cheaper than the baseline."
+        },
+        {
+            "q": "Does this calculation include rent?",
+            "a": "That depends entirely on the index you use. Make sure the index you look up explicitly says 'Cost of Living Plus Rent Index' if you are relocating."
+        },
+        {
+            "q": "Why is the adjusted pay lower?",
+            "a": "If your local city index is lower than the company's HQ index, the mathematical 'purchasing power' translates to a lower adjusted value. It means you can buy the same standard of living for less."
+        },
+        {
+            "q": "Is it fair for companies to adjust pay by geography?",
+            "a": "This is a heavily debated topic. Some companies pay strictly for value (no adjustment), while others maintain strict geographical pay bands to assure internal equity."
+        },
+        {
+            "q": "How can I use this to negotiate?",
+            "a": "If you know the company uses cost of living indices, you can calculate the exact delta they are applying and counter-offer if their index source is flawed."
+        }
+    ],
+    "clusters": [
+        "comparison",
+        "remote"
+    ]
+}

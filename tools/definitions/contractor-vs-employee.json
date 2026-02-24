@@ -1,0 +1,109 @@
+{
+    "title": "Contractor vs Employee Salary Comparison",
+    "description": "Compare a full-time salary against a specific hourly contract rate to see which actually pays more.",
+    "inputs": [
+        {
+            "name": "employeeSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Employee Base Salary",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "contractorHourlyRate",
+            "type": "number",
+            "unit": "currency",
+            "label": "Contractor Hourly Rate",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "contractorHoursPerWeek",
+            "type": "number",
+            "label": "Contractor Hours/Week",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "contractorWeeksPerYear",
+            "type": "number",
+            "label": "Contractor Weeks/Year",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "contractorOverheadPercent",
+            "type": "number",
+            "label": "Self-Employment Overhead %",
+            "min": 0,
+            "step": 1
+        }
+    ],
+    "outputs": [
+        {
+            "name": "contractorGross",
+            "unit": "currency",
+            "label": "Contractor Gross Revenue"
+        },
+        {
+            "name": "contractorNetEquivalent",
+            "unit": "currency",
+            "label": "Contractor True Equivalent"
+        },
+        {
+            "name": "difference",
+            "unit": "currency",
+            "label": "Net Monetary Difference"
+        },
+        {
+            "name": "differencePercent",
+            "unit": "percent",
+            "label": "Difference %"
+        }
+    ],
+    "methodSummary": [
+        "Contract Gross = Rate × Hours × Weeks.",
+        "True Equivalent = Contract Gross minus the Self-Employment Overhead %.",
+        "Difference = True Equivalent - Employee Salary."
+    ],
+    "assumptions": [
+        "The overhead percentage accounts for self-employment tax, missed retirement matching, absence of PTO, and health insurance costs.",
+        "Calculates comparative gross equivalence. Exact net tax outcomes may slightly differ."
+    ],
+    "insights": [
+        "The most common mistake contractors make is setting their overhead percent to 0. A safe baseline is 30% to account for everything a salaried role provides implicitly.",
+        "If the 'Difference %' is less than +15%, the stability of the employee role might make it more valuable than the contract."
+    ],
+    "faqs": [
+        {
+            "q": "What should I enter for Self-Employment Overhead?",
+            "a": "Usually 20-30%. This accounts for self-employment taxes (approx 15.3% in the US), healthcare premiums, skipped pension contributions, and unpaid sick days."
+        },
+        {
+            "q": "Why is 'Contractor True Equivalent' lower than 'Gross Revenue'?",
+            "a": "Because Gross Revenue is business cash flow, not your salary. The True Equivalent backs out the business costs your employer normally pays."
+        },
+        {
+            "q": "Do I need to account for software or hardware expenses?",
+            "a": "Yes. If you must buy your own laptop and software licenses as a contractor, mentally raise the overhead percentage to compensate."
+        },
+        {
+            "q": "Why is standard salaried PTO omitted from the employee side?",
+            "a": "Because the employee receives the full salary regardless of taking the 4 weeks PTO. The contractor loses billable hours when taking PTO, which is handled via 'Weeks/Year'."
+        },
+        {
+            "q": "If the difference is negative, should I avoid contracting?",
+            "a": "Mathematically yes. A negative difference means you are taking on all the business risk of contracting while effectively taking a pay cut."
+        },
+        {
+            "q": "Does this tool work for international remote jobs?",
+            "a": "Yes, as long as you factor the local self-employment compliance costs into the overhead percentage precisely."
+        }
+    ],
+    "clusters": [
+        "comparison",
+        "contracting",
+        "salary-basics"
+    ]
+}

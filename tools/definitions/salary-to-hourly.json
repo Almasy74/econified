@@ -6,17 +6,28 @@
             "name": "annualSalary",
             "type": "number",
             "unit": "currency",
-            "label": "Annual Salary"
+            "label": "Annual Salary",
+            "min": 0,
+            "step": 1000,
+            "placeholder": "e.g. 80000"
         },
         {
             "name": "hoursPerWeek",
             "type": "number",
-            "label": "Hours per Week"
+            "label": "Hours per Week",
+            "min": 1,
+            "max": 168,
+            "step": 0.5,
+            "placeholder": "e.g. 40"
         },
         {
             "name": "weeksPerYear",
             "type": "number",
-            "label": "Weeks per Year"
+            "label": "Weeks per Year",
+            "min": 1,
+            "max": 52,
+            "step": 1,
+            "placeholder": "e.g. 52"
         }
     ],
     "outputs": [
@@ -27,20 +38,40 @@
         }
     ],
     "methodSummary": [
-        "Hourly rate = annual salary / (hours per week × weeks worked)"
+        "Hourly rate = Annual Salary / (Hours per Week × Weeks per Year)"
     ],
     "assumptions": [
         "Standard full-time year generally assumes 2,080 hours (40 hours × 52 weeks).",
-        "Does not account for paid time off unless weeks worked are adjusted."
+        "If you want to calculate your effective hourly wage for actual hours worked, reduce weeks/year to the weeks you actually work."
     ],
     "insights": [
-        "Understanding your true hourly rate makes it easier to value your free time.",
-        "People transitioning from freelance often underestimate the value of consistent paid holidays in a salaried role."
+        "For offer comparisons, include predictable bonuses and employer pension contributions into the annual salary before converting.",
+        "Model unpaid overtime by increasing hours/week to your actual average; that immediately shows your effective hourly rate drop."
     ],
     "faqs": [
         {
             "q": "Does salaried hourly rate include PTO?",
-            "a": "Yes, if you divide by 52 weeks your paid time off is effectively giving you the same hourly rate for hours you aren't working."
+            "a": "It depends on your goal. If you are paid across the year, dividing by 52 weeks includes PTO. To find your 'effective' hourly rate for worked hours only, lower the weeks to exclude PTO."
+        },
+        {
+            "q": "Why is it important to know my salary's hourly equivalent?",
+            "a": "It allows you to accurately price your free time, negotiate freelance side-hustles, or determine if taking on extra unpaid projects is financially logical."
+        },
+        {
+            "q": "How does unpaid overtime impact this calculation?",
+            "a": "If your salary is fixed but you increase your average weekly hours in the calculator, you will instantly see your effective hourly rate drop."
+        },
+        {
+            "q": "Should I use 2080 hours or 1950 hours for a standard year?",
+            "a": "2080 hours assumes 40 hours over 52 weeks (common in the US). 1950 assumes 37.5 hours over 52 weeks (common in the UK and Europe)."
+        },
+        {
+            "q": "Does this tool calculate my take-home hourly pay?",
+            "a": "No, this produces your gross hourly rate. Your net (take-home) hourly rate will be significantly lower after income tax and social contributions."
+        },
+        {
+            "q": "What happens if I change the 'Weeks per Year' input?",
+            "a": "Reducing the weeks worked (for instance, if you take unpaid leave) without changing the annual salary will result in a higher calculated hourly rate for the time you actually work."
         }
     ],
     "clusters": [

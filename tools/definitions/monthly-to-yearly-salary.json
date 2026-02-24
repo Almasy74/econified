@@ -1,0 +1,69 @@
+{
+    "title": "Monthly to Yearly Salary Calculator",
+    "description": "Quickly convert your monthly wage into a full annual salary figure.",
+    "inputs": [
+        {
+            "name": "monthlySalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Monthly Salary",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "monthsWorked",
+            "type": "number",
+            "label": "Months Worked per Year",
+            "min": 0,
+            "step": 1
+        }
+    ],
+    "outputs": [
+        {
+            "name": "annualSalary",
+            "unit": "currency",
+            "label": "Annual Salary"
+        }
+    ],
+    "methodSummary": [
+        "Annual Salary = Monthly Salary × Months Worked"
+    ],
+    "assumptions": [
+        "Assumes the standard 12 months in a calendar year unless specified otherwise.",
+        "Calculates Gross salary prior to specific tax withholdings."
+    ],
+    "insights": [
+        "In many European countries, workers receive a '13th month' or holiday bonus. Adjust the months worked to 13 to see your true contracted annual salary.",
+        "If comparing to an hourly rate, remember that months are not exactly 4 weeks long (they average 4.33 weeks)."
+    ],
+    "faqs": [
+        {
+            "q": "How do I calculate if I only work part of the year?",
+            "a": "Simply adjust the 'Months Worked per Year' input. If you work a 9-month school contract, input 9 to find your specific annual income."
+        },
+        {
+            "q": "Does a higher monthly salary always mean a better job?",
+            "a": "Not necessarily. A lower monthly salary with a paid 13th month, better health benefits, or fully paid lunch hours might yield a higher actual net value."
+        },
+        {
+            "q": "Why is this math relevant for freelancers?",
+            "a": "Freelancers often think in terms of monthly MRR (Monthly Recurring Revenue). Multiplying this by 12 (or 11 if taking vacations) gives the target annual revenue."
+        },
+        {
+            "q": "Does this tool calculate post-tax income?",
+            "a": "No. Always calculate based on gross income first, because tax brackets apply to your total annualized amount, not exactly per month."
+        },
+        {
+            "q": "Why is my monthly salary slightly inherently variable?",
+            "a": "If you are strictly hourly, some months have 20 working days and others have 23. This calculator assumes a fixed salaried month."
+        },
+        {
+            "q": "How does inflation affect this annual calculation?",
+            "a": "Your nominal annual salary stays the same, but your purchasing power decreases. You must manually divide your annual salary by current inflation rates to see the real value."
+        }
+    ],
+    "clusters": [
+        "conversion",
+        "salary-basics"
+    ]
+}

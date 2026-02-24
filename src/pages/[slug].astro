@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RelatedTools from '../components/RelatedTools.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -8,7 +9,8 @@ export async function getStaticPaths() {
   const registryData = await fs.readFile(registryPath, 'utf-8');
   const registry = JSON.parse(registryData);
 
-  const paths = await Promise.all(registry.map(async (entry: any) => {
+  const activeRegistry = registry.filter((entry: any) => entry.status === 'active');
+  const paths = await Promise.all(activeRegistry.map(async (entry: any) => {
     const defPath = path.resolve(`tools/definitions/${entry.slug}.json`);
     const defData = await fs.readFile(defPath, 'utf-8');
     const definition = JSON.parse(defData);
@@ -24,6 +26,10 @@ export async function getStaticPaths() {
 
 const { tool, definition } = Astro.props;
 
+// Generate Meta Tags
+const metaTitle = `${definition.title} – Econified`;
+const metaDescription = `${definition.description} Configurable calculation to estimate your ${definition.outputs[0]?.label.toLowerCase() || 'result'}.`;
+
 // Generate JSON-LD Schema
 const schemaData = {
   "@context": "https://schema.org",
@@ -37,6 +43,23 @@ const schemaData = {
       "offers": { "@type": "Offer", "price": "0" }
     },
     {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://econified.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": definition.title,
+          "item": `https://econified.com/${tool.slug}/`
+        }
+      ]
+    },
+    ...(definition.faqs?.length > 0 ? [{
       "@type": "FAQPage",
       "mainEntity": definition.faqs.map((faq: any) => ({
         "@type": "Question",
@@ -46,51 +69,71 @@ const schemaData = {
           "text": faq.a
         }
       }))
-    }
+    }] : [])
   ]
 };
+const canonicalUrl = `https://econified.com/${tool.slug}/`;
 ---
 
-<Layout title={definition.title} description={definition.description}>
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl}>
   <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
+  
   <main class="container">
+    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      <a href="/" style="color: inherit;">Home</a> &rsaquo; {definition.title}
+    </nav>
     <h1>{definition.title}</h1>
     <p class="lead">{definition.description}</p>
 
     <!-- AEO Capability Block -->
-    <div class="capability-block">
-      <span class="badge">🤖 AI-Ready Tool</span>
-      <span class="badge">⚡ Browser Processing Only</span>
-      <span class="badge">🔒 Zero Data Stored</span>
-      <span class="badge">📊 Deterministic Math</span>
+    <div class="capability-block" role="list">
+       <span class="badge" role="listitem"><strong>What this tool does:</strong> {definition.description}</span>
+       <span class="badge" role="listitem"><strong>Inputs:</strong> {definition.inputs.map((i:any)=>i.label).join(', ')}</span>
+       <span class="badge" role="listitem"><strong>Outputs:</strong> {definition.outputs.map((o:any)=>o.label).join(', ')}</span>
+       <span class="badge" role="listitem"><strong>Processing:</strong> Runs locally in your browser</span>
+       <span class="badge" role="listitem"><strong>Privacy:</strong> No inputs stored or sent</span>
     </div>
 
+    {tool.adPolicy === 'highIntent' && (
+      <div class="ad-slot leaderboard" aria-hidden="true">Reserved Ad Space (Leaderboard)</div>
+    )}
+
     <!-- Calculator Interface -->
-    <div class="glass-panel" id="calculator-app">
+    <div class="glass-panel" id="calculator-app" aria-live="polite">
       <form id="calc-form" data-engine={tool.engine} data-fn={tool.slug}>
         {definition.inputs.map((input: any) => (
           <div class="input-group">
-            <label for={input.name}>{input.label}</label>
+            <label for={input.name} id={`label-${input.name}`}>{input.label}</label>
             <input 
               type="number" 
               id={input.name} 
               name={input.name} 
               value={tool.defaults[input.name] || ''} 
               required
+              aria-labelledby={`label-${input.name}`}
+              min={input.min !== undefined ? input.min : "0"}
+              max={input.max !== undefined ? input.max : undefined}
+              step={input.step !== undefined ? input.step : "any"}
+              placeholder={input.placeholder || `Enter ${input.label.toLowerCase()}`}
             />
           </div>
         ))}
       </form>
 
-      <div class="outputs">
+      <div class="outputs" aria-atomic="true">
         {definition.outputs.map((output: any) => (
           <div class="result-card">
-            <div class="label">{output.label}</div>
-            <div class="result-value" id={`out-${output.name}`}>-</div>
+            <div class="label" id={`label-out-${output.name}`}>{output.label}</div>
+            <div class="result-value" id={`out-${output.name}`} data-unit={output.unit} aria-labelledby={`label-out-${output.name}`}>-</div>
           </div>
         ))}
       </div>
     </div>
+
+    {(tool.adPolicy === 'highIntent' || tool.adPolicy === 'standard' || tool.adPolicy === 'compareIntent') && (
+      <div class="ad-slot rectangle" aria-hidden="true">Reserved Ad Space (Rectangle)</div>
+    )}
 
     <div class="content-section">
       <h2>How it's Calculated</h2>
@@ -118,15 +161,26 @@ const schemaData = {
         ))}
       </div>
     </div>
+    
+    <RelatedTools currentSlug={tool.slug} clusters={definition.clusters || []} />
   </main>
 
   <script>
-    import { calculateHourlyToSalary, calculateSalaryToHourly, calculateFreelanceRateCalculator } from '../../tools/engines/conversion.ts';
+    import { engineMap } from '../utils/engineMap.ts';
+
+    // Simple tracking integration (Plausible)
+    function trackEvent(eventName: string, props = {}) {
+        if (typeof window !== 'undefined' && (window as any).plausible) {
+            (window as any).plausible(eventName, { props });
+        }
+    }
 
     const form = document.getElementById('calc-form');
     if (form) {
       const inputs = Array.from(form.querySelectorAll('input'));
-      const slug = form.dataset.fn;
+      const slug = form.dataset.fn || '';
+
+      let interactionCount = 0;
 
       function calculate() {
         const values: Record<string, number> = {};
@@ -134,30 +188,50 @@ const schemaData = {
           values[input.name] = parseFloat(input.value) || 0;
         });
 
-        let results: Record<string, number> = {};
-        if (slug === 'hourly-to-salary') {
-          results = calculateHourlyToSalary(values);
-        } else if (slug === 'salary-to-hourly') {
-          results = calculateSalaryToHourly(values);
-        } else if (slug === 'freelance-rate-calculator') {
-          results = calculateFreelanceRateCalculator(values);
+        // 1. Fetch proper engine function from dictionary
+        const calcFn = engineMap[slug];
+        if (!calcFn) {
+            console.error(`Missing engine map for tool: ${slug}`);
+            return;
         }
 
-        // Apply formatting & update DOM
+        // 2. Compute results purely
+        const results = calcFn(values);
+
+        // 3. Apply formatting & update DOM
         Object.entries(results).forEach(([key, val]) => {
           const el = document.getElementById(`out-${key}`);
           if (el) {
-            el.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+            if (el.dataset.unit === 'percent') {
+              el.textContent = (val > 0 ? '+' : '') + val.toFixed(1) + '%';
+            } else {
+              el.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+            }
           }
         });
+
+        interactionCount++;
+        // Track the first user-driven calculation per session/page-load to avoid spam
+        if(interactionCount === 2) { 
+           trackEvent('calculation_run', { tool: slug });
+        }
       }
 
       // Initial calculation
       calculate();
+      trackEvent('tool_loaded', { tool: slug });
 
       // Listen for changes
       inputs.forEach(input => {
         input.addEventListener('input', calculate);
+      });
+
+      // Track related tool clicks
+      const relatedLinks = Array.from(document.querySelectorAll('[data-analytics="related-tool-click"]'));
+      relatedLinks.forEach(link => {
+          link.addEventListener('click', () => {
+              trackEvent('related_tool_clicked', { source_tool: slug, target: link.getAttribute('href') });
+          });
       });
     }
   </script>
