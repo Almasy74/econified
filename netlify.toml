@@ -5,4 +5,5 @@
 [[redirects]]
   from = "/sitemap.xml"
   to = "/sitemap-index.xml"
-  status = 200!
+  status = 200
+  force = true
