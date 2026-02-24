@@ -34,3 +34,34 @@ export function calculateRemotePayAdjuster(inputs: Record<string, number>) {
         differencePercent
     };
 }
+
+export function calculateCommuteCost(inputs: Record<string, number>) {
+    const dailyDistance = inputs.oneWayDistance * 2;
+    const dailyTimeHours = (inputs.oneWayTimeMinutes * 2) / 60;
+    const yearlyWorkDays = inputs.daysPerWeek * inputs.weeksPerYear;
+
+    const totalYearlyDistance = dailyDistance * yearlyWorkDays;
+    const totalYearlyCommuteHours = dailyTimeHours * yearlyWorkDays;
+
+    const fuelCost = totalYearlyDistance * inputs.costPerUnitDistance;
+    const implicitTimeCost = totalYearlyCommuteHours * inputs.hourlyValue;
+    const totalAnnualCost = fuelCost + implicitTimeCost;
+
+    return {
+        fuelCost,
+        implicitTimeCost,
+        totalAnnualCost
+    };
+}
+
+export function calculateSalaryIncrease(inputs: Record<string, number>) {
+    const increaseAmount = inputs.newSalary - inputs.oldSalary;
+    const increasePercent = (increaseAmount / inputs.oldSalary) * 100;
+    const monthlyIncrease = increaseAmount / 12;
+
+    return {
+        increaseAmount,
+        increasePercent,
+        monthlyIncrease
+    };
+}

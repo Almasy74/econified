@@ -1,0 +1,62 @@
+{
+    "title": "Biweekly to Annual Salary Calculator",
+    "description": "Convert your biweekly paycheck amount into an estimated annual and monthly salary based on 26 pay periods.",
+    "inputs": [
+        {
+            "name": "biweeklyPay",
+            "label": "Biweekly Paycheck ($)",
+            "type": "number",
+            "placeholder": "e.g. 2500"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "annualSalary",
+            "label": "Annual Salary",
+            "unit": "currency"
+        },
+        {
+            "name": "monthlySalary",
+            "label": "Monthly Equivalent",
+            "unit": "currency"
+        }
+    ],
+    "methodSummary": [
+        "Multiply biweekly pay by 26 (standard annual pay periods).",
+        "Divide annual result by 12 for monthly estimate."
+    ],
+    "assumptions": [
+        "You are paid consistently every two weeks.",
+        "Calculations are based on 26 pay periods per year (standard)."
+    ],
+    "insights": [
+        "Most salaried employees in the US are paid biweekly.",
+        "A biweekly schedule means you receive two extra 'bonus' checks per year compared to a monthly schedule."
+    ],
+    "faqs": [
+        {
+            "q": "How many biweekly pay periods are in a year?",
+            "a": "There are exactly 26 biweekly pay periods in a standard calendar year."
+        },
+        {
+            "q": "Is biweekly the same as twice a month?",
+            "a": "No. Twice a month (semimonthly) is 24 pay periods. Biweekly is 26, meaning you get paid more frequently."
+        },
+        {
+            "q": "Does this include taxes?",
+            "a": "No, this calculator estimates gross income unless you enter your net (after-tax) paycheck amount."
+        },
+        {
+            "q": "What about leap years?",
+            "a": "Standard annual math usually sticks to 26 periods even in leap years for payroll consistency."
+        }
+    ],
+    "useCases": [
+        "Calculating gross annual income from a job offer.",
+        "Budgeting based on monthly installments.",
+        "Comparing semimonthly vs. biweekly schedules."
+    ],
+    "clusters": [
+        "salary-conversion"
+    ]
+}

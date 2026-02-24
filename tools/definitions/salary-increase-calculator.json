@@ -1,0 +1,75 @@
+{
+    "title": "Salary Increase & Raise Calculator",
+    "description": "Calculate the percentage increase, total annual jump, and monthly impact of a salary raise or new job offer.",
+    "inputs": [
+        {
+            "name": "oldSalary",
+            "label": "Current Annual Salary ($)",
+            "type": "number",
+            "placeholder": "e.g. 80000"
+        },
+        {
+            "name": "newSalary",
+            "label": "Proposed Annual Salary ($)",
+            "type": "number",
+            "placeholder": "e.g. 95000"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "increaseAmount",
+            "label": "Annual Increase",
+            "unit": "currency"
+        },
+        {
+            "name": "increasePercent",
+            "label": "Percentage Raise",
+            "unit": "percent"
+        },
+        {
+            "name": "monthlyIncrease",
+            "label": "Monthly Take-home Jump",
+            "unit": "currency"
+        }
+    ],
+    "methodSummary": [
+        "Calculate the raw difference between new and old salaries.",
+        "Divide the difference by the original salary for the percentage jump.",
+        "Divide annual gain by 12 for monthly lifestyle impact."
+    ],
+    "assumptions": [
+        "Calculations are gross (pre-tax).",
+        "Comparison assumes both roles have similar benefits packages."
+    ],
+    "insights": [
+        "A 15-20% jump is standard when switching companies.",
+        "Don't forget to account for 'bracket creep' where a raise might push you into a higher marginal tax band."
+    ],
+    "faqs": [
+        {
+            "q": "What is a good percentage raise?",
+            "a": "Internal raises are often 3-5%, while external job hops often net 10-20% or more."
+        },
+        {
+            "q": "Does this calculate tax brackets?",
+            "a": "No, this is a gross increase calculator. Your net pay change will depend on your local tax laws."
+        },
+        {
+            "q": "Should I negotiate based on percentage or raw amount?",
+            "a": "Both. Percentage helps you compare against market averages, while raw amount helps you plan your budget."
+        },
+        {
+            "q": "What if I get a bonus?",
+            "a": "You can add the expected bonus to your 'Proposed Salary' for a total compensation comparison."
+        }
+    ],
+    "useCases": [
+        "Negotiating a performance-based raise.",
+        "Evaluating a new job offer.",
+        "Calculating cost-of-living adjustments."
+    ],
+    "clusters": [
+        "salary-conversion",
+        "career-decisions"
+    ]
+}

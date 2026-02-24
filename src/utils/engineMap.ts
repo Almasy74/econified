@@ -4,7 +4,8 @@ import {
     calculateMonthlyToYearly,
     calculateDailyRateToSalary,
     calculateAnnualSalaryToMonthly,
-    calculateWeeklyToAnnualPay
+    calculateWeeklyToAnnualPay,
+    calculateBiweeklyToAnnual
 } from '../../tools/engines/conversion.ts';
 
 import {
@@ -13,7 +14,9 @@ import {
 
 import {
     calculateContractorVsEmployee,
-    calculateRemotePayAdjuster
+    calculateRemotePayAdjuster,
+    calculateCommuteCost,
+    calculateSalaryIncrease
 } from '../../tools/engines/comparison.ts';
 
 export const engineMap: Record<string, (inputs: Record<string, number>) => Record<string, number>> = {
@@ -24,6 +27,9 @@ export const engineMap: Record<string, (inputs: Record<string, number>) => Recor
     'daily-rate-to-salary': calculateDailyRateToSalary,
     'annual-salary-to-monthly': calculateAnnualSalaryToMonthly,
     'weekly-to-annual-pay': calculateWeeklyToAnnualPay,
+    'biweekly-to-annual-pay': calculateBiweeklyToAnnual,
     'contractor-vs-employee': calculateContractorVsEmployee,
-    'remote-pay-adjuster': calculateRemotePayAdjuster
+    'remote-pay-adjuster': calculateRemotePayAdjuster,
+    'commute-cost-calculator': calculateCommuteCost,
+    'salary-increase-calculator': calculateSalaryIncrease
 };

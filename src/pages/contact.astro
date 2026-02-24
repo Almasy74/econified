@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact Us | Econified Support" description="Get in touch with the Econified team for questions, feedback, or support regarding our salary and work decision tools.">
+  <main class="container">
+    <div class="glass-panel content-section">
+      <h1>Contact Us</h1>
+      
+      <p>
+        Econified is maintained by a small team dedicated to building transparent decision-making tools for the global workforce.
+      </p>
+
+      <h2>Support & Feedback</h2>
+      <p>
+        We value user feedback and are always looking for ways to improve our calculators. If you have questions about a specific tool, find a bug, or have ideas for new features, please reach out.
+      </p>
+
+      <div class="contact-card">
+        <h3>Direct Email</h3>
+        <p>Send your inquiries to:</p>
+        <a href="mailto:info@econified.com" class="email-address">info@econified.com</a>
+        <p class="response-time">We typically respond to all inquiries within 2-3 business days.</p>
+      </div>
+
+      <h2>Responsibility</h2>
+      <p>
+        This platform is designed to empower users with data. As the operators of Econified, we take responsibility for the logic and methodology of our tools, while emphasizing that all decisions based on our results remain with the user.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .contact-card {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .email-address {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    margin: 1rem 0;
+  }
+
+  .response-time {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+</style>

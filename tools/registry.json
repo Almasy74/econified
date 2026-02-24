@@ -131,5 +131,50 @@
     },
     "status": "active",
     "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "biweekly-to-annual-pay",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "standard",
+    "priority": 2,
+    "defaults": {
+      "biweeklyPay": 2500
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "commute-cost-calculator",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "oneWayDistance": 15,
+      "oneWayTimeMinutes": 30,
+      "daysPerWeek": 5,
+      "weeksPerYear": 48,
+      "costPerUnitDistance": 0.67,
+      "hourlyValue": 50
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "salary-increase-calculator",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "highIntent",
+    "priority": 1,
+    "defaults": {
+      "oldSalary": 80000,
+      "newSalary": 95000
+    },
+    "status": "active",
+    "updatedAt": "2026-02-24"
   }
 ]

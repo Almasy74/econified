@@ -30,3 +30,9 @@ export function calculateWeeklyToAnnualPay(inputs: Record<string, number>) {
   const monthlySalary = annualSalary / 12;
   return { annualSalary, monthlySalary };
 }
+
+export function calculateBiweeklyToAnnual(inputs: Record<string, number>) {
+  const annualSalary = inputs.biweeklyPay * 26;
+  const monthlySalary = annualSalary / 12;
+  return { annualSalary, monthlySalary };
+}

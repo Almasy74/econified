@@ -1,0 +1,99 @@
+{
+    "title": "Commute Cost & Time Value Calculator",
+    "description": "Calculate the true annual cost of your commute, including fuel, vehicle wear, and the implicit value of your time.",
+    "inputs": [
+        {
+            "name": "oneWayDistance",
+            "label": "One-way Distance (miles/km)",
+            "type": "number",
+            "placeholder": "e.g. 15"
+        },
+        {
+            "name": "oneWayTimeMinutes",
+            "label": "One-way Time (minutes)",
+            "type": "number",
+            "placeholder": "e.g. 30"
+        },
+        {
+            "name": "daysPerWeek",
+            "label": "Days Commuting per Week",
+            "type": "number",
+            "placeholder": "e.g. 5"
+        },
+        {
+            "name": "weeksPerYear",
+            "label": "Weeks per Year",
+            "type": "number",
+            "placeholder": "e.g. 48"
+        },
+        {
+            "name": "costPerUnitDistance",
+            "label": "Fuel/Wear Cost (per unit)",
+            "type": "number",
+            "placeholder": "e.g. 0.65"
+        },
+        {
+            "name": "hourlyValue",
+            "label": "Your Hourly Time Value ($)",
+            "type": "number",
+            "placeholder": "e.g. 50"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "fuelCost",
+            "label": "Annual Vehicle/Fuel Cost",
+            "unit": "currency"
+        },
+        {
+            "name": "implicitTimeCost",
+            "label": "Annual Time Value Lost",
+            "unit": "currency"
+        },
+        {
+            "name": "totalAnnualCost",
+            "label": "Total Annual Commute Impact",
+            "unit": "currency"
+        }
+    ],
+    "methodSummary": [
+        "Multiply daily round-trip by working days per year for total distance and time.",
+        "Calculate direct vehicle costs using the IRS standard rate or custom input.",
+        "Multiply total commute hours by your subjective hourly time value."
+    ],
+    "assumptions": [
+        "Commute time and distance are consistent.",
+        "Vehicle costs include fuel, maintenance, and depreciation (IRS rate is a good proxy)."
+    ],
+    "insights": [
+        "A 30-minute commute (one way) costs roughly 240 hours per year.",
+        "Choosing a remote job with the same salary is effectively a significant 'raise' in time value."
+    ],
+    "faqs": [
+        {
+            "q": "What is the IRS standard mileage rate?",
+            "a": "For 2024, the IRS standard business mileage rate is 67 cents per mile, which accounts for fuel, insurance, and wear."
+        },
+        {
+            "q": "How should I value my time?",
+            "a": "A common method is to use your hourly wage, or half of it if you find the commute relaxing (unlikely!)."
+        },
+        {
+            "q": "Does this include tolls?",
+            "a": "You should add tolls into your 'Fuel/Wear Cost' per unit or adjust the result manually."
+        },
+        {
+            "q": "Can I save money by moving closer?",
+            "a": "Usually, yes, but often rent increases. Use this tool to see if the rent hike is offset by commute savings."
+        }
+    ],
+    "useCases": [
+        "Deciding between two job offers with different locations.",
+        "Evaluating the true value of a Remote vs. Hybrid role.",
+        "Calculating potential savings from moving house."
+    ],
+    "clusters": [
+        "career-decisions",
+        "compensation-comparison"
+    ]
+}
