@@ -61,6 +61,14 @@
         {
             "q": "What if I get a bonus?",
             "a": "You can add the expected bonus to your 'Proposed Salary' for a total compensation comparison."
+        },
+        {
+            "q": "How does a raise affect my retirement contribution?",
+            "a": "If you contribute a percentage of your salary (e.g., 401k), your absolute savings will increase automatically with your raise."
+        },
+        {
+            "q": "When should I ask for a raise?",
+            "a": "Usually during annual reviews, or after completing a major project. Use these numbers to justify your value."
         }
     ],
     "useCases": [

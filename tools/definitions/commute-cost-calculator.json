@@ -85,6 +85,14 @@
         {
             "q": "Can I save money by moving closer?",
             "a": "Usually, yes, but often rent increases. Use this tool to see if the rent hike is offset by commute savings."
+        },
+        {
+            "q": "How do I calculate public transport costs?",
+            "a": "You can set the distance cost to your monthly transit pass divided by annual mileage, or simply focus on the 'Time Value' loss."
+        },
+        {
+            "q": "Does commuting impact health?",
+            "a": "Several studies show that long commutes increase stress and reduce sleep. This tool helps put a financial figure on that personal cost."
         }
     ],
     "useCases": [

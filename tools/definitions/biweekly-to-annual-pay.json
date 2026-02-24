@@ -49,6 +49,14 @@
         {
             "q": "What about leap years?",
             "a": "Standard annual math usually sticks to 26 periods even in leap years for payroll consistency."
+        },
+        {
+            "q": "What if my employer has a 27-paycheck year?",
+            "a": "Every 11 years or so, some companies have 27 pay periods in one calendar year. This tool assumes the standard 26, which is used for most salary offers."
+        },
+        {
+            "q": "Does biweekly pay help with budgeting?",
+            "a": "Many people use the two 'extra' checks a year as a forced savings mechanism, since their monthly budget is usually based on two checks."
         }
     ],
     "useCases": [
