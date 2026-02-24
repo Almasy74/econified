@@ -1,0 +1,55 @@
+{
+    "title": "Hourly to Salary Calculator",
+    "description": "Convert hourly pay into annual salary using configurable work assumptions.",
+    "inputs": [
+        {
+            "name": "hourlyRate",
+            "type": "number",
+            "unit": "currency",
+            "label": "Hourly Rate"
+        },
+        {
+            "name": "hoursPerWeek",
+            "type": "number",
+            "label": "Hours per Week"
+        },
+        {
+            "name": "weeksPerYear",
+            "type": "number",
+            "label": "Weeks per Year"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "annualSalary",
+            "unit": "currency",
+            "label": "Annual Salary"
+        },
+        {
+            "name": "monthlySalary",
+            "unit": "currency",
+            "label": "Monthly Equivalent"
+        }
+    ],
+    "methodSummary": [
+        "Annual salary = hourly rate × hours per week × weeks worked"
+    ],
+    "assumptions": [
+        "Default assumes 52 working weeks unless changed.",
+        "Does not factor in variable taxes or deductions."
+    ],
+    "insights": [
+        "Many salaried roles include unpaid overtime which lowers effective hourly pay.",
+        "Contractors typically price 20–40% higher due to risk and benefits gaps."
+    ],
+    "faqs": [
+        {
+            "q": "How many hours per year is full-time?",
+            "a": "Full-time commonly ranges between 1,750–2,080 hours annually depending on country."
+        }
+    ],
+    "clusters": [
+        "conversion",
+        "salary-basics"
+    ]
+}

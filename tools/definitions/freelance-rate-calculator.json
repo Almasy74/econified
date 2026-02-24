@@ -1,0 +1,50 @@
+{
+    "title": "Freelance Rate Calculator",
+    "description": "Determine your minimum freelance hourly rate based on target salary and actual billable hours.",
+    "inputs": [
+        {
+            "name": "targetSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Target Annual Income"
+        },
+        {
+            "name": "billableHoursPerWeek",
+            "type": "number",
+            "label": "Billable Hours per Week"
+        },
+        {
+            "name": "weeksWorked",
+            "type": "number",
+            "label": "Weeks Worked per Year"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "freelanceHourlyRate",
+            "unit": "currency",
+            "label": "Required Hourly Rate"
+        }
+    ],
+    "methodSummary": [
+        "Freelance hourly rate = target annual income / (billable hours per week × weeks worked per year)"
+    ],
+    "assumptions": [
+        "Assumes business expenses and extra taxes are either part of target income or calculated separately.",
+        "Billable hours are often only 50-60% of total working hours."
+    ],
+    "insights": [
+        "A common mistake freelancers make is assuming 40 billable hours per week; administration and sales drastically reduce this.",
+        "If leaving employment, add at least 30% to your target salary to cover benefits, self-employment taxes, and equipment risk."
+    ],
+    "faqs": [
+        {
+            "q": "Why shouldn't I just take my old hourly salary wage and charge that?",
+            "a": "Because your employer covers non-billable time, taxes, software, healthcare, and assumes the financial risk of no-work periods. You must charge a premium to absorb these costs."
+        }
+    ],
+    "clusters": [
+        "conversion",
+        "freelance"
+    ]
+}

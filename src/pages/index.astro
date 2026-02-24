@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const registryPath = path.resolve('tools/registry.json');
+const registryData = await fs.readFile(registryPath, 'utf-8');
+const registry = JSON.parse(registryData);
+
+const tools = await Promise.all(registry.map(async (entry: any) => {
+  const defPath = path.resolve(`tools/definitions/${entry.slug}.json`);
+  const defData = await fs.readFile(defPath, 'utf-8');
+  return { ...entry, definition: JSON.parse(defData) };
+}));
+---
+
+<Layout title="Econified | Master Your Work Decisions">
+  <main class="container">
+    <div style="text-align: center; margin-bottom: 4rem;">
+      <h1>Make Data-Driven Career Decisions.</h1>
+      <p class="lead">Deterministic, privacy-first calculators for real work scenarios.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+      {tools.map((tool: any) => (
+        <a href={`/${tool.slug}`} class="glass-panel" style="display: block; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none;">
+          <h2 style="color: var(--text-primary);">{tool.definition.title}</h2>
+          <p style="margin-bottom: 0;">{tool.definition.description}</p>
+        </a>
+      ))}
+    </div>
+  </main>
+</Layout>

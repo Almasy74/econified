@@ -1,0 +1,50 @@
+{
+    "title": "Salary to Hourly Calculator",
+    "description": "Convert your annual salary into an equivalent hourly wage.",
+    "inputs": [
+        {
+            "name": "annualSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Annual Salary"
+        },
+        {
+            "name": "hoursPerWeek",
+            "type": "number",
+            "label": "Hours per Week"
+        },
+        {
+            "name": "weeksPerYear",
+            "type": "number",
+            "label": "Weeks per Year"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "hourlyRate",
+            "unit": "currency",
+            "label": "Equivalent Hourly Rate"
+        }
+    ],
+    "methodSummary": [
+        "Hourly rate = annual salary / (hours per week × weeks worked)"
+    ],
+    "assumptions": [
+        "Standard full-time year generally assumes 2,080 hours (40 hours × 52 weeks).",
+        "Does not account for paid time off unless weeks worked are adjusted."
+    ],
+    "insights": [
+        "Understanding your true hourly rate makes it easier to value your free time.",
+        "People transitioning from freelance often underestimate the value of consistent paid holidays in a salaried role."
+    ],
+    "faqs": [
+        {
+            "q": "Does salaried hourly rate include PTO?",
+            "a": "Yes, if you divide by 52 weeks your paid time off is effectively giving you the same hourly rate for hours you aren't working."
+        }
+    ],
+    "clusters": [
+        "conversion",
+        "salary-basics"
+    ]
+}

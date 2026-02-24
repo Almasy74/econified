@@ -1,0 +1,39 @@
+[
+  {
+    "slug": "hourly-to-salary",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "highIntent",
+    "priority": 1,
+    "defaults": {
+      "hoursPerWeek": 37.5,
+      "weeksPerYear": 52
+    }
+  },
+  {
+    "slug": "salary-to-hourly",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "highIntent",
+    "priority": 1,
+    "defaults": {
+      "hoursPerWeek": 37.5,
+      "weeksPerYear": 52
+    }
+  },
+  {
+    "slug": "freelance-rate-calculator",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 2,
+    "defaults": {
+      "targetSalary": 100000,
+      "billableHoursPerWeek": 25,
+      "weeksWorked": 46
+    }
+  }
+]

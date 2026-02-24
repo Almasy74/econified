@@ -1,0 +1,164 @@
+---
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+export async function getStaticPaths() {
+  const registryPath = path.resolve('tools/registry.json');
+  const registryData = await fs.readFile(registryPath, 'utf-8');
+  const registry = JSON.parse(registryData);
+
+  const paths = await Promise.all(registry.map(async (entry: any) => {
+    const defPath = path.resolve(`tools/definitions/${entry.slug}.json`);
+    const defData = await fs.readFile(defPath, 'utf-8');
+    const definition = JSON.parse(defData);
+
+    return {
+      params: { slug: entry.slug },
+      props: { tool: entry, definition }
+    };
+  }));
+
+  return paths;
+}
+
+const { tool, definition } = Astro.props;
+
+// Generate JSON-LD Schema
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": definition.title,
+      "applicationCategory": "CalculatorApplication",
+      "operatingSystem": "All",
+      "description": definition.description,
+      "offers": { "@type": "Offer", "price": "0" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": definition.faqs.map((faq: any) => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.a
+        }
+      }))
+    }
+  ]
+};
+---
+
+<Layout title={definition.title} description={definition.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  <main class="container">
+    <h1>{definition.title}</h1>
+    <p class="lead">{definition.description}</p>
+
+    <!-- AEO Capability Block -->
+    <div class="capability-block">
+      <span class="badge">🤖 AI-Ready Tool</span>
+      <span class="badge">⚡ Browser Processing Only</span>
+      <span class="badge">🔒 Zero Data Stored</span>
+      <span class="badge">📊 Deterministic Math</span>
+    </div>
+
+    <!-- Calculator Interface -->
+    <div class="glass-panel" id="calculator-app">
+      <form id="calc-form" data-engine={tool.engine} data-fn={tool.slug}>
+        {definition.inputs.map((input: any) => (
+          <div class="input-group">
+            <label for={input.name}>{input.label}</label>
+            <input 
+              type="number" 
+              id={input.name} 
+              name={input.name} 
+              value={tool.defaults[input.name] || ''} 
+              required
+            />
+          </div>
+        ))}
+      </form>
+
+      <div class="outputs">
+        {definition.outputs.map((output: any) => (
+          <div class="result-card">
+            <div class="label">{output.label}</div>
+            <div class="result-value" id={`out-${output.name}`}>-</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>How it's Calculated</h2>
+      <ul class="insights-list">
+        {definition.methodSummary.map((method: string) => <li>{method}</li>)}
+      </ul>
+
+      <h2>Key Assumptions</h2>
+      <ul class="insights-list">
+        {definition.assumptions.map((assumption: string) => <li>{assumption}</li>)}
+      </ul>
+
+      <h2>Actionable Insights</h2>
+      <ul class="insights-list">
+        {definition.insights.map((insight: string) => <li>{insight}</li>)}
+      </ul>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        {definition.faqs.map((faq: any) => (
+          <div class="faq-item">
+            <strong>{faq.q}</strong>
+            <p>{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <script>
+    import { calculateHourlyToSalary, calculateSalaryToHourly, calculateFreelanceRateCalculator } from '../../tools/engines/conversion.ts';
+
+    const form = document.getElementById('calc-form');
+    if (form) {
+      const inputs = Array.from(form.querySelectorAll('input'));
+      const slug = form.dataset.fn;
+
+      function calculate() {
+        const values: Record<string, number> = {};
+        inputs.forEach(input => {
+          values[input.name] = parseFloat(input.value) || 0;
+        });
+
+        let results: Record<string, number> = {};
+        if (slug === 'hourly-to-salary') {
+          results = calculateHourlyToSalary(values);
+        } else if (slug === 'salary-to-hourly') {
+          results = calculateSalaryToHourly(values);
+        } else if (slug === 'freelance-rate-calculator') {
+          results = calculateFreelanceRateCalculator(values);
+        }
+
+        // Apply formatting & update DOM
+        Object.entries(results).forEach(([key, val]) => {
+          const el = document.getElementById(`out-${key}`);
+          if (el) {
+            el.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+          }
+        });
+      }
+
+      // Initial calculation
+      calculate();
+
+      // Listen for changes
+      inputs.forEach(input => {
+        input.addEventListener('input', calculate);
+      });
+    }
+  </script>
+</Layout>
