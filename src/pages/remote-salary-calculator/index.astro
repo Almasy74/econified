@@ -16,20 +16,51 @@ const schemaData = {
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Web"
 };
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "https://econified.com/"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Global Salary",
+    "item": "https://econified.com/global-salary/"
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "name": "Remote"
+  }]
+};
+
+const currentYear = new Date().getFullYear();
 ---
 
 <Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl}>
   <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
   
   <main class="container">
-    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
-      <a href="/" style="color: inherit;">Home</a> &rsaquo; 
-      <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; Remote
-    </nav>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
+      <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary);">
+        <a href="/" style="color: inherit;">Home</a> &rsaquo; 
+        <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; Remote
+      </nav>
+      <span style="font-size: 0.85rem; color: var(--success-color, #22c55e); font-weight: 500;">
+        <span aria-hidden="true">&#10003;</span> Updated for {currentYear}
+      </span>
+    </div>
+    
     <div class="tool-header" style="margin-bottom: 1.5rem;">
-      <h1 style="margin-bottom: 0.5rem;">Remote Salary Calculator</h1>
-      <p class="lead">Discover your true purchasing power abroad while keeping your home salary.</p>
+      <h1 style="margin-bottom: 0.5rem; font-size: 2.2rem;">Remote Salary Calculator</h1>
+      <p class="direct-answer" id="directAnswer" style="font-size: 1.1rem; line-height: 1.6; margin-top: 0.5rem; border-left: 3px solid var(--primary); padding-left: 1rem; color: var(--text-secondary);">
+        A remote salary of <strong style="color:var(--text-primary)">$100,000</strong> from <strong style="color:var(--text-primary)">New York City</strong> provides approximately <strong style="color:var(--text-primary)">155% greater</strong> purchasing power when living in <strong style="color:var(--text-primary)">Lisbon</strong>.
+      </p>
     </div>
 
     <div class="parity-container" style="display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start;">
@@ -101,7 +132,7 @@ const schemaData = {
         <div class="results-dashboard" style="display: flex; flex-direction: column; gap: 1.5rem;">
             
             <div class="glass-panel" style="background: linear-gradient(145deg, rgba(30,41,59,0.8), rgba(15,23,42,0.9)); border-color: var(--primary-light);">
-                <h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-top: 0; margin-bottom: 0.5rem;">Required Salary Equivalent</h2>
+                <h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-top: 0; margin-bottom: 0.5rem;" id="dashboardH2">Salary Comparison: Required Equivalent</h2>
                 <div id="headlineResult" style="font-size: 2.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">-</div>
                 <p id="headlineSubtext" style="color: var(--text-secondary); margin: 0; font-size: 0.95rem;">-</p>
             </div>
@@ -186,8 +217,11 @@ const schemaData = {
             
             const hl = document.getElementById('headlineResult');
             const hsl = document.getElementById('headlineSubtext');
+            const dh2 = document.getElementById('dashboardH2');
+            
             if (hl) hl.textContent = fmt.format(adjustedGross);
             if (hsl) hsl.textContent = `To maintain this lifestyle living as a nomad in ${dest.name}, sourcing from ${origin.name}.`;
+            if (dh2) dh2.textContent = `Salary Comparison: ${origin.name} vs ${dest.name}`;
 
             const ppScore = ((origin.col_index / dest.col_index) * 100 - 100);
             const ppEl = document.getElementById('ppResult');
@@ -211,6 +245,14 @@ const schemaData = {
                 } else {
                     taxEl.textContent = `${(origin.tax_rate_est * 100).toFixed(0)}% (Home)`;
                 }
+            }
+
+            // Update Direct Answer Block
+            const daEl = document.getElementById('directAnswer');
+            if (daEl) {
+                const diffTxt = ppScore > 0 ? `${ppScore.toFixed(0)}% greater` : `${Math.abs(ppScore).toFixed(0)}% lower`;
+                const answerHTML = `A remote salary of <strong style="color:var(--text-primary)">${formatter.format(salary)}</strong> from <strong style="color:var(--text-primary)">${origin.name}</strong> provides approximately <strong style="color:var(--text-primary)">${diffTxt}</strong> purchasing power when living in <strong style="color:var(--text-primary)">${dest.name}</strong>.`;
+                daEl.innerHTML = answerHTML;
             }
 
             // Generate Insights

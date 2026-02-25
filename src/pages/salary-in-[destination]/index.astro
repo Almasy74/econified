@@ -66,19 +66,50 @@ const colDiff = (destinationData.col_index/usData.col_index * 100).toFixed(0);
 const colComparative = `The equivalent salary in ${destName} is approximately ${destinationData.col_index < usData.col_index ? (100 - Number(colDiff)) + '% lower' : (Number(colDiff) - 100) + '% higher'} than in the United States.`;
 
 const taxComparative = `When moving to ${destName} as a local hire, expect an estimated effective tax rate of ${(destinationData.tax_rate_est*100).toFixed(0)}%, compared to the ${(usData.tax_rate_est*100).toFixed(0)}% US baseline.`;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "https://econified.com/"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "Global Salary",
+    "item": "https://econified.com/global-salary/"
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "name": destName
+  }]
+};
+
+const currentYear = new Date().getFullYear();
 ---
 
 <Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl} noindex={!isIndexable}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
   
   <main class="container">
-    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
-      <a href="/" style="color: inherit;">Home</a> &rsaquo; 
-      <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; {destName}
-    </nav>
-    <div class="tool-header" style="margin-bottom: 1.5rem;">
-      <h1 style="margin-bottom: 0.5rem;">Salary in {destName}</h1>
-      <p class="lead">Is your income enough to live comfortably in {destName}? Compare global purchasing power instantly.</p>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;">
+      <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary);">
+        <a href="/" style="color: inherit;">Home</a> &rsaquo; 
+        <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; {destName}
+      </nav>
+      <span style="font-size: 0.85rem; color: var(--success-color, #22c55e); font-weight: 500;">
+        <span aria-hidden="true">&#10003;</span> Updated for {currentYear}
+      </span>
+    </div>
+    
+    <div class="tool-header" style="margin-bottom: 2rem;">
+      <h1 style="margin-bottom: 0.5rem; font-size: 2.2rem;">Salary in {destName}</h1>
+      <p class="direct-answer" style="font-size: 1.1rem; line-height: 1.6; margin-top: 1rem; border-left: 3px solid var(--primary); padding-left: 1rem; color: var(--text-secondary);">
+        To maintain the same standard of living as someone making <strong style="color:var(--text-primary)">$100,000</strong> in the United States, you need to earn approximately <strong style="color:var(--text-primary)">{new Intl.NumberFormat('en-US', {style:'currency', currency: destinationData.currency, maximumFractionDigits:0}).format(equivalentUS100k)}</strong> in <strong style="color:var(--text-primary)">{destName}</strong>. 
+      </p>
     </div>
 
     <!-- SEO Content & Table (Baked into HTML) -->
@@ -106,6 +137,12 @@ const taxComparative = `When moving to ${destName} as a local hire, expect an es
                         <td style="padding: 0.75rem;"><strong>{(destinationData.col_index/usData.col_index * 100).toFixed(0)}%</strong></td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--surface-border);">
+                        <td style="padding: 0.75rem;">Rent Index</td>
+                        <td style="padding: 0.75rem;">100.0</td>
+                        <td style="padding: 0.75rem;">{((ukData.rent_index / usData.rent_index) * 100).toFixed(1)}</td>
+                        <td style="padding: 0.75rem;"><strong>{((destinationData.rent_index / usData.rent_index) * 100).toFixed(1)}</strong></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--surface-border);">
                         <td style="padding: 0.75rem;">Estimated Tax Rate</td>
                         <td style="padding: 0.75rem;">{(usData.tax_rate_est*100).toFixed(0)}%</td>
                         <td style="padding: 0.75rem;">{(ukData.tax_rate_est*100).toFixed(0)}%</td>
@@ -114,7 +151,7 @@ const taxComparative = `When moving to ${destName} as a local hire, expect an es
                     <tr>
                         <td style="padding: 0.75rem;">$100k US Equivalent</td>
                         <td style="padding: 0.75rem;">$100,000</td>
-                        <td style="padding: 0.75rem;">-</td>
+                        <td style="padding: 0.75rem;">{new Intl.NumberFormat('en-US', {style:'currency', currency: ukData.currency, maximumFractionDigits:0}).format(50000 * (ukData.col_index / usData.col_index) * 2)}</td>
                         <td style="padding: 0.75rem;"><strong>{new Intl.NumberFormat('en-US', {style:'currency', currency: destinationData.currency, maximumFractionDigits:0}).format(equivalentUS100k)}</strong></td>
                     </tr>
                 </tbody>
@@ -122,14 +159,16 @@ const taxComparative = `When moving to ${destName} as a local hire, expect an es
          </div>
     </div>
 
-    <!-- Pre-rendered Static Insight -->
-    <div class="glass-panel" style="margin-bottom: 2rem; border-left: 4px solid var(--primary);">
-        <h3 style="margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
-            <span aria-hidden="true">✨</span> AI Insight
-        </h3>
-        <p class="static-insight" style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 0;">
-            A $100k US salary typically provides significantly {destinationData.col_index < usData.col_index ? 'higher' : 'lower'} purchasing power in {destName} due to {isCheaperRent ? 'lower housing costs' : 'higher housing costs'} and a relative cost of living of {colDiff}% compared to the US standard. {rentComparative} {colComparative} {taxComparative}
-        </p>
+    <!-- Pre-rendered Static Insights Array -->
+    <div style="margin-top: 2.5rem; margin-bottom: 3rem;">
+        <h2 style="margin-top: 0; font-size: 1.4rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span aria-hidden="true">✨</span> What this salary means in {destName}
+        </h2>
+        <div class="static-insight" style="color: var(--text-secondary); line-height: 1.6;">
+            <p>A $100k US salary typically provides significantly {destinationData.col_index < usData.col_index ? 'higher' : 'lower'} purchasing power in {destName} due to {isCheaperRent ? 'lower housing costs' : 'higher housing costs'} and a relative cost of living of {colDiff}% compared to the US standard.</p>
+            <p>{rentComparative} Because housing is often the largest monthly expense, this difference immediately impacts disposable income when relocating.</p>
+            <p>{colComparative} Keep in mind that securing a local employment contract will heavily influence your net take-home pay, and {taxComparative.toLowerCase()}</p>
+        </div>
     </div>
 
     <!-- Spoke-to-Spoke Mesh Linking -->
