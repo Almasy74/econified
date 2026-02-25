@@ -24,16 +24,281 @@ const tools = await Promise.all(registry
     </div>
 
     <!-- HERO FEATURE BLOCK for Entity Alignment -->
-    <div class="glass-panel feature-hero" style="margin-bottom: 4rem; padding: 4rem 2rem; text-align: center; background: linear-gradient(145deg, rgba(30,41,59,0.9), rgba(15,23,42,1)); border: 2px solid var(--primary); border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
-      <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem; font-size: 0.85rem; color: var(--primary-light); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">
-        <span>Remote Salary Calculator</span> &bull; <span>Cost-of-Living Adjusted Pay</span>
+    <div class="hero-feature" id="heroFeature">
+      <!-- Animated background orbs -->
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      
+      <div class="hero-content">
+        <div class="hero-badges">
+          <span class="hero-badge">🌍 Global Coverage</span>
+          <span class="hero-badge">⚡ Real-Time Calculations</span>
+          <span class="hero-badge">🔒 Privacy-First</span>
+        </div>
+        
+        <h2 class="hero-title">Global Salary<br/><span class="hero-title-accent">Intelligence</span></h2>
+        
+        <p class="hero-description">
+          Compare salaries worldwide and discover your real purchasing power across countries. 
+        </p>
+
+        <!-- Interactive stat cards -->
+        <div class="hero-stats">
+          <div class="hero-stat-card">
+            <span class="hero-stat-number" data-target="30">0</span><span class="hero-stat-suffix">+</span>
+            <span class="hero-stat-label">Countries</span>
+          </div>
+          <div class="hero-stat-card">
+            <span class="hero-stat-number" data-target="56">0</span>
+            <span class="hero-stat-label">Data Pages</span>
+          </div>
+          <div class="hero-stat-card">
+            <span class="hero-stat-number" data-target="100">0</span><span class="hero-stat-suffix">%</span>
+            <span class="hero-stat-label">Free Forever</span>
+          </div>
+        </div>
+
+        <a href="/global-salary/" class="hero-cta">
+          <span>Try Global Salary Calculator</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
       </div>
-      <h2 style="font-size: 2.8rem; margin-top: 0; margin-bottom: 1.5rem; color: var(--text-primary);">🌍 Global Salary Intelligence</h2>
-      <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.6;">
-        Compare salaries worldwide and discover your real purchasing power across countries. 
-      </p>
-      <a href="/global-salary/" class="btn" style="font-size: 1.15rem; padding: 1rem 2.5rem; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; transition: background 0.2s, transform 0.2s;">Try Global Salary Calculator</a>
     </div>
+
+    <style>
+      .hero-feature {
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 4rem;
+        padding: 5rem 2rem;
+        text-align: center;
+        background: linear-gradient(160deg, rgba(15,23,42,1) 0%, rgba(30,41,59,0.95) 50%, rgba(15,23,42,1) 100%);
+        border: 1px solid rgba(99,102,241,0.3);
+        border-radius: 20px;
+        box-shadow: 0 0 80px rgba(99,102,241,0.08), 0 20px 60px rgba(0,0,0,0.4);
+      }
+      .hero-feature::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: 20px;
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(99,102,241,0.5), transparent 40%, transparent 60%, rgba(139,92,246,0.5));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+        animation: borderShimmer 4s ease-in-out infinite;
+      }
+      @keyframes borderShimmer {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.15;
+        pointer-events: none;
+      }
+      .hero-orb-1 {
+        width: 400px; height: 400px;
+        background: radial-gradient(circle, #6366f1, transparent);
+        top: -100px; left: -100px;
+        animation: floatOrb1 8s ease-in-out infinite;
+      }
+      .hero-orb-2 {
+        width: 300px; height: 300px;
+        background: radial-gradient(circle, #8b5cf6, transparent);
+        bottom: -80px; right: -60px;
+        animation: floatOrb2 10s ease-in-out infinite;
+      }
+      .hero-orb-3 {
+        width: 200px; height: 200px;
+        background: radial-gradient(circle, #06b6d4, transparent);
+        top: 50%; left: 60%;
+        animation: floatOrb3 12s ease-in-out infinite;
+      }
+      @keyframes floatOrb1 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(60px, 40px) scale(1.1); }
+        66% { transform: translate(-30px, 60px) scale(0.95); }
+      }
+      @keyframes floatOrb2 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-50px, -40px) scale(1.15); }
+      }
+      @keyframes floatOrb3 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(30px, -30px) scale(1.1); }
+        75% { transform: translate(-40px, 20px) scale(0.9); }
+      }
+      .hero-content { position: relative; z-index: 1; }
+      .hero-badges {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+      .hero-badge {
+        font-size: 0.8rem;
+        color: var(--primary-light, #a5b4fc);
+        background: rgba(99,102,241,0.1);
+        border: 1px solid rgba(99,102,241,0.25);
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        letter-spacing: 0.03em;
+        font-weight: 500;
+        transition: all 0.3s;
+      }
+      .hero-badge:hover {
+        background: rgba(99,102,241,0.2);
+        border-color: rgba(99,102,241,0.5);
+        transform: translateY(-2px);
+      }
+      .hero-title {
+        font-size: 3.2rem;
+        margin: 0 0 1.5rem 0;
+        color: var(--text-primary);
+        line-height: 1.1;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .hero-title-accent {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200% auto;
+        animation: gradientShift 3s ease-in-out infinite;
+      }
+      @keyframes gradientShift {
+        0%, 100% { background-position: 0% center; }
+        50% { background-position: 100% center; }
+      }
+      .hero-description {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        max-width: 550px;
+        margin: 0 auto 3rem;
+        line-height: 1.7;
+      }
+      .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+      }
+      .hero-stat-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.25rem 2rem;
+        background: rgba(30,41,59,0.6);
+        border: 1px solid rgba(99,102,241,0.15);
+        border-radius: 12px;
+        min-width: 120px;
+        transition: all 0.3s;
+      }
+      .hero-stat-card:hover {
+        border-color: rgba(99,102,241,0.4);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(99,102,241,0.1);
+      }
+      .hero-stat-number {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1;
+      }
+      .hero-stat-suffix {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--primary-light, #a5b4fc);
+        line-height: 1;
+      }
+      .hero-stat-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 500;
+      }
+      .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.1rem;
+        padding: 1rem 2.5rem;
+        background: linear-gradient(135deg, #6366f1, #7c3aed);
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 4px 20px rgba(99,102,241,0.3);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-cta::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s;
+      }
+      .hero-cta:hover::before {
+        transform: translateX(100%);
+      }
+      .hero-cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(99,102,241,0.45);
+      }
+      .hero-cta:active {
+        transform: translateY(-1px);
+      }
+      @media (max-width: 640px) {
+        .hero-title { font-size: 2.2rem; }
+        .hero-feature { padding: 3rem 1.5rem; }
+        .hero-stats { gap: 1rem; }
+        .hero-stat-card { min-width: 90px; padding: 1rem 1.25rem; }
+        .hero-stat-number, .hero-stat-suffix { font-size: 1.6rem; }
+      }
+    </style>
+
+    <script>
+      // Animated counter effect
+      document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const counters = entry.target.querySelectorAll('.hero-stat-number');
+              counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target') || '0');
+                const duration = 1500;
+                const start = performance.now();
+                const animate = (now) => {
+                  const elapsed = now - start;
+                  const progress = Math.min(elapsed / duration, 1);
+                  const eased = 1 - Math.pow(1 - progress, 3);
+                  counter.textContent = Math.floor(eased * target).toString();
+                  if (progress < 1) requestAnimationFrame(animate);
+                };
+                requestAnimationFrame(animate);
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        const hero = document.getElementById('heroFeature');
+        if (hero) observer.observe(hero);
+      });
+    </script>
 
     <h2 style="margin-bottom: 2rem; font-size: 1.6rem; text-align: center;">Utility Calculators</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
