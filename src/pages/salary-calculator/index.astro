@@ -1,0 +1,262 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import colData from '../../data/col-indices.json';
+
+const metaTitle = `Global Salary Parity Calculator – Econified`;
+const metaDescription = `Calculate the exact purchasing power and salary equivalent for moving between countries and cities. Adjust for lifestyle and taxes.`;
+const canonicalUrl = `https://econified.com/salary-calculator/`;
+
+const locations = Object.entries(colData).map(([id, data]) => ({ id, ...data as any }));
+locations.sort((a, b) => a.name.localeCompare(b.name));
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Global Salary Parity Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web"
+};
+---
+
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
+  
+  <main class="container">
+    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      <a href="/" style="color: inherit;">Home</a> &rsaquo; 
+      <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; Calculator
+    </nav>
+    <div class="tool-header" style="margin-bottom: 1.5rem;">
+      <h1 style="margin-bottom: 0.5rem;">Global Salary Parity Calculator</h1>
+      <p class="lead">Discover what your salary is really worth anywhere in the world.</p>
+    </div>
+
+    <div class="parity-container" style="display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start;">
+        
+        <!-- Calculator Inputs -->
+        <div class="glass-panel" id="calculator-app" aria-live="polite" style="position: sticky; top: 100px;">
+          <form id="parity-form">
+            <div class="input-group">
+                <label for="originSalary">Current Salary</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="number" id="originSalary" value="100000" min="0" step="1000" style="flex: 1;" required>
+                    <select id="currency" style="width: 100px; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--surface-border); background: var(--surface); color: var(--text-primary);">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="CAD">CAD</option>
+                        <option value="AUD">AUD</option>
+                        <option value="NOK">NOK</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="originLocation">Moving From</label>
+                 <select id="originLocation" required style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--surface-border); background: var(--surface); color: var(--text-primary);">
+                    {locations.map(loc => <option value={loc.id} selected={loc.id==='NYC'}>{loc.name}</option>)}
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="destLocation">Moving To</label>
+                <select id="destLocation" required style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--surface-border); background: var(--surface); color: var(--text-primary);">
+                    {locations.map(loc => <option value={loc.id} selected={loc.id==='London'}>{loc.name}</option>)}
+                </select>
+            </div>
+
+            <div class="input-group" style="margin-top: 1rem; padding: 1rem; background: rgba(30,41,59,0.5); border-radius: 8px;">
+                <label style="margin-bottom: 0.5rem; display: block; font-weight: 600;">Employment Type</label>
+                <div style="display: flex; gap: 1rem;">
+                    <label style="display: inline-flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer;">
+                        <input type="radio" name="empType" value="local" checked> Local Hire
+                    </label>
+                    <label style="display: inline-flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer;">
+                        <input type="radio" name="empType" value="remote"> Remote (Digital Nomad)
+                    </label>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                    Local computes required gross salary after local taxes. Remote computes pure purchasing power assuming home taxes.
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-top: 1.5rem;">
+                <label for="lifestyleSlider" style="display: flex; justify-content: space-between;">
+                    <span>Lifestyle Expectation</span>
+                    <span id="lifestyleLabel" style="color: var(--primary-light); font-weight: bold;">Average</span>
+                </label>
+                <input type="range" id="lifestyleSlider" min="0.8" max="1.5" step="0.1" value="1.0" style="width: 100%; margin-top: 0.5rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                    <span>Budget</span>
+                    <span>Average</span>
+                    <span>Comfortable</span>
+                    <span>Premium</span>
+                </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Results Dashboard -->
+        <div class="results-dashboard" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div class="glass-panel" style="background: linear-gradient(145deg, rgba(30,41,59,0.8), rgba(15,23,42,0.9)); border-color: var(--primary-light);">
+                <h2 style="font-size: 1.1rem; color: var(--text-secondary); margin-top: 0; margin-bottom: 0.5rem;">Equivalent Target Salary</h2>
+                <div id="headlineResult" style="font-size: 2.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">-</div>
+                <p id="headlineSubtext" style="color: var(--text-secondary); margin: 0; font-size: 0.95rem;">-</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="glass-panel" style="padding: 1rem;">
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">Purchasing Power</div>
+                    <div id="ppResult" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-light); margin-top: 0.25rem;">-</div>
+                </div>
+                <div class="glass-panel" style="padding: 1rem;">
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">Estimated Tax (Dest)</div>
+                    <div id="taxResult" style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-top: 0.25rem;">-</div>
+                </div>
+            </div>
+
+            <!-- AI Insight Block -->
+            <div class="glass-panel" style="border-left: 4px solid var(--primary);">
+                <h3 style="margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span aria-hidden="true">✨</span> What this means
+                </h3>
+                <ul id="aiInsights" style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.6;">
+                    <li>Awaiting calculation...</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+  </main>
+  
+  <script>
+    import colDataRaw from '../../data/col-indices.json';
+    const colData: Record<string, any> = colDataRaw;
+
+    const form = document.getElementById('parity-form');
+    if (form) {
+        const salaryIn = document.getElementById('originSalary') as HTMLInputElement;
+        const currIn = document.getElementById('currency') as HTMLSelectElement;
+        const origIn = document.getElementById('originLocation') as HTMLSelectElement;
+        const destIn = document.getElementById('destLocation') as HTMLSelectElement;
+        const sliderIn = document.getElementById('lifestyleSlider') as HTMLInputElement;
+        const lifestyleLabel = document.getElementById('lifestyleLabel');
+
+        const radios = Array.from(document.querySelectorAll('input[name="empType"]')) as HTMLInputElement[];
+        
+        const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+        function updateLifestyleLabel(val: number) {
+            if (!lifestyleLabel) return;
+            if (val <= 0.8) lifestyleLabel.textContent = 'Budget';
+            else if (val <= 1.0) lifestyleLabel.textContent = 'Average';
+            else if (val <= 1.2) lifestyleLabel.textContent = 'Comfortable';
+            else lifestyleLabel.textContent = 'Premium';
+        }
+
+        function calculate() {
+            const salary = parseFloat(salaryIn.value) || 0;
+            const originId = origIn.value;
+            const destId = destIn.value;
+            const lifestyleMult = parseFloat(sliderIn.value) || 1.0;
+            const empType = radios.find(r => r.checked)?.value || 'local';
+            
+            updateLifestyleLabel(lifestyleMult);
+
+            if (!originId || !destId || !colData[originId] || !colData[destId] || salary <= 0) return;
+
+            const origin = colData[originId];
+            const dest = colData[destId];
+
+            // Core Math
+            const colRatio = dest.col_index / origin.col_index;
+            let adjustedGross = 0;
+            
+            const originNet = salary * (1 - origin.tax_rate_est);
+            let targetNet = originNet * colRatio * lifestyleMult;
+
+            if (empType === 'local') {
+                // If local hire, we need to gross up the required net based on destination taxes
+                adjustedGross = targetNet / (1 - dest.tax_rate_est);
+            } else {
+                // If remote (nomad), they keep their origin tax bracket, so the gross required scales linearly with the net required
+                adjustedGross = targetNet / (1 - origin.tax_rate_est);
+            }
+
+            // Update UI
+            const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: currIn.value, maximumFractionDigits: 0 });
+            
+            const hl = document.getElementById('headlineResult');
+            const hsl = document.getElementById('headlineSubtext');
+            if (hl) hl.textContent = fmt.format(adjustedGross);
+            if (hsl) hsl.textContent = `To maintain a similar standard of living moving from ${origin.name} to ${dest.name}.`;
+
+            const ppScore = ((origin.col_index / dest.col_index) * 100 - 100);
+            const ppEl = document.getElementById('ppResult');
+            if (ppEl) {
+                if (ppScore > 0) {
+                     ppEl.textContent = `+${ppScore.toFixed(0)}% more power`;
+                     ppEl.style.color = 'var(--success-color, #22c55e)';
+                } else if (ppScore < 0) {
+                     ppEl.textContent = `${ppScore.toFixed(0)}% less power`;
+                     ppEl.style.color = 'var(--error-color, #ef4444)';
+                } else {
+                     ppEl.textContent = `Equal`;
+                     ppEl.style.color = 'var(--text-secondary)';
+                }
+            }
+
+            const taxEl = document.getElementById('taxResult');
+            if (taxEl) {
+                if (empType === 'local') {
+                    taxEl.textContent = `${(dest.tax_rate_est * 100).toFixed(0)}% (Estimated)`;
+                } else {
+                    taxEl.textContent = `${(origin.tax_rate_est * 100).toFixed(0)}% (Remote/Home)`;
+                }
+            }
+
+            // Generate Insights
+            const insights = document.getElementById('aiInsights');
+            if (insights) {
+                let html = '';
+                
+                if (dest.rent_index < origin.rent_index) {
+                    const savings = ((1 - (dest.rent_index / origin.rent_index)) * 100).toFixed(0);
+                    html += `<li><strong>Housing relief:</strong> Rent is approximately ${savings}% cheaper in ${dest.name} compared to ${origin.name}.</li>`;
+                } else {
+                    const increase = (((dest.rent_index / origin.rent_index) - 1) * 100).toFixed(0);
+                    html += `<li><strong>Housing pressure:</strong> Expect to pay ~${increase}% more for housing in ${dest.name}.</li>`;
+                }
+
+                if (empType === 'local') {
+                    if (dest.tax_rate_est > origin.tax_rate_est) {
+                        html += `<li><strong>Tax burden:</strong> As a local hire, you will face a higher estimated effective tax rate (${(dest.tax_rate_est*100).toFixed(0)}%).</li>`;
+                    } else if (dest.tax_rate_est < origin.tax_rate_est) {
+                        html += `<li><strong>Tax advantage:</strong> Moving to local employment benefits you with a lower estimated tax rate.</li>`;
+                    }
+                }
+
+                if (lifestyleMult > 1.0) {
+                    html += `<li><strong>Lifestyle upgrade:</strong> You've elected a premium lifestyle tier, inflating your required target salary by ${( (lifestyleMult-1)*100 ).toFixed(0)}% above baseline equivalence.</li>`;
+                }
+                
+                insights.innerHTML = html;
+            }
+        }
+
+        form.addEventListener('input', calculate);
+        calculate();
+
+        // Specific CSS for media query
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @media (min-width: 900px) {
+                .parity-container { grid-template-columns: 350px 1fr !important; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+  </script>
+</Layout>

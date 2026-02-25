@@ -1,0 +1,212 @@
+{
+    "US": {
+        "name": "United States",
+        "col_index": 100,
+        "rent_index": 100,
+        "tax_rate_est": 0.25,
+        "currency": "USD"
+    },
+    "UK": {
+        "name": "United Kingdom",
+        "col_index": 82,
+        "rent_index": 90,
+        "tax_rate_est": 0.28,
+        "currency": "GBP"
+    },
+    "Spain": {
+        "name": "Spain",
+        "col_index": 54,
+        "rent_index": 35,
+        "tax_rate_est": 0.30,
+        "currency": "EUR"
+    },
+    "Portugal": {
+        "name": "Portugal",
+        "col_index": 50,
+        "rent_index": 45,
+        "tax_rate_est": 0.28,
+        "currency": "EUR"
+    },
+    "Germany": {
+        "name": "Germany",
+        "col_index": 75,
+        "rent_index": 60,
+        "tax_rate_est": 0.35,
+        "currency": "EUR"
+    },
+    "Australia": {
+        "name": "Australia",
+        "col_index": 105,
+        "rent_index": 110,
+        "tax_rate_est": 0.32,
+        "currency": "AUD"
+    },
+    "Canada": {
+        "name": "Canada",
+        "col_index": 95,
+        "rent_index": 90,
+        "tax_rate_est": 0.30,
+        "currency": "CAD"
+    },
+    "Japan": {
+        "name": "Japan",
+        "col_index": 70,
+        "rent_index": 50,
+        "tax_rate_est": 0.25,
+        "currency": "JPY"
+    },
+    "France": {
+        "name": "France",
+        "col_index": 80,
+        "rent_index": 65,
+        "tax_rate_est": 0.40,
+        "currency": "EUR"
+    },
+    "Italy": {
+        "name": "Italy",
+        "col_index": 72,
+        "rent_index": 55,
+        "tax_rate_est": 0.35,
+        "currency": "EUR"
+    },
+    "Mexico": {
+        "name": "Mexico",
+        "col_index": 40,
+        "rent_index": 20,
+        "tax_rate_est": 0.20,
+        "currency": "MXN"
+    },
+    "Norway": {
+        "name": "Norway",
+        "col_index": 115,
+        "rent_index": 95,
+        "tax_rate_est": 0.35,
+        "currency": "NOK"
+    },
+    "Switzerland": {
+        "name": "Switzerland",
+        "col_index": 130,
+        "rent_index": 120,
+        "tax_rate_est": 0.20,
+        "currency": "CHF"
+    },
+    "Singapore": {
+        "name": "Singapore",
+        "col_index": 90,
+        "rent_index": 150,
+        "tax_rate_est": 0.15,
+        "currency": "SGD"
+    },
+    "Dubai": {
+        "name": "Dubai (UAE)",
+        "col_index": 85,
+        "rent_index": 130,
+        "tax_rate_est": 0.0,
+        "currency": "AED"
+    },
+    "NYC": {
+        "name": "New York City",
+        "col_index": 140,
+        "rent_index": 180,
+        "tax_rate_est": 0.32,
+        "currency": "USD"
+    },
+    "London": {
+        "name": "London",
+        "col_index": 110,
+        "rent_index": 140,
+        "tax_rate_est": 0.30,
+        "currency": "GBP"
+    },
+    "Barcelona": {
+        "name": "Barcelona",
+        "col_index": 60,
+        "rent_index": 45,
+        "tax_rate_est": 0.30,
+        "currency": "EUR"
+    },
+    "Lisbon": {
+        "name": "Lisbon",
+        "col_index": 55,
+        "rent_index": 60,
+        "tax_rate_est": 0.28,
+        "currency": "EUR"
+    },
+    "Berlin": {
+        "name": "Berlin",
+        "col_index": 78,
+        "rent_index": 70,
+        "tax_rate_est": 0.35,
+        "currency": "EUR"
+    },
+    "Sydney": {
+        "name": "Sydney",
+        "col_index": 115,
+        "rent_index": 130,
+        "tax_rate_est": 0.32,
+        "currency": "AUD"
+    },
+    "Toronto": {
+        "name": "Toronto",
+        "col_index": 100,
+        "rent_index": 110,
+        "tax_rate_est": 0.30,
+        "currency": "CAD"
+    },
+    "Tokyo": {
+        "name": "Tokyo",
+        "col_index": 85,
+        "rent_index": 75,
+        "tax_rate_est": 0.25,
+        "currency": "JPY"
+    },
+    "Paris": {
+        "name": "Paris",
+        "col_index": 95,
+        "rent_index": 85,
+        "tax_rate_est": 0.40,
+        "currency": "EUR"
+    },
+    "Rome": {
+        "name": "Rome",
+        "col_index": 75,
+        "rent_index": 60,
+        "tax_rate_est": 0.35,
+        "currency": "EUR"
+    },
+    "Mexico City": {
+        "name": "Mexico City",
+        "col_index": 45,
+        "rent_index": 30,
+        "tax_rate_est": 0.20,
+        "currency": "MXN"
+    },
+    "Oslo": {
+        "name": "Oslo",
+        "col_index": 120,
+        "rent_index": 100,
+        "tax_rate_est": 0.35,
+        "currency": "NOK"
+    },
+    "Zurich": {
+        "name": "Zurich",
+        "col_index": 135,
+        "rent_index": 140,
+        "tax_rate_est": 0.20,
+        "currency": "CHF"
+    },
+    "Miami": {
+        "name": "Miami",
+        "col_index": 110,
+        "rent_index": 130,
+        "tax_rate_est": 0.25,
+        "currency": "USD"
+    },
+    "Austin": {
+        "name": "Austin",
+        "col_index": 95,
+        "rent_index": 105,
+        "tax_rate_est": 0.25,
+        "currency": "USD"
+    }
+}

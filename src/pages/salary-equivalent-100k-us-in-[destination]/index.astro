@@ -1,0 +1,120 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import colData from '../../data/col-indices.json';
+
+export async function getStaticPaths() {
+  const locations = Object.entries(colData).map(([id, data]) => ({ id, ...data as any }));
+  
+  // Specific Exact Match pages for Phase 2 scaling
+  const targets = ['spain', 'portugal', 'london', 'germany'];
+
+  const paths = targets.map(target => {
+      const destData = locations.find(l => l.id.toLowerCase() === target || l.name.toLowerCase() === target);
+      if (destData) {
+          return {
+              params: { destination: target },
+              props: { destData }
+          };
+      }
+      return null;
+  }).filter(Boolean);
+
+  return paths;
+}
+
+const { destination } = Astro.params;
+const { destData } = Astro.props;
+
+if (!destData) {
+     return Astro.redirect('/global-salary/');
+}
+
+const destName = destData.name;
+const usData = colData["US"] as any;
+
+const metaTitle = `$100k US Salary Equivalent in ${destName}`;
+const metaDescription = `Find out exactly what a $100,000 US salary is equivalent to in ${destName}, adjusted for cost of living and local taxes.`;
+const canonicalUrl = `https://econified.com/salary-equivalent-100k-us-in-${destination}/`;
+
+const colRatio = destData.col_index / usData.col_index;
+const equivalent100k = 100000 * colRatio;
+
+// Local equivalent (gross up for taxes)
+const usNet = 100000 * (1 - usData.tax_rate_est);
+const targetNet = usNet * colRatio;
+const localGrossReq = targetNet / (1 - destData.tax_rate_est);
+
+// Nomadic equivalent (keep US tax bracket)
+const nomadicGrossReq = targetNet / (1 - usData.tax_rate_est);
+
+const isIndexable = destData.id.toLowerCase() === 'portugal' || destData.name.toLowerCase() === 'portugal';
+
+const rentPercent = ((destData.rent_index/usData.rent_index)*100).toFixed(0);
+const rentComparative = `Housing in ${destName} is approximately ${destData.rent_index < usData.rent_index ? (100 - Number(rentPercent)) + '% cheaper' : (Number(rentPercent) - 100) + '% more expensive'} than the United States average.`;
+
+const taxComparative = `When moving to ${destName} as a local hire, expect an estimated effective tax rate of ${(destData.tax_rate_est*100).toFixed(0)}%, compared to the ${(usData.tax_rate_est*100).toFixed(0)}% US baseline.`;
+
+const overallComparative = `The equivalent salary in ${destName} is approximately ${destData.col_index < usData.col_index ? (100 - Number((colRatio*100).toFixed(0))) + '% lower' : (Number((colRatio*100).toFixed(0)) - 100) + '% higher'} than in the United States.`;
+---
+
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl} noindex={!isIndexable}>
+  <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
+  
+  <main class="container">
+    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      <a href="/" style="color: inherit;">Home</a> &rsaquo; 
+      <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; $100k US to {destName}
+    </nav>
+    <div class="tool-header" style="margin-bottom: 1.5rem;">
+      <h1 style="margin-bottom: 0.5rem;">$100k US Salary Equivalent in {destName}</h1>
+      <p class="lead">Exactly how much you need to earn in {destName} to live like you make $100,000 in the States.</p>
+    </div>
+
+    <div class="glass-panel" style="margin-bottom: 2rem; border-color: var(--primary-light);">
+         <h2 style="margin-top:0; font-size: 1.25rem;">The Answer</h2>
+         
+         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+             <div style="padding: 1rem; background: rgba(30,41,59,0.5); border-radius: 8px;">
+                 <div style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase;">If moving as a Local Hire</div>
+                 <div style="font-size: 2rem; font-weight: 800; color: var(--text-primary); margin: 0.5rem 0;">
+                    {new Intl.NumberFormat('en-US', {style:'currency', currency: destData.currency, maximumFractionDigits:0}).format(localGrossReq)}
+                 </div>
+                 <div style="font-size: 0.85rem; color: var(--text-secondary);">Accounts for ~{(destData.tax_rate_est*100).toFixed(0)}% local tax rate.</div>
+             </div>
+             
+             <div style="padding: 1rem; background: rgba(30,41,59,0.5); border-radius: 8px;">
+                 <div style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase;">If working Remote (Nomad)</div>
+                 <div style="font-size: 2rem; font-weight: 800; color: var(--accent-light); margin: 0.5rem 0;">
+                    {new Intl.NumberFormat('en-US', {style:'currency', currency: destData.currency, maximumFractionDigits:0}).format(nomadicGrossReq)}
+                 </div>
+                 <div style="font-size: 0.85rem; color: var(--text-secondary);">Assuming you keep your ~{(usData.tax_rate_est*100).toFixed(0)}% US tax burden.</div>
+             </div>
+         </div>
+         
+         <!-- Pre-rendered Static Insight -->
+         <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(30,41,59,0.3); border-radius: 8px; border-left: 4px solid var(--primary);">
+            <h3 style="margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <span aria-hidden="true">✨</span> AI Insight
+            </h3>
+            <p class="static-insight" style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 0;">
+                A $100k US salary typically provides significantly {destData.col_index < usData.col_index ? 'higher' : 'lower'} purchasing power in {destName} due to its relative cost of living index. {rentComparative} {overallComparative} {taxComparative}
+            </p>
+         </div>
+
+         <!-- FAQ Schema block for SEO Featured Snippets -->
+         <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--surface-border);">
+            <h3 style="font-size: 1.1rem; margin-top: 0;">Is $100k a good salary in {destName}?</h3>
+            <p style="color: var(--text-secondary); line-height: 1.5;">
+                Because the cost of living index in {destName} is <strong>{(destData.col_index/usData.col_index * 100).toFixed(0)}%</strong> of the US average, a $100,000 USD salary provides significantly {destData.col_index < usData.col_index ? 'more' : 'less'} purchasing power there. Rent specifically is estimated to be {((destData.rent_index/usData.rent_index)*100).toFixed(0)}% of the US baseline.
+            </p>
+         </div>
+    </div>
+
+    <div class="content-section" style="margin-bottom: 3rem;">
+        <h2>Adjust for your Lifestyle</h2>
+        <p>A $100k lifestyle varies wildly by person. Use our comprehensive calculator to adjust for "Budget", "Comfortable", or "Premium" living standards.</p>
+        <a href="/salary-calculator/" class="btn" style="background: var(--surface-light); color: var(--text-primary); border: 1px solid var(--surface-border); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; display: inline-block;">Open Full Calculator</a>
+    </div>
+
+  </main>
+</Layout>

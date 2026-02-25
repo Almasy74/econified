@@ -1,0 +1,152 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import colData from '../../data/col-indices.json';
+
+export async function getStaticPaths() {
+  const locations = Object.entries(colData).map(([id, data]) => ({ id, ...data as any }));
+  
+  // Prerender the top 20 destination hubs
+  const targets = [
+      'spain', 'portugal', 'london', 'germany', 'australia', 
+      'japan', 'france', 'italy', 'mexico', 'norway',
+      'switzerland', 'singapore', 'dubai', 'nyc', 'barcelona',
+      'lisbon', 'berlin', 'sydney', 'toyko', 'miami'
+  ];
+
+  const paths = targets.map(target => {
+      // Find matching location in data, case-insensitive
+      const loc = locations.find(l => l.id.toLowerCase() === target || l.name.toLowerCase() === target) || locations.find(l => l.name.toLowerCase().includes(target));
+      return {
+          params: { destination: target },
+          props: { destinationData: loc }
+      };
+  }).filter(p => p.props.destinationData);
+
+  return paths;
+}
+
+const targetsList = [
+      'spain', 'portugal', 'london', 'germany', 'australia', 
+      'japan', 'france', 'italy', 'mexico', 'norway',
+      'switzerland', 'singapore', 'dubai', 'nyc', 'barcelona',
+      'lisbon', 'berlin', 'sydney', 'toyko', 'miami'
+];
+
+const { destination } = Astro.params;
+const { destinationData } = Astro.props;
+
+if (!destinationData) {
+     return Astro.redirect('/global-salary/');
+}
+
+const destName = destinationData.name;
+const metaTitle = `Salary in ${destName}: Cost of Living & Purchasing Power`;
+const metaDescription = `Find out if your salary is good enough to live in ${destName}. Compare cost of living, taxes, and purchasing power to your home country.`;
+const canonicalUrl = `https://econified.com/salary-in-${destination}/`;
+
+const locations = Object.entries(colData).map(([id, data]) => ({ id, ...data as any }));
+locations.sort((a, b) => a.name.localeCompare(b.name));
+
+const usData = colData["US"] as any;
+const colRatioUS = destinationData.col_index / usData.col_index;
+const equivalentUS100k = 100000 * colRatioUS;
+
+const ukData = colData["UK"] as any;
+const colRatioUK = destinationData.col_index / ukData.col_index;
+const equivalentUK50k = 50000 * colRatioUK;
+
+const isIndexable = ['spain', 'portugal', 'uk', 'united kingdom'].includes(destinationData.name.toLowerCase()) || ['spain', 'portugal', 'uk', 'united kingdom'].includes(destinationData.id.toLowerCase());
+const relatedDestinations = targetsList.filter(t => t !== destination).sort(() => 0.5 - Math.random()).slice(0, 4);
+
+const rentPercent = ((destinationData.rent_index/usData.rent_index)*100).toFixed(0);
+const isCheaperRent = destinationData.rent_index < usData.rent_index;
+const rentComparative = `Housing in ${destName} is approximately ${isCheaperRent ? (100 - Number(rentPercent)) + '% cheaper' : (Number(rentPercent) - 100) + '% more expensive'} than the United States average.`;
+
+const colDiff = (destinationData.col_index/usData.col_index * 100).toFixed(0);
+const colComparative = `The equivalent salary in ${destName} is approximately ${destinationData.col_index < usData.col_index ? (100 - Number(colDiff)) + '% lower' : (Number(colDiff) - 100) + '% higher'} than in the United States.`;
+
+const taxComparative = `When moving to ${destName} as a local hire, expect an estimated effective tax rate of ${(destinationData.tax_rate_est*100).toFixed(0)}%, compared to the ${(usData.tax_rate_est*100).toFixed(0)}% US baseline.`;
+---
+
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl} noindex={!isIndexable}>
+  <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
+  
+  <main class="container">
+    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      <a href="/" style="color: inherit;">Home</a> &rsaquo; 
+      <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; {destName}
+    </nav>
+    <div class="tool-header" style="margin-bottom: 1.5rem;">
+      <h1 style="margin-bottom: 0.5rem;">Salary in {destName}</h1>
+      <p class="lead">Is your income enough to live comfortably in {destName}? Compare global purchasing power instantly.</p>
+    </div>
+
+    <!-- SEO Content & Table (Baked into HTML) -->
+    <div class="glass-panel" style="margin-bottom: 2rem;">
+         <h2 style="margin-top:0; font-size: 1.25rem;">At a Glance: {destName} vs US & UK</h2>
+         <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            To maintain the same standard of living as someone making <strong>$100,000 in the US</strong>, you need to earn approximately <strong>{new Intl.NumberFormat('en-US', {style:'currency', currency: destinationData.currency, maximumFractionDigits:0}).format(equivalentUS100k)} in {destName}</strong>. 
+         </p>
+
+         <div class="table-responsive">
+            <table style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 1rem;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--surface-border);">
+                        <th style="padding: 0.75rem;">Metric</th>
+                        <th style="padding: 0.75rem;">US Base</th>
+                        <th style="padding: 0.75rem;">UK Base</th>
+                        <th style="padding: 0.75rem; color: var(--primary-light);">{destName}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--surface-border);">
+                        <td style="padding: 0.75rem;">Relative Cost of Living</td>
+                        <td style="padding: 0.75rem;">Baseline</td>
+                        <td style="padding: 0.75rem;">{(ukData.col_index/usData.col_index * 100).toFixed(0)}%</td>
+                        <td style="padding: 0.75rem;"><strong>{(destinationData.col_index/usData.col_index * 100).toFixed(0)}%</strong></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--surface-border);">
+                        <td style="padding: 0.75rem;">Estimated Tax Rate</td>
+                        <td style="padding: 0.75rem;">{(usData.tax_rate_est*100).toFixed(0)}%</td>
+                        <td style="padding: 0.75rem;">{(ukData.tax_rate_est*100).toFixed(0)}%</td>
+                        <td style="padding: 0.75rem;"><strong>{(destinationData.tax_rate_est*100).toFixed(0)}%</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem;">$100k US Equivalent</td>
+                        <td style="padding: 0.75rem;">$100,000</td>
+                        <td style="padding: 0.75rem;">-</td>
+                        <td style="padding: 0.75rem;"><strong>{new Intl.NumberFormat('en-US', {style:'currency', currency: destinationData.currency, maximumFractionDigits:0}).format(equivalentUS100k)}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+         </div>
+    </div>
+
+    <!-- Pre-rendered Static Insight -->
+    <div class="glass-panel" style="margin-bottom: 2rem; border-left: 4px solid var(--primary);">
+        <h3 style="margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span aria-hidden="true">✨</span> AI Insight
+        </h3>
+        <p class="static-insight" style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 0;">
+            A $100k US salary typically provides significantly {destinationData.col_index < usData.col_index ? 'higher' : 'lower'} purchasing power in {destName} due to {isCheaperRent ? 'lower housing costs' : 'higher housing costs'} and a relative cost of living of {colDiff}% compared to the US standard. {rentComparative} {colComparative} {taxComparative}
+        </p>
+    </div>
+
+    <!-- Spoke-to-Spoke Mesh Linking -->
+    <div class="related-hubs" style="margin-bottom: 3rem; padding: 1.5rem; background: rgba(30,41,59,0.3); border-radius: 8px;">
+        <h3 style="font-size: 1.1rem; margin-top: 0;">Compare {destName} with:</h3>
+        <ul style="display: flex; gap: 1rem; list-style: none; padding: 0; flex-wrap: wrap; margin-bottom: 0;">
+            {relatedDestinations.map(rd => (
+                <li><a href={`/salary-in-${rd}/`} style="color: var(--primary-light); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid var(--primary); border-radius: 4px; display: inline-block;">{rd.charAt(0).toUpperCase() + rd.slice(1)}</a></li>
+            ))}
+        </ul>
+    </div>
+
+    <div class="content-section" style="margin-bottom: 3rem;">
+        <h2>Calculate Your Specific Situation</h2>
+        <p>Use our interactive calculator to adjust for your exact current salary, employment type, and expected lifestyle.</p>
+        <a href="/salary-calculator/" class="btn" style="background: var(--surface-light); color: var(--text-primary); border: 1px solid var(--surface-border); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; display: inline-block;">Open Full Calculator</a>
+    </div>
+
+  </main>
+</Layout>

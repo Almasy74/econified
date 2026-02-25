@@ -1,0 +1,128 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import colData from '../../../data/col-indices.json';
+
+export async function getStaticPaths() {
+  const locations = Object.entries(colData).map(([id, data]) => ({ id, ...data as any }));
+  
+  // Specific corridors we want to test for Phase 2
+  const corridors = [
+      { origin: 'US', dest: 'Spain' },
+      { origin: 'US', dest: 'UK' },
+      { origin: 'US', dest: 'Portugal' },
+      { origin: 'NYC', dest: 'London' },
+      { origin: 'London', dest: 'Berlin' },
+      { origin: 'UK', dest: 'Australia' }
+  ];
+
+  const paths = corridors.map(({ origin, dest }) => {
+      const originData = locations.find(l => l.id === origin || l.name === origin);
+      const destData = locations.find(l => l.id === dest || l.name === dest);
+
+      if (originData && destData) {
+          return {
+              params: { origin: originData.id.toLowerCase(), destination: destData.id.toLowerCase() },
+              props: { originData, destData }
+          };
+      }
+      return null;
+  }).filter(Boolean);
+
+  return paths;
+}
+
+const { origin, destination } = Astro.params;
+const { originData, destData } = Astro.props;
+
+if (!originData || !destData) {
+     return Astro.redirect('/global-salary/');
+}
+
+const originName = originData.name;
+const destName = destData.name;
+
+const metaTitle = `${originName} to ${destName} Relocation: Salary & Cost of Living Comparison`;
+const metaDescription = `Thinking of moving from ${originName} to ${destName}? Compare the exact cost of living, taxes, and purchasing power.`;
+const canonicalUrl = `https://econified.com/salary/${origin}-to-${destination}/`;
+
+const colRatio = destData.col_index / originData.col_index;
+const equivalent100k = 100000 * colRatio;
+
+const isIndexable = false;
+
+const rentPercent = ((destData.rent_index/originData.rent_index)*100).toFixed(0);
+const rentComparative = `Housing in ${destName} is approximately ${destData.rent_index < originData.rent_index ? (100 - Number(rentPercent)) + '% cheaper' : (Number(rentPercent) - 100) + '% more expensive'} than in ${originName}.`;
+
+const taxComparative = `When moving to ${destName} as a local hire, expect an estimated effective tax rate of ${(destData.tax_rate_est*100).toFixed(0)}%, compared to the ${(originData.tax_rate_est*100).toFixed(0)}% baseline in ${originName}.`;
+
+const overallComparative = `The equivalent salary in ${destName} is approximately ${destData.col_index < originData.col_index ? (100 - Number((colRatio*100).toFixed(0))) + '% lower' : (Number((colRatio*100).toFixed(0)) - 100) + '% higher'} than in ${originName}.`;
+---
+
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl} noindex={!isIndexable}>
+  <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
+  
+  <main class="container">
+    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      <a href="/" style="color: inherit;">Home</a> &rsaquo; 
+      <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; {originName} to {destName}
+    </nav>
+    <div class="tool-header" style="margin-bottom: 1.5rem;">
+      <h1 style="margin-bottom: 0.5rem;">{originName} to {destName} Relocation Guide</h1>
+      <p class="lead">Compare the cost of living and find your equivalent salary.</p>
+    </div>
+
+    <!-- SEO Content & Table (Baked into HTML) -->
+    <div class="glass-panel" style="margin-bottom: 2rem;">
+         <h2 style="margin-top:0; font-size: 1.25rem;">Cost of Living Comparison</h2>
+         <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            To maintain the same standard of living as someone making <strong>100,000 {originData.currency} in {originName}</strong>, you need to earn approximately <strong>{new Intl.NumberFormat('en-US', {style:'currency', currency: destData.currency, maximumFractionDigits:0}).format(equivalent100k)} in {destName}</strong>. 
+         </p>
+
+         <div class="table-responsive">
+            <table style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 1rem;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--surface-border);">
+                        <th style="padding: 0.75rem;">Metric</th>
+                        <th style="padding: 0.75rem;">{originName}</th>
+                        <th style="padding: 0.75rem; color: var(--primary-light);">{destName}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid var(--surface-border);">
+                        <td style="padding: 0.75rem;">Relative Cost of Living</td>
+                        <td style="padding: 0.75rem;">Baseline (100%)</td>
+                        <td style="padding: 0.75rem;"><strong>{(colRatio * 100).toFixed(0)}%</strong></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--surface-border);">
+                        <td style="padding: 0.75rem;">Rent Index</td>
+                        <td style="padding: 0.75rem;">Baseline</td>
+                        <td style="padding: 0.75rem;"><strong>{((destData.rent_index / originData.rent_index) * 100).toFixed(0)}%</strong></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--surface-border);">
+                        <td style="padding: 0.75rem;">Estimated Tax Rate</td>
+                        <td style="padding: 0.75rem;">{(originData.tax_rate_est*100).toFixed(0)}%</td>
+                        <td style="padding: 0.75rem;"><strong>{(destData.tax_rate_est*100).toFixed(0)}%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+         </div>
+    </div>
+
+    <!-- Pre-rendered Static Insight -->
+    <div class="glass-panel" style="margin-bottom: 2rem; border-left: 4px solid var(--primary);">
+        <h3 style="margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span aria-hidden="true">✨</span> AI Insight
+        </h3>
+        <p class="static-insight" style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 0;">
+            A 100,000 {originData.currency} salary typically provides significantly {destData.col_index < originData.col_index ? 'higher' : 'lower'} purchasing power in {destName} due to its relative cost of living index. {rentComparative} {overallComparative} {taxComparative}
+        </p>
+    </div>
+
+    <div class="content-section" style="margin-bottom: 3rem;">
+        <h2>Calculate Your Specific Situation</h2>
+        <p>Use our interactive calculator to adjust for your exact current salary, employment type, and expected lifestyle.</p>
+        <a href="/salary-calculator/" class="btn" style="background: var(--surface-light); color: var(--text-primary); border: 1px solid var(--surface-border); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; display: inline-block;">Open Full Calculator</a>
+    </div>
+
+  </main>
+</Layout>

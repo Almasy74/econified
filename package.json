@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "tsx scripts/validate-definitions.ts && astro build && tsx scripts/sitemap-audit.ts",
+    "build": "tsx scripts/validate-definitions.ts && astro build && tsx scripts/split-sitemaps.ts && tsx scripts/sitemap-audit.ts",
     "preview": "astro preview",
     "astro": "astro"
   },

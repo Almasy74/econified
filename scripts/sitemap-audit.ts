@@ -5,7 +5,7 @@ async function auditSitemap() {
     console.log('Auditing Sitemap...');
 
     const registryPath = path.resolve('tools/registry.json');
-    const sitemapPath = path.resolve('dist/sitemap-0.xml'); // Astro sitemap chunk 0
+    const sitemapPath = path.resolve('dist/sitemap-core.xml'); // Check the newly split core sitemap
 
     const registryData = await fs.readFile(registryPath, 'utf-8');
     const registry = JSON.parse(registryData);
@@ -29,7 +29,7 @@ async function auditSitemap() {
 
     } catch (error) {
         if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-            console.error('❌ Sitemap Audit Failed! sitemap-0.xml not found.');
+            console.error('❌ Sitemap Audit Failed! sitemap-core.xml not found.');
         } else {
             console.error('❌ Sitemap Audit Error:', error);
         }

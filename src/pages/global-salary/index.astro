@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import colData from '../../data/col-indices.json';
+
+const metaTitle = `Global Salary Directory – Econified`;
+const metaDescription = `Find the exact salary parity for moving between countries and cities worldwide.`;
+const canonicalUrl = `https://econified.com/global-salary/`;
+
+const locations = Object.entries(colData).map(([id, data]) => ({ id, ...data as any }));
+locations.sort((a, b) => a.name.localeCompare(b.name));
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Global Salary Parity Directory",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web"
+};
+---
+
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
+  
+  <main class="container">
+    <div class="tool-header" style="margin-bottom: 2rem;">
+      <h1 style="margin-bottom: 0.5rem; font-size: 2.5rem;">Global Salary Directory</h1>
+      <p class="lead">Compare purchasing power and find out what your salary is worth when you relocate.</p>
+      
+      <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+          <a href="/salary-calculator/" class="btn" style="background: var(--primary); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">Launch Calculator</a>
+      </div>
+    </div>
+
+    <section style="margin-top: 4rem;">
+        <h2 style="font-size: 1.5rem; border-bottom: 1px solid var(--surface-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Popular Destinations</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+            {locations.slice(0, 15).map(loc => (
+                <a href={`/salary-in-${loc.id.toLowerCase()}/`} class="glass-panel" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-weight: 600; color: var(--text-primary);">{loc.name}</span>
+                    <span style="color: var(--primary-light); font-size: 0.85rem;">View Insights &rarr;</span>
+                </a>
+            ))}
+        </div>
+    </section>
+
+    <section style="margin-top: 4rem;">
+        <h2 style="font-size: 1.5rem; border-bottom: 1px solid var(--surface-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Sample Corridors</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+            {['US-to-Spain', 'NYC-to-London', 'UK-to-Australia', 'London-to-Berlin'].map(corridor => {
+                const [origin, dest] = corridor.split('-to-');
+                return (
+                    <a href={`/salary/${origin.toLowerCase()}-to-${dest.toLowerCase()}/`} class="glass-panel" style="text-decoration: none; color: inherit;">
+                        <span style="font-size: 0.85rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Relocation Comparison</span>
+                        <strong style="color: var(--text-primary); display: block;">{origin.toUpperCase()} to {dest.charAt(0).toUpperCase() + dest.slice(1)}</strong>
+                    </a>
+                )
+            })}
+        </div>
+    </section>
+
+  </main>
+</Layout>
