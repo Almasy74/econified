@@ -10,7 +10,8 @@ export async function getStaticPaths() {
       'spain', 'portugal', 'london', 'germany', 'australia', 
       'japan', 'france', 'italy', 'mexico', 'norway',
       'switzerland', 'singapore', 'dubai', 'nyc', 'barcelona',
-      'lisbon', 'berlin', 'sydney', 'toyko', 'miami'
+      'lisbon', 'berlin', 'sydney', 'tokyo', 'miami',
+      'austin', 'canada'
   ];
 
   const paths = targets.map(target => {
@@ -29,7 +30,8 @@ const targetsList = [
       'spain', 'portugal', 'london', 'germany', 'australia', 
       'japan', 'france', 'italy', 'mexico', 'norway',
       'switzerland', 'singapore', 'dubai', 'nyc', 'barcelona',
-      'lisbon', 'berlin', 'sydney', 'toyko', 'miami'
+      'lisbon', 'berlin', 'sydney', 'tokyo', 'miami',
+      'austin', 'canada'
 ];
 
 const { destination } = Astro.params;
@@ -173,10 +175,9 @@ const currentYear = new Date().getFullYear();
 
     <!-- Spoke-to-Spoke Mesh Linking -->
     <div class="related-hubs" style="margin-bottom: 3rem; padding: 1.5rem; background: rgba(30,41,59,0.3); border-radius: 8px;">
-        <h3 style="font-size: 1.1rem; margin-top: 0;">Compare {destName} with:</h3>
         <ul style="display: flex; gap: 1rem; list-style: none; padding: 0; flex-wrap: wrap; margin-bottom: 0;">
             {relatedDestinations.map(rd => (
-                <li><a href={`/salary-in-${rd}/`} style="color: var(--primary-light); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid var(--primary); border-radius: 4px; display: inline-block;">{rd.charAt(0).toUpperCase() + rd.slice(1)}</a></li>
+                <li><a href={`/salary-in-${rd.toLowerCase().replace(/\s+/g, '-')}/`} style="color: var(--primary-light); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid var(--primary); border-radius: 4px; display: inline-block;">{rd.charAt(0).toUpperCase() + rd.slice(1)}</a></li>
             ))}
         </ul>
     </div>

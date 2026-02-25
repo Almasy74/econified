@@ -21,7 +21,10 @@ export async function getStaticPaths() {
 
       if (originData && destData) {
           return {
-              params: { origin: originData.id.toLowerCase(), destination: destData.id.toLowerCase() },
+              params: { 
+                  origin: originData.id.toLowerCase().replace(/\s+/g, '-'), 
+                  destination: destData.id.toLowerCase().replace(/\s+/g, '-') 
+              },
               props: { originData, destData }
           };
       }
