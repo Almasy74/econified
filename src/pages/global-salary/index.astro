@@ -28,8 +28,54 @@ const schemaData = {
       <p class="lead">Compare purchasing power and find out what your salary is worth when you relocate.</p>
       
       <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-          <a href="/salary-calculator/" class="btn" style="background: var(--primary); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: bold;">Launch Calculator</a>
+          <a href="/salary-calculator/" class="cta-launch">
+            <span>🚀 Launch Calculator</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
       </div>
+
+    <style>
+      .cta-launch {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.15rem;
+        padding: 1rem 2.5rem;
+        background: linear-gradient(135deg, #6366f1, #7c3aed);
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
+        transition: all 0.3s;
+        box-shadow: 0 4px 25px rgba(99,102,241,0.35);
+        position: relative;
+        overflow: hidden;
+      }
+      .cta-launch::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s;
+      }
+      .cta-launch:hover::before {
+        transform: translateX(100%);
+      }
+      .cta-launch:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 35px rgba(99,102,241,0.5);
+      }
+      .cta-launch:active {
+        transform: translateY(-1px) scale(1);
+      }
+      .cta-launch svg {
+        transition: transform 0.3s;
+      }
+      .cta-launch:hover svg {
+        transform: translateX(4px);
+      }
+    </style>
     </div>
 
     <section style="margin-top: 4rem;">
