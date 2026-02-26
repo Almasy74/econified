@@ -1,0 +1,107 @@
+{
+    "title": "Remote vs Office Impact Calculator",
+    "description": "Calculate the true financial and time value of working remotely compared to an office-based role.",
+    "inputs": [
+        {
+            "name": "baseSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Annual Base Salary",
+            "min": 0
+        },
+        {
+            "name": "remoteDays",
+            "type": "number",
+            "label": "Remote Days per Week",
+            "min": 0,
+            "max": 5
+        },
+        {
+            "name": "commuteCost",
+            "type": "number",
+            "unit": "currency",
+            "label": "Total Annual Commute Cost (if in office)",
+            "min": 0
+        },
+        {
+            "name": "rentDifference",
+            "type": "number",
+            "unit": "currency",
+            "label": "Monthly Rent Savings (if remote allows cheaper area)",
+            "min": 0
+        },
+        {
+            "name": "foodCoffeeCost",
+            "type": "number",
+            "unit": "currency",
+            "label": "Daily Office Food/Coffee Cost",
+            "min": 0
+        },
+        {
+            "name": "timeSavedHours",
+            "type": "number",
+            "label": "Daily Commute Time (Hours)",
+            "min": 0
+        }
+    ],
+    "outputs": [
+        {
+            "name": "realSalaryAdjustment",
+            "unit": "currency",
+            "label": "Total Annual Value Gain"
+        },
+        {
+            "name": "remoteEquivalentRaise",
+            "unit": "percent",
+            "label": "Remote Equivalent Raise %"
+        }
+    ],
+    "methodSummary": [
+        "Calculates savings on commute, food, and rent when working remotely.",
+        "Valuates saved commute time at a baseline rate to show 'lifestyle' value.",
+        "Remote Equivalent Raise = Total Annual Gain / Base Salary."
+    ],
+    "assumptions": [
+        "Calculates value based on 48 work weeks per year.",
+        "Time saved is valued at a conservative baseline rate of $25/hr."
+    ],
+    "insights": [
+        "A fully remote role can be equivalent to a 15-20% raise when commute and food costs are high.",
+        "The time saved from a 1-hour round-trip commute equals roughly 240 hours per year—equivalent to 6 extra weeks of life."
+    ],
+    "faqs": [
+        {
+            "q": "Why is time valued at $25?",
+            "a": "It's a conservative baseline to represent that your time has value. You can mentally adjust if your personal time-value is higher."
+        },
+        {
+            "q": "How to calculate food savings?",
+            "a": "Estimate what you spend on lunches and coffee at the office vs. eating at home. Often this is $10-$20 per day."
+        },
+        {
+            "q": "What about home office expenses?",
+            "a": "Increased electricity or heating costs are usually minimal compared to commute savings, but you can subtract them from 'Total Savings' mentally."
+        },
+        {
+            "q": "Does this tool work for hybrid roles?",
+            "a": "Yes. Simply adjust the 'Remote Days per Week' to match your schedule (e.g., 3 remote, 2 office)."
+        },
+        {
+            "q": "How does rent factor in?",
+            "a": "If being remote allows you to move to a lower cost-of-living area, enter your monthly rent saving to see its massive impact."
+        },
+        {
+            "q": "Is 'time saved' really worth money?",
+            "a": "Technically no, unless you use it for side-work, but 'lifestyle value' is a critical metric for long-term career happiness."
+        }
+    ],
+    "clusters": [
+        "comparison",
+        "lifestyle"
+    ],
+    "useCases": [
+        "Choose between hybrid and office",
+        "Calculate relocation benefits",
+        "Negotiate remote work terms"
+    ]
+}

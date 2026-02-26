@@ -1,0 +1,155 @@
+{
+    "title": "Job Offer Comparison Tool",
+    "description": "Compare two job offers by looking at the total compensation including bonuses, equity, and benefits side-by-side.",
+    "inputs": [
+        {
+            "name": "baseSalaryA",
+            "type": "number",
+            "unit": "currency",
+            "label": "Offer A Base Salary",
+            "min": 0
+        },
+        {
+            "name": "bonusPercentA",
+            "type": "number",
+            "label": "Offer A Bonus %",
+            "min": 0
+        },
+        {
+            "name": "pensionMatchA",
+            "type": "number",
+            "label": "Offer A Pension Match %",
+            "min": 0
+        },
+        {
+            "name": "equityA",
+            "type": "number",
+            "unit": "currency",
+            "label": "Offer A Equity/RSUs (Annual)",
+            "min": 0
+        },
+        {
+            "name": "remoteStipendA",
+            "type": "number",
+            "unit": "currency",
+            "label": "Offer A Annual Stipends",
+            "min": 0
+        },
+        {
+            "name": "healthBenefitsA",
+            "type": "number",
+            "unit": "currency",
+            "label": "Offer A Health Benefit Value",
+            "min": 0
+        },
+        {
+            "name": "baseSalaryB",
+            "type": "number",
+            "unit": "currency",
+            "label": "Offer B Base Salary",
+            "min": 0
+        },
+        {
+            "name": "bonusPercentB",
+            "type": "number",
+            "label": "Offer B Bonus %",
+            "min": 0
+        },
+        {
+            "name": "pensionMatchB",
+            "type": "number",
+            "label": "Offer B Pension Match %",
+            "min": 0
+        },
+        {
+            "name": "equityB",
+            "type": "number",
+            "unit": "currency",
+            "label": "Offer B Equity/RSUs (Annual)",
+            "min": 0
+        },
+        {
+            "name": "remoteStipendB",
+            "type": "number",
+            "unit": "currency",
+            "label": "Offer B Annual Stipends",
+            "min": 0
+        },
+        {
+            "name": "healthBenefitsB",
+            "type": "number",
+            "unit": "currency",
+            "label": "Offer B Health Benefit Value",
+            "min": 0
+        }
+    ],
+    "outputs": [
+        {
+            "name": "tcOfferA",
+            "unit": "currency",
+            "label": "Offer A Total Comp"
+        },
+        {
+            "name": "tcOfferB",
+            "unit": "currency",
+            "label": "Offer B Total Comp"
+        },
+        {
+            "name": "difference",
+            "unit": "currency",
+            "label": "Net Difference (A - B)"
+        },
+        {
+            "name": "differencePercent",
+            "unit": "percent",
+            "label": "Difference %"
+        }
+    ],
+    "methodSummary": [
+        "Total Comp = Base + Bonus + Pension Match + Annual Equity + Stipends + Health Value.",
+        "Comparison = Difference between Offer A Total Comp and Offer B Total Comp."
+    ],
+    "assumptions": [
+        "Assumes bonus percent is paid out fully as expected.",
+        "Equity should be entered as the annual portion (e.g., Total Grant / Vesting Years)."
+    ],
+    "insights": [
+        "A lower base salary with a strong equity grant and high pension match can often outperform a high base salary offer.",
+        "Don't overlook health benefits and stipends; they can add thousands in 'tax-free' value per year."
+    ],
+    "faqs": [
+        {
+            "q": "How do I value stock options?",
+            "a": "Options are tricky. A safe approach is to value them at $0 if the company is early-stage, or use the current 409A valuation for more mature startups."
+        },
+        {
+            "q": "What is annual equity value?",
+            "a": "Divide your total grant by the number of vesting years. For example, $100k over 4 years is $25k annually."
+        },
+        {
+            "q": "Should I include pre-tax or post-tax values?",
+            "a": "Always use pre-tax (gross) values for consistency, unless comparing offers in different tax jurisdictions."
+        },
+        {
+            "q": "What qualifies as health benefit value?",
+            "a": "Estimate the monthly premium your employer pays on your behalf. In the US, this is often $500–$1,500/month for families."
+        },
+        {
+            "q": "How do I factor in signing bonuses?",
+            "a": "Since signing bonuses are one-time, divide them by 2 or 3 (estimated tenure) to see their impact on recurring compensation."
+        },
+        {
+            "q": "What about lifestyle benefits?",
+            "a": "If an offer includes gym memberships or free lunch,估算 their annual value (e.g., $15/day for lunch is $3,600/year) and add to stipends."
+        }
+    ],
+    "clusters": [
+        "comparison",
+        "compensation"
+    ],
+    "useCases": [
+        "Compare job offers side-by-side",
+        "Evaluate total compensation value",
+        "Negotiate using data"
+    ]
+}

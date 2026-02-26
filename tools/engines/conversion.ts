@@ -36,3 +36,23 @@ export function calculateBiweeklyToAnnual(inputs: Record<string, number>) {
   const monthlySalary = annualSalary / 12;
   return { annualSalary, monthlySalary };
 }
+
+export function calculatePTOValue(inputs: Record<string, number>) {
+  const annualSalary = inputs.annualSalary;
+  const ptoDays = inputs.ptoDays;
+  const holidays = inputs.holidays;
+  const hoursPerDay = inputs.hoursPerDay;
+
+  const totalPaidDays = ptoDays + holidays;
+  const workDaysPerYear = 260; // Standard work days in a year (5 days * 52 weeks)
+
+  const valuePerDay = annualSalary / workDaysPerYear;
+  const totalPTOValue = totalPaidDays * valuePerDay;
+  const realSalary = annualSalary + totalPTOValue;
+
+  return {
+    valuePerDay,
+    totalPTOValue,
+    realSalary
+  };
+}

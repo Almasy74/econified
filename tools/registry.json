@@ -176,5 +176,110 @@
     },
     "status": "active",
     "updatedAt": "2026-02-24"
+  },
+  {
+    "slug": "pto-value-calculator",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "career-decision",
+    "adPolicy": "standard",
+    "priority": 2,
+    "defaults": {
+      "annualSalary": 80000,
+      "ptoDays": 25,
+      "holidays": 10,
+      "hoursPerDay": 8
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "job-offer-comparison",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "baseSalaryA": 100000,
+      "bonusPercentA": 10,
+      "pensionMatchA": 5,
+      "equityA": 5000,
+      "remoteStipendA": 1000,
+      "healthBenefitsA": 2000,
+      "baseSalaryB": 110000,
+      "bonusPercentB": 0,
+      "pensionMatchB": 3,
+      "equityB": 0,
+      "remoteStipendB": 0,
+      "healthBenefitsB": 0
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "burnout-cost-calculator",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "standard",
+    "priority": 2,
+    "defaults": {
+      "salary": 90000,
+      "hoursPerWeek": 50,
+      "optimalHours": 40
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "promotion-value-calculator",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "currentSalary": 85000,
+      "newSalary": 95000,
+      "extraHours": 5,
+      "extraResponsibilityHours": 2,
+      "commuteIncrease": 500
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "remote-vs-office-calculator",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "baseSalary": 100000,
+      "remoteDays": 5,
+      "commuteCost": 3000,
+      "rentDifference": 500,
+      "foodCoffeeCost": 15,
+      "timeSavedHours": 1.5
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "freelance-risk-calculator",
+    "tier": 0,
+    "engine": "freelance",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 2,
+    "defaults": {
+      "monthlyBurnRate": 4000,
+      "savingsBuffer": 24000,
+      "gapProbability": 20
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
   }
 ]

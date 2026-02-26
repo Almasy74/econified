@@ -1,0 +1,103 @@
+{
+    "title": "Promotion Break-Even Calculator",
+    "description": "Determine if a promotion is actually worth the extra hours and responsibility by calculating your new effective hourly rate.",
+    "inputs": [
+        {
+            "name": "currentSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Current Annual Salary",
+            "min": 0
+        },
+        {
+            "name": "newSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Proposed New Salary",
+            "min": 0
+        },
+        {
+            "name": "extraHours",
+            "type": "number",
+            "label": "Additional Direct Hours/Week",
+            "min": 0
+        },
+        {
+            "name": "extraResponsibilityHours",
+            "type": "number",
+            "label": "Extra 'Mental' Load Hours/Week",
+            "min": 0
+        },
+        {
+            "name": "commuteIncrease",
+            "type": "number",
+            "unit": "currency",
+            "label": "Additional Annual Commute Cost",
+            "min": 0
+        }
+    ],
+    "outputs": [
+        {
+            "name": "newEffectiveHourly",
+            "unit": "currency",
+            "label": "New Effective Hourly Rate"
+        },
+        {
+            "name": "percentRealIncrease",
+            "unit": "percent",
+            "label": "Real Hourly Increase %"
+        },
+        {
+            "name": "breakEvenSalary",
+            "unit": "currency",
+            "label": "Break-even Salary Needed"
+        }
+    ],
+    "methodSummary": [
+        "Calculates hourly rate before and after adjusting for total hours and new costs.",
+        "Break-even Salary = The salary required to maintain your previous hourly rate with the new workload."
+    ],
+    "assumptions": [
+        "Base week is 40 hours unless adjusted by extra hours.",
+        "Mental load hours account for time spent thinking about work outside of direct hours."
+    ],
+    "insights": [
+        "A 10% raise with a 15% increase in total time spent (including mental load) is effectively a pay cut per hour.",
+        "The 'Break-even' salary is often much higher than people expect when responsibilities scale."
+    ],
+    "faqs": [
+        {
+            "q": "What is 'Mental Load'?",
+            "a": "It's the time you spend stressed about work, answering emails on weekends, or 'off-the-clock' thinking that a promotion often demands."
+        },
+        {
+            "q": "What is a 'Break-even Salary'?",
+            "a": "It's the minimum salary you should accept to ensure your hourly rate doesn't drop due to the increased workload."
+        },
+        {
+            "q": "How do I estimate extra responsibility hours?",
+            "a": "Consider how much of your evening or weekend is spent 'monitoring' work or managing people effectively."
+        },
+        {
+            "q": "Does this tool account for taxes?",
+            "a": "It uses gross salary. Remember that moving to a higher tax bracket might further reduce your real take-home pay."
+        },
+        {
+            "q": "Should I accept a promotion if hourly rate drops?",
+            "a": "Only if the long-term career growth or resume benefit outweighs the immediate loss of time and hourly value."
+        },
+        {
+            "q": "How to handle commute changes?",
+            "a": "If the promotion requires more days in office or a different location, enter the annual cost change in the dedicated field."
+        }
+    ],
+    "clusters": [
+        "comparison",
+        "promotion"
+    ],
+    "useCases": [
+        "Evaluate a promotion offer",
+        "Negotiate raise amounts",
+        "Assess career progression value"
+    ]
+}

@@ -1,0 +1,92 @@
+{
+    "title": "Freelance Utilization Risk Tool",
+    "description": "Analyze the financial risk of a freelance contract by calculating your runway and minimum safe rate.",
+    "inputs": [
+        {
+            "name": "monthlyBurnRate",
+            "type": "number",
+            "unit": "currency",
+            "label": "Monthly Personal Burn Rate",
+            "min": 0
+        },
+        {
+            "name": "savingsBuffer",
+            "type": "number",
+            "unit": "currency",
+            "label": "Tax-Adjusted Savings Buffer",
+            "min": 0
+        },
+        {
+            "name": "gapProbability",
+            "type": "number",
+            "label": "Probability of Gap between Contracts (%)",
+            "min": 0,
+            "max": 100
+        }
+    ],
+    "outputs": [
+        {
+            "name": "runwayMonths",
+            "unit": "number",
+            "label": "Runway (Months)"
+        },
+        {
+            "name": "riskScore",
+            "unit": "number",
+            "label": "Risk Score (0-10)"
+        },
+        {
+            "name": "minimumSafeRate",
+            "unit": "currency",
+            "label": "Minimum Safe Hourly Rate"
+        }
+    ],
+    "methodSummary": [
+        "Runway = Savings / Monthly Burn Rate.",
+        "Risk Score = Combination of runway depth and gap probability.",
+        "Min Safe Rate = Rate needed to cover annual burn + expected gap vacancy."
+    ],
+    "assumptions": [
+        "Assumes 1,000 billable hours per year for safest rate estimation.",
+        "Gap probability represents estimated time between contracts without pay."
+    ],
+    "insights": [
+        "A 'Risk Score' above 7 typically indicates you need more savings or a significantly higher rate to offset the volatility.",
+        "Runway is your most important metric; aim for at least 6 months before going full-time freelance."
+    ],
+    "faqs": [
+        {
+            "q": "What is a 'safe' runway?",
+            "a": "6 months is the golden standard. It gives you enough time to find a new contract even in a slow market."
+        },
+        {
+            "q": "How to calculate 'Tax-Adjusted' savings?",
+            "a": "Only count money that is truly yours to spend. Subtract what you owe the tax office before entering your buffer here."
+        },
+        {
+            "q": "What is a gap probability?",
+            "a": "Estimate how likely it is you will face a 1-2 month gap between projects. Senior niches usually have lower probabilities."
+        },
+        {
+            "q": "How is the risk score calculated?",
+            "a": "It values long-term liquidity (runway) against short-term volatility (gap probability)."
+        },
+        {
+            "q": "Why 1,000 billable hours?",
+            "a": "Standard full-time is 2,000 hours. A 1,000-hour baseline accounts for vacation, sick days, and time spent finding new clients."
+        },
+        {
+            "q": "Can I survive with a high risk score?",
+            "a": "Yes, if you have a high risk tolerance or can quickly return to salaried employment if needed."
+        }
+    ],
+    "clusters": [
+        "freelance",
+        "risk-analysis"
+    ],
+    "useCases": [
+        "Assess freelance viability",
+        "Set emergency fund goals",
+        "Price risk into contract rates"
+    ]
+}

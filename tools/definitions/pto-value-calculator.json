@@ -1,0 +1,100 @@
+{
+    "title": "PTO & Vacation Value Calculator",
+    "description": "Calculate exactly how much your paid time off and holidays are worth in monetary terms.",
+    "inputs": [
+        {
+            "name": "annualSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Annual Gross Salary",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "ptoDays",
+            "type": "number",
+            "label": "Vacation Days (PTO)",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "holidays",
+            "type": "number",
+            "label": "Public Holidays",
+            "min": 0,
+            "step": 1
+        },
+        {
+            "name": "hoursPerDay",
+            "type": "number",
+            "label": "Hours per Work Day",
+            "min": 1,
+            "step": 0.5
+        }
+    ],
+    "outputs": [
+        {
+            "name": "valuePerDay",
+            "unit": "currency",
+            "label": "Value per Vacation Day"
+        },
+        {
+            "name": "totalPTOValue",
+            "unit": "currency",
+            "label": "Total PTO Value/Year"
+        },
+        {
+            "name": "realSalary",
+            "unit": "currency",
+            "label": "Real Salary + PTO Value"
+        }
+    ],
+    "methodSummary": [
+        "Daily Value = Annual Salary / 260 planned work days.",
+        "Total PTO Value = (PTO Days + Holidays) × Daily Value.",
+        "Real Salary = Base Salary + Total monetary value of your time off."
+    ],
+    "assumptions": [
+        "Calculated based on 260 standard work days per year (5 days/week × 52 weeks).",
+        "Assumes PTO is fully paid at your current base salary rate."
+    ],
+    "insights": [
+        "A 25-day vacation package is effectively a ~10% bonus compared to a role with no PTO.",
+        "When comparing job offers, a higher salary with fewer PTO days might actually be worth less 'per hour' than a lower salary with more time off."
+    ],
+    "faqs": [
+        {
+            "q": "Why include public holidays?",
+            "a": "Public holidays are paid days you aren't working. To see the full value of your 'non-working' paid time, they must be counted alongside your personal PTO."
+        },
+        {
+            "q": "Can I use this for unpaid leave?",
+            "a": "This tool calculates the value of paid leave. For unpaid leave, you are effectively losing the 'Value per Day' identified here."
+        },
+        {
+            "q": "How does this vary by country?",
+            "a": "The logic remains the same. Use your country's standard work days per year (usually 260) to get an accurate daily value regardless of location."
+        },
+        {
+            "q": "Does this include sick leave?",
+            "a": "If your sick leave is paid and separate from PTO, you can add those days to the 'Holidays' field to see their total impact on your compensation value."
+        },
+        {
+            "q": "How should I value 'Unlimited' PTO?",
+            "a": "For unlimited PTO, use the average number of days employees actually take in your company. 20-25 days is common for benchmarking purposes."
+        },
+        {
+            "q": "Is PTO value taxable?",
+            "a": "Yes, PTO is generally taxed as ordinary income, the same as your regular salary. The 'value' represented here is the gross value."
+        }
+    ],
+    "clusters": [
+        "salary-basics",
+        "compensation"
+    ],
+    "useCases": [
+        "Evaluate vacation policy value",
+        "Compare job offers with different PTO",
+        "Calculate buy-out value of unused days"
+    ]
+}

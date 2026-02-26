@@ -1,0 +1,90 @@
+{
+    "title": "Burnout Cost Calculator",
+    "description": "Quantify the financial cost of overworking and see your 'true' hourly rate when working beyond your optimal hours.",
+    "inputs": [
+        {
+            "name": "salary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Annual Salary",
+            "min": 0
+        },
+        {
+            "name": "hoursPerWeek",
+            "type": "number",
+            "label": "Actual Hours Worked/Week",
+            "min": 1
+        },
+        {
+            "name": "optimalHours",
+            "type": "number",
+            "label": "Optimal Hours/Week (e.g. 40)",
+            "min": 1
+        }
+    ],
+    "outputs": [
+        {
+            "name": "unpaidLaborValue",
+            "unit": "currency",
+            "label": "Unpaid Labor Value/Year"
+        },
+        {
+            "name": "effectiveHourlyRate",
+            "unit": "currency",
+            "label": "Effective Hourly Rate"
+        },
+        {
+            "name": "hiddenUnpaidLabor",
+            "unit": "number",
+            "label": "Hidden Unpaid Hours/Year"
+        }
+    ],
+    "methodSummary": [
+        "Effective Hourly Rate = Salary / (Actual Hours × 52).",
+        "Unpaid Labor = (Actual Hours - Optimal Hours) × (Salary / Optimal Hours) × 52.",
+        "Hidden Hours = Extra hours worked per year that aren't reflected in the target hourly rate."
+    ],
+    "assumptions": [
+        "Assumes your salary is negotiated based on the 'optimal' hours.",
+        "Does not account for health costs, though these are real 'hidden' costs of burnout."
+    ],
+    "insights": [
+        "Working 50 hours on a 40-hour contract effectively reduces your hourly pay by 20%.",
+        "The 'unpaid labor' value is the amount you are gifting your employer every year."
+    ],
+    "faqs": [
+        {
+            "q": "What if I enjoy my work?",
+            "a": "Enjoyment doesn't change the math of your time's value. This tool helps you see the trade-off clearly."
+        },
+        {
+            "q": "How can I use this to negotiate?",
+            "a": "Show the 'Unpaid Labor Value' during performance reviews to justify a raise or a reduction in workload."
+        },
+        {
+            "q": "What is a 'hidden unpaid hour'?",
+            "a": "It's an hour worked that you effectively aren't being paid for based on your contractual 'optimal' rate."
+        },
+        {
+            "q": "Does this apply to freelancers?",
+            "a": "Yes. If you quote for 40 hours but work 60, your effective rate drops just like a salaried employee."
+        },
+        {
+            "q": "Should I include commute time?",
+            "a": "We recommend using our separate Commute Cost Calculator for that, but you can add commute hours here for a total 'life cost' analysis."
+        },
+        {
+            "q": "Is 'Burnout' always about hours?",
+            "a": "No, but hours are the most measurable factor. Stress and lack of autonomy also contribute heavily to burnout."
+        }
+    ],
+    "clusters": [
+        "career-health",
+        "salary-basics"
+    ],
+    "useCases": [
+        "Identify overwork impact",
+        "Calculate true hourly value",
+        "Decision support for scaling back"
+    ]
+}

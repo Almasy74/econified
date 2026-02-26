@@ -5,18 +5,24 @@ import {
     calculateDailyRateToSalary,
     calculateAnnualSalaryToMonthly,
     calculateWeeklyToAnnualPay,
-    calculateBiweeklyToAnnual
+    calculateBiweeklyToAnnual,
+    calculatePTOValue
 } from '../../tools/engines/conversion.ts';
 
 import {
-    calculateFreelanceRateCalculator
+    calculateFreelanceRateCalculator,
+    calculateFreelanceRisk
 } from '../../tools/engines/freelance.ts';
 
 import {
     calculateContractorVsEmployee,
     calculateRemotePayAdjuster,
     calculateCommuteCost,
-    calculateSalaryIncrease
+    calculateSalaryIncrease,
+    calculateJobOfferComparison,
+    calculateBurnoutCost,
+    calculatePromotionValue,
+    calculateRemoteVsOffice
 } from '../../tools/engines/comparison.ts';
 
 export const engineMap: Record<string, (inputs: Record<string, number>) => Record<string, number>> = {
@@ -31,5 +37,11 @@ export const engineMap: Record<string, (inputs: Record<string, number>) => Recor
     'contractor-vs-employee': calculateContractorVsEmployee,
     'remote-pay-adjuster': calculateRemotePayAdjuster,
     'commute-cost-calculator': calculateCommuteCost,
-    'salary-increase-calculator': calculateSalaryIncrease
+    'salary-increase-calculator': calculateSalaryIncrease,
+    'pto-value-calculator': calculatePTOValue,
+    'job-offer-comparison': calculateJobOfferComparison,
+    'burnout-cost-calculator': calculateBurnoutCost,
+    'promotion-value-calculator': calculatePromotionValue,
+    'remote-vs-office-calculator': calculateRemoteVsOffice,
+    'freelance-risk-calculator': calculateFreelanceRisk
 };
