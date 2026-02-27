@@ -131,6 +131,22 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
     <!-- Calculator Interface -->
     <div class="glass-panel" id="calculator-app" aria-live="polite">
       <form id="calc-form" data-engine={tool.engine} data-fn={tool.slug} data-definition={JSON.stringify(definition)}>
+        {definition.inputs.some((i:any) => i.unit === 'currency') && (
+          <div class="input-group" style="margin-bottom: 2rem; padding: 1rem; background: rgba(var(--primary-rgb), 0.1); border-radius: 8px; border: 1px solid var(--primary-light);">
+            <label for="currency-override" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Calculator Currency</label>
+            <select id="currency-override" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--surface-border); background: var(--surface); color: var(--text-primary);">
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="CAD">CAD ($)</option>
+                <option value="AUD">AUD ($)</option>
+                <option value="NOK">NOK (kr)</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem; margin-bottom: 0;">
+                All monetary values below will be treated in this currency.
+            </p>
+          </div>
+        )}
         {definition.inputs.map((input: any) => (
           <div class="input-group">
             <label for={input.name} id={`label-${input.name}`}>{input.label}</label>
@@ -231,19 +247,21 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
       const inputs = Array.from(form.querySelectorAll('input'));
       const slug = form.dataset.fn || '';
 
-      let interactionCount = 0;
+      const currIn = document.getElementById('currency-override') as HTMLSelectElement;
 
       function calculate() {
         if (!window.Currency) return;
         
+        const localCurrency = currIn ? currIn.value : window.Currency.get();
         const values: Record<string, number> = {};
+        
         inputs.forEach(input => {
           let val = parseFloat(input.value) || 0;
           
-          // If input is currency, convert to USD for internal engine logic
+          // If input is currency, convert from LOCAL currency to USD for internal engine logic
           const inputDef = definition.inputs.find((i: any) => i.name === input.name);
           if (inputDef && inputDef.unit === 'currency') {
-            val = window.Currency.convertToUSD(val);
+            val = window.Currency.convertToUSD(val, localCurrency);
           }
           
           values[input.name] = val;
@@ -271,9 +289,9 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
             } else if (unit === 'text') {
               el.textContent = val as string;
             } else {
-              // Default to currency - convert back from USD to selected currency
-              const amount = typeof val === 'number' ? window.Currency.convertFromUSD(val) : 0;
-              el.textContent = window.Currency.format(amount);
+              // Default to currency - convert back from USD to LOCAL currency
+              const amount = typeof val === 'number' ? window.Currency.convertFromUSD(val, localCurrency) : 0;
+              el.textContent = window.Currency.format(amount, localCurrency);
             }
           }
         });
@@ -285,18 +303,37 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
         }
       }
 
-      // Initial calculation
-      calculate();
+      // SYNC Global to Local: If global changes, update local selector
+      window.addEventListener('currencyChanged', (e: any) => {
+          if (currIn) {
+              currIn.value = e.detail.currency;
+              calculate();
+          }
+      });
+
+      // Initial setup
+      function initSync() {
+          if (window.Currency) {
+              if (currIn) currIn.value = window.Currency.get();
+              calculate();
+          }
+      }
+
+      // Wait for currency engine to be ready
+      window.addEventListener('currencyReady', initSync);
+      
+      // Also try immediately (in case it's already loaded)
+      initSync();
+
       trackEvent('tool_loaded', { tool: slug });
 
       // Listen for changes
       inputs.forEach(input => {
         input.addEventListener('input', calculate);
       });
-
-      // Listen for global currency changes
-      window.addEventListener('currencyChanged', calculate);
-      window.addEventListener('currencyReady', calculate);
+      if (currIn) {
+        currIn.addEventListener('change', calculate);
+      }
 
       // Track related tool clicks
       const relatedLinks = Array.from(document.querySelectorAll('[data-analytics="related-tool-click"]'));

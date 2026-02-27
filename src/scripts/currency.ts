@@ -92,13 +92,15 @@ interface RatesResponse {
         window.dispatchEvent(new CustomEvent('currencyChanged', { detail: { currency: code } }));
     },
 
-    convertFromUSD(amount: number) {
-        const rate = this.rates[this.selected] || 1;
+    convertFromUSD(amount: number, code?: string) {
+        const currency = code || this.selected;
+        const rate = this.rates[currency] || 1;
         return amount * rate;
     },
 
-    convertToUSD(amount: number) {
-        const rate = this.rates[this.selected] || 1;
+    convertToUSD(amount: number, code?: string) {
+        const currency = code || this.selected;
+        const rate = this.rates[currency] || 1;
         return amount / rate;
     },
 

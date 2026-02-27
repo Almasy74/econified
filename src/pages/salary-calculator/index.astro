@@ -160,6 +160,7 @@ const schemaData = {
             const destId = destIn.value;
             const lifestyleMult = parseFloat(sliderIn.value) || 1.0;
             const empType = radios.find(r => r.checked)?.value || 'local';
+            const localCurrency = currIn.value;
             
             updateLifestyleLabel(lifestyleMult);
 
@@ -168,8 +169,8 @@ const schemaData = {
             const origin = colData[originId];
             const dest = colData[destId];
 
-            // 1. Convert input salary from selected currency to USD for calculations
-            const salaryUSD = window.Currency.convertToUSD(salary);
+            // 1. Convert input salary from LOCAL currency to USD for calculations
+            const salaryUSD = window.Currency.convertToUSD(salary, localCurrency);
 
             // Core Math (using USD values)
             const colRatio = dest.col_index / origin.col_index;
@@ -185,11 +186,11 @@ const schemaData = {
             }
 
             // Update UI
-            const adjustedGrossSelected = window.Currency.convertFromUSD(adjustedGrossUSD);
+            const adjustedGrossSelected = window.Currency.convertFromUSD(adjustedGrossUSD, localCurrency);
             
             const hl = document.getElementById('headlineResult');
             const hsl = document.getElementById('headlineSubtext');
-            if (hl) hl.textContent = window.Currency.format(adjustedGrossSelected);
+            if (hl) hl.textContent = window.Currency.format(adjustedGrossSelected, localCurrency);
             if (hsl) hsl.textContent = `To maintain a similar standard of living moving from ${origin.name} to ${dest.name}.`;
 
             const ppScore = ((origin.col_index / dest.col_index) * 100 - 100);
@@ -246,7 +247,28 @@ const schemaData = {
         }
 
         form.addEventListener('input', calculate);
-        calculate();
+
+        // SYNC Global to Local: If global changes, update local selector
+        window.addEventListener('currencyChanged', (e: any) => {
+            if (currIn) {
+                currIn.value = e.detail.currency;
+                calculate();
+            }
+        });
+
+        // Initial setup
+        function initSync() {
+            if (window.Currency) {
+                currIn.value = window.Currency.get();
+                calculate();
+            }
+        }
+
+        // Wait for currency engine to be ready
+        window.addEventListener('currencyReady', initSync);
+        
+        // Also try immediately (in case it's already loaded)
+        initSync();
 
         // Specific CSS for media query
         const style = document.createElement('style');

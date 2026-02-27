@@ -191,6 +191,7 @@ const currentYear = new Date().getFullYear();
             const destId = destIn.value;
             const lifestyleMult = parseFloat(sliderIn.value) || 1.0;
             const empType = radios.find(r => r.checked)?.value || 'remote';
+            const localCurrency = currIn.value;
             
             updateLifestyleLabel(lifestyleMult);
 
@@ -199,8 +200,8 @@ const currentYear = new Date().getFullYear();
             const origin = colData[originId];
             const dest = colData[destId];
 
-            // 1. Convert input salary from selected currency to USD for calculations
-            const salaryUSD = window.Currency.convertToUSD(salary);
+            // 1. Convert input salary from LOCAL currency to USD for calculations
+            const salaryUSD = window.Currency.convertToUSD(salary, localCurrency);
 
             // Core Math
             const colRatio = dest.col_index / origin.col_index;
@@ -216,13 +217,13 @@ const currentYear = new Date().getFullYear();
             }
 
             // Update UI
-            const adjustedGrossSelected = window.Currency.convertFromUSD(adjustedGrossUSD);
+            const adjustedGrossSelected = window.Currency.convertFromUSD(adjustedGrossUSD, localCurrency);
             
             const hl = document.getElementById('headlineResult');
             const hsl = document.getElementById('headlineSubtext');
             const dh2 = document.getElementById('dashboardH2');
             
-            if (hl) hl.textContent = window.Currency.format(adjustedGrossSelected);
+            if (hl) hl.textContent = window.Currency.format(adjustedGrossSelected, localCurrency);
             if (hsl) hsl.textContent = `To maintain this lifestyle living as a nomad in ${dest.name}, sourcing from ${origin.name}.`;
             if (dh2) dh2.textContent = `Salary Comparison: ${origin.name} vs ${dest.name}`;
 
@@ -254,7 +255,7 @@ const currentYear = new Date().getFullYear();
             const daEl = document.getElementById('directAnswer');
             if (daEl) {
                 const diffTxt = ppScore > 0 ? `${ppScore.toFixed(0)}% greater` : `${Math.abs(ppScore).toFixed(0)}% lower`;
-                const formattedSalary = window.Currency.format(salary);
+                const formattedSalary = window.Currency.format(salary, localCurrency);
                 const answerHTML = `A remote salary of <strong style="color:var(--text-primary)">${formattedSalary}</strong> from <strong style="color:var(--text-primary)">${origin.name}</strong> provides approximately <strong style="color:var(--text-primary)">${diffTxt}</strong> purchasing power when living in <strong style="color:var(--text-primary)">${dest.name}</strong>.`;
                 daEl.innerHTML = answerHTML;
             }
@@ -285,7 +286,28 @@ const currentYear = new Date().getFullYear();
         }
 
         form.addEventListener('input', calculate);
-        calculate();
+
+        // SYNC Global to Local: If global changes, update local selector
+        window.addEventListener('currencyChanged', (e: any) => {
+            if (currIn) {
+                currIn.value = e.detail.currency;
+                calculate();
+            }
+        });
+
+        // Initial setup
+        function initSync() {
+            if (window.Currency) {
+                currIn.value = window.Currency.get();
+                calculate();
+            }
+        }
+
+        // Wait for currency engine to be ready
+        window.addEventListener('currencyReady', initSync);
+        
+        // Also try immediately (in case it's already loaded)
+        initSync();
 
         // Specific CSS for media query
         const style = document.createElement('style');
