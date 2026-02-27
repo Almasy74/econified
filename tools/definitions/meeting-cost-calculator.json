@@ -1,0 +1,101 @@
+{
+    "title": "Cost of Meetings Calculator",
+    "description": "Calculate the true financial impact of organization meetings based on participant salaries and duration.",
+    "inputs": [
+        {
+            "name": "participantCount",
+            "type": "number",
+            "label": "Number of Participants",
+            "min": 1,
+            "step": 1
+        },
+        {
+            "name": "avgAnnualSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Average Annual Salary",
+            "min": 0,
+            "step": 1000
+        },
+        {
+            "name": "meetingDurationMinutes",
+            "type": "number",
+            "label": "Duration (Minutes)",
+            "min": 1,
+            "step": 5
+        },
+        {
+            "name": "frequencyPerWeek",
+            "type": "number",
+            "label": "Frequency per Week",
+            "min": 1,
+            "step": 1
+        }
+    ],
+    "outputs": [
+        {
+            "name": "costPerMeeting",
+            "unit": "currency",
+            "label": "Cost per Meeting"
+        },
+        {
+            "name": "annualMeetingCost",
+            "unit": "currency",
+            "label": "Total Annual Cost"
+        },
+        {
+            "name": "costPerDecision",
+            "unit": "currency",
+            "label": "Cost per Decision"
+        }
+    ],
+    "methodSummary": [
+        "Hourly Rate = Annual Salary / 2080 standard work hours.",
+        "Meeting Cost = Participants × Hourly Rate × Duration.",
+        "Cost per Decision adds a 20% overhead for context-switching and preparation time."
+    ],
+    "assumptions": [
+        "Based on 2080 working hours per year (40 hours/week).",
+        "Assumes all participants are focused 100% on the meeting for its duration.",
+        "Average salary is used for anonymity and speed."
+    ],
+    "insights": [
+        "A 60-minute meeting with 10 senior managers can easily cost the company over $1,500 in direct payroll.",
+        "Reducing participant count by just 2 people can save thousands of dollars annually on recurring meetings."
+    ],
+    "faqs": [
+        {
+            "q": "What is 'Cost per Decision'?",
+            "a": "It accounts for the 'context switching' cost—the time employees spend preparing for and refocusing after a meeting."
+        },
+        {
+            "q": "Do remote meetings cost less?",
+            "a": "Payroll cost is the same. However, remote meetings avoid infrastructure costs (office space, catering) and travel time."
+        },
+        {
+            "q": "Why use average salary?",
+            "a": "It is a respectful way to estimate organizational cost without requiring sensitive individual payroll data."
+        },
+        {
+            "q": "How can I lower meeting costs?",
+            "a": "Set clear agendas, limit participants to essential contributors, or try asynchronous communication (Email/Slack)."
+        },
+        {
+            "q": "Is the cost of the room included?",
+            "a": "This calculator focuses solely on the time-value of participants, which is usually the largest component of meeting costs."
+        },
+        {
+            "q": "Does this include preparation time?",
+            "a": "The 'Cost per Decision' output adds a 20% buffer to reflect preparation and post-meeting follow-up."
+        }
+    ],
+    "clusters": [
+        "workplace-efficiency",
+        "corporate-economics"
+    ],
+    "useCases": [
+        "Operational waste analysis",
+        "Meeting audit",
+        "Team productivity planning"
+    ]
+}

@@ -6,7 +6,8 @@ import {
     calculateAnnualSalaryToMonthly,
     calculateWeeklyToAnnualPay,
     calculateBiweeklyToAnnual,
-    calculatePTOValue
+    calculatePTOValue,
+    calculateMeetingCost
 } from '../../tools/engines/conversion.ts';
 
 import {
@@ -22,10 +23,12 @@ import {
     calculateJobOfferComparison,
     calculateBurnoutCost,
     calculatePromotionValue,
-    calculateRemoteVsOffice
+    calculateRemoteVsOffice,
+    calculateQuitDate,
+    calculateLayoffSurvival
 } from '../../tools/engines/comparison.ts';
 
-export const engineMap: Record<string, (inputs: Record<string, number>) => Record<string, number>> = {
+export const engineMap: Record<string, (inputs: Record<string, number>) => Record<string, any>> = {
     'hourly-to-salary': calculateHourlyToSalary,
     'salary-to-hourly': calculateSalaryToHourly,
     'freelance-rate-calculator': calculateFreelanceRateCalculator,
@@ -43,5 +46,8 @@ export const engineMap: Record<string, (inputs: Record<string, number>) => Recor
     'burnout-cost-calculator': calculateBurnoutCost,
     'promotion-value-calculator': calculatePromotionValue,
     'remote-vs-office-calculator': calculateRemoteVsOffice,
-    'freelance-risk-calculator': calculateFreelanceRisk
+    'freelance-risk-calculator': calculateFreelanceRisk,
+    'quit-calculator': calculateQuitDate,
+    'layoff-survival-calculator': calculateLayoffSurvival,
+    'meeting-cost-calculator': calculateMeetingCost
 };

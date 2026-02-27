@@ -1,0 +1,119 @@
+{
+    "title": "Layoff Survival Calculator",
+    "description": "Calculate your financial runway and determine how long you can survive without a regular paycheck.",
+    "inputs": [
+        {
+            "name": "savings",
+            "type": "number",
+            "unit": "currency",
+            "label": "Liquid Savings",
+            "min": 0,
+            "step": 100
+        },
+        {
+            "name": "monthlyExpenses",
+            "type": "number",
+            "unit": "currency",
+            "label": "Basic Monthly Expenses",
+            "min": 0,
+            "step": 10
+        },
+        {
+            "name": "severance",
+            "type": "number",
+            "unit": "currency",
+            "label": "Severance Pay (Net)",
+            "min": 0,
+            "step": 100
+        },
+        {
+            "name": "unemploymentBenefits",
+            "type": "number",
+            "unit": "currency",
+            "label": "Monthly Unemployment",
+            "min": 0,
+            "step": 10
+        },
+        {
+            "name": "debtPayments",
+            "type": "number",
+            "unit": "currency",
+            "label": "Monthly Debt/Loans",
+            "min": 0,
+            "step": 10
+        }
+    ],
+    "outputs": [
+        {
+            "name": "survivalMonths",
+            "type": "number",
+            "unit": "number",
+            "label": "Survival Runway (Months)"
+        },
+        {
+            "name": "riskLevel",
+            "type": "text",
+            "unit": "text",
+            "label": "Current Risk Level"
+        },
+        {
+            "name": "monthlyBurn",
+            "unit": "currency",
+            "label": "Total Monthly Burn"
+        },
+        {
+            "name": "recommendedEmergencyFund",
+            "unit": "currency",
+            "label": "Recommended 6-Mo Fund"
+        }
+    ],
+    "methodSummary": [
+        "Total Monthly Burn = Basic Expenses + Debt Payments.",
+        "Total Buffer = Savings + Severance + (Unemployment × 6).",
+        "Runway = Total Buffer / Monthly Burn."
+    ],
+    "assumptions": [
+        "Unemployment benefits are assumed to last for 6 months.",
+        "Assumes no further reductions in expenses during the layoff period.",
+        "Assumes immediate availability of liquid savings."
+    ],
+    "insights": [
+        "High-interest debt is the biggest threat to your survival runway during a layoff.",
+        "The first 30 days are critical for 'trimming the fat' from your monthly expenses to extend your buffer."
+    ],
+    "faqs": [
+        {
+            "q": "What is a safe risk level?",
+            "a": "A 'Low' risk level corresponds to having 12+ months of runway. 'Critical' is anything under 3 months."
+        },
+        {
+            "q": "Should I use severance net or gross?",
+            "a": "Always use net (after-tax) severance, as that is the actual cash available to pay your bills."
+        },
+        {
+            "q": "How do debt payments affect runway?",
+            "a": "Debts are fixed costs. Unlike food or subscriptions, they are harder to reduce, making them high-impact on your survival."
+        },
+        {
+            "q": "Why assume 6 months of benefits?",
+            "a": "6 months is the standard duration in many jurisdictions. If yours differs, adjust the monthly amount to match your total expected benefit."
+        },
+        {
+            "q": "Should I pay off debt during a layoff threat?",
+            "a": "Liquid cash is usually more valuable than debt reduction during a layoff, as it provides flexibility for essential survival costs."
+        },
+        {
+            "q": "What if I find a job sooner?",
+            "a": "The calculator represents your 'worst-case' runway. Finding a job sooner shifts your status back to 'Career Choice' vs 'Survival'."
+        }
+    ],
+    "clusters": [
+        "risk-management",
+        "emergency-planning"
+    ],
+    "useCases": [
+        "Recession readiness",
+        "Layoff preparation",
+        "Emergency fund goal setting"
+    ]
+}

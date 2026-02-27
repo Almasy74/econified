@@ -281,5 +281,56 @@
     },
     "status": "active",
     "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "quit-calculator",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "highIntent",
+    "priority": 1,
+    "defaults": {
+      "currentSavings": 10000,
+      "monthlyExpenses": 3000,
+      "annualSalary": 80000,
+      "savingsRate": 20,
+      "expectedReturn": 5,
+      "sideIncome": 0
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "layoff-survival-calculator",
+    "tier": 0,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "highIntent",
+    "priority": 1,
+    "defaults": {
+      "savings": 5000,
+      "monthlyExpenses": 2500,
+      "severance": 0,
+      "unemploymentBenefits": 0,
+      "debtPayments": 500
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "meeting-cost-calculator",
+    "tier": 0,
+    "engine": "conversion",
+    "intent": "workplace",
+    "adPolicy": "standard",
+    "priority": 2,
+    "defaults": {
+      "participantCount": 5,
+      "avgAnnualSalary": 90000,
+      "meetingDurationMinutes": 60,
+      "frequencyPerWeek": 1
+    },
+    "status": "active",
+    "updatedAt": "2026-02-26"
   }
 ]

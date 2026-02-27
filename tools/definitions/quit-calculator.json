@@ -1,0 +1,128 @@
+{
+    "title": "When Can I Quit? Calculator",
+    "description": "Calculate when you can realistically quit your job based on savings, expenses, and investment returns.",
+    "inputs": [
+        {
+            "name": "currentSavings",
+            "type": "number",
+            "unit": "currency",
+            "label": "Current Savings",
+            "min": 0,
+            "step": 100
+        },
+        {
+            "name": "monthlyExpenses",
+            "type": "number",
+            "unit": "currency",
+            "label": "Monthly Expenses",
+            "min": 0,
+            "step": 10
+        },
+        {
+            "name": "annualSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Annual Gross Salary",
+            "min": 0,
+            "step": 100
+        },
+        {
+            "name": "savingsRate",
+            "type": "number",
+            "label": "Savings Rate (% of net)",
+            "min": 0,
+            "max": 100,
+            "step": 1
+        },
+        {
+            "name": "expectedReturn",
+            "type": "number",
+            "label": "Expected Return (%)",
+            "min": 0,
+            "max": 20,
+            "step": 0.1
+        },
+        {
+            "name": "sideIncome",
+            "type": "number",
+            "unit": "currency",
+            "label": "Monthly Side Income",
+            "min": 0,
+            "step": 10
+        }
+    ],
+    "outputs": [
+        {
+            "name": "monthsToSafety",
+            "type": "number",
+            "unit": "number",
+            "label": "Months to 6-Mo Buffer"
+        },
+        {
+            "name": "monthsToIndependence",
+            "type": "number",
+            "unit": "number",
+            "label": "Months to FIRE (25x)"
+        },
+        {
+            "name": "currentRunwayMonths",
+            "type": "number",
+            "unit": "number",
+            "label": "Current Runway (Months)"
+        },
+        {
+            "name": "requiredSavingsForSafety",
+            "unit": "currency",
+            "label": "Target Safety Fund"
+        }
+    ],
+    "methodSummary": [
+        "Safety Fund = Monthly Expenses × 6.",
+        "Independence Target = Monthly Expenses × 12 × 25 (The 4% Rule).",
+        "Time calculation uses compound interest formula solving for months at the given expected return."
+    ],
+    "assumptions": [
+        "Assumes your expenses remain constant over time.",
+        "Expected return is compounded monthly.",
+        "Net salary is estimated at 75% of gross for savings calculations."
+    ],
+    "insights": [
+        "Every $100 you cut from your monthly expenses reduces your required 'Financial Independence' target by $30,000.",
+        "A 6-month buffer is often the 'minimum viable' runway to test a new career path or business idea."
+    ],
+    "faqs": [
+        {
+            "q": "What is the 25x rule?",
+            "a": "It suggests that once you have 25 times your annual expenses saved, you can potentially live off the returns indefinitely (The 4% Rule)."
+        },
+        {
+            "q": "Why a 6-month safety buffer?",
+            "a": "6 months provides most professionals enough time to find a comparable job if a new venture fails, reducing the risk of 'quitting'."
+        },
+        {
+            "q": "Should I include side income?",
+            "a": "Yes, recurring side income directly reduces the amount you need to save from your main salary to reach your goal."
+        },
+        {
+            "q": "How accurate is the timeline?",
+            "a": "It is a mathematical projection. Real-world inflation and market volatility will impact the actual date."
+        },
+        {
+            "q": "What if my expenses change after I quit?",
+            "a": "Enter the amount you expect to spend *after* quitting to get a more accurate 'Safe Quit' target."
+        },
+        {
+            "q": "Is investment return guaranteed?",
+            "a": "No, returns fluctuate. Use a conservative number (like 4-5%) for more realistic long-term planning."
+        }
+    ],
+    "clusters": [
+        "retirement",
+        "career-freedom"
+    ],
+    "useCases": [
+        "Career transition planning",
+        "FIRE journey tracking",
+        "Assessing monthly savings impact"
+    ]
+}

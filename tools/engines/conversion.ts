@@ -56,3 +56,23 @@ export function calculatePTOValue(inputs: Record<string, number>) {
     realSalary
   };
 }
+
+export function calculateMeetingCost(inputs: Record<string, number>) {
+  const {
+    participantCount,
+    avgAnnualSalary,
+    meetingDurationMinutes,
+    frequencyPerWeek
+  } = inputs;
+
+  const hourlyRate = avgAnnualSalary / 2080;
+  const costPerPersonPerMinute = hourlyRate / 60;
+  const costPerMeeting = participantCount * costPerPersonPerMinute * meetingDurationMinutes;
+  const annualCost = costPerMeeting * frequencyPerWeek * 52;
+
+  return {
+    costPerMeeting: Math.round(costPerMeeting * 100) / 100,
+    annualMeetingCost: Math.round(annualCost * 100) / 100,
+    costPerDecision: Math.round((costPerMeeting * 1.2) * 100) / 100
+  };
+}

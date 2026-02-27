@@ -145,6 +145,7 @@ export function calculatePromotionValue(inputs: Record<string, number>) {
     };
 }
 
+
 export function calculateRemoteVsOffice(inputs: Record<string, number>) {
     const remoteDays = inputs.remoteDays;
     const annualCommuteCost = inputs.commuteCost;
@@ -160,5 +161,74 @@ export function calculateRemoteVsOffice(inputs: Record<string, number>) {
     return {
         realSalaryAdjustment,
         remoteEquivalentRaise
+    };
+}
+
+export function calculateQuitDate(inputs: Record<string, number>) {
+    const {
+        currentSavings,
+        monthlyExpenses,
+        annualSalary,
+        savingsRate,
+        expectedReturn = 5,
+        sideIncome = 0
+    } = inputs;
+
+    const monthlyNetSalary = (annualSalary / 12) * 0.75; // Rough estimate after tax
+    const monthlySavingsFromSalary = monthlyNetSalary * (savingsRate / 100);
+    const totalMonthlySavings = monthlySavingsFromSalary + sideIncome;
+
+    const safetyTarget = monthlyExpenses * 6;
+    const independenceTarget = monthlyExpenses * 12 * 25;
+
+    const r = (expectedReturn / 100) / 12;
+
+    function monthsToTarget(target: number) {
+        if (currentSavings >= target) return 0;
+        if (totalMonthlySavings <= 0) return Infinity;
+        if (r === 0) return (target - currentSavings) / totalMonthlySavings;
+
+        const n = Math.log((target * r + totalMonthlySavings) / (currentSavings * r + totalMonthlySavings)) / Math.log(1 + r);
+        return Math.max(0, n);
+    }
+
+    const monthsToSafety = monthsToTarget(safetyTarget);
+    const monthsToIndependence = monthsToTarget(independenceTarget);
+
+    return {
+        monthsToSafety: Math.round(monthsToSafety * 10) / 10,
+        monthsToIndependence: Math.round(monthsToIndependence * 10) / 10,
+        currentRunwayMonths: Math.round((currentSavings / monthlyExpenses) * 10) / 10,
+        requiredSavingsForSafety: safetyTarget
+    };
+}
+
+export function calculateLayoffSurvival(inputs: Record<string, number>) {
+    const {
+        savings,
+        monthlyExpenses,
+        severance = 0,
+        unemploymentBenefits = 0,
+        debtPayments = 0
+    } = inputs;
+
+    const totalMonthlyBurn = monthlyExpenses + debtPayments;
+    const initialBuffer = savings + severance;
+    const benefitDuration = 6;
+    const totalBenefits = unemploymentBenefits * benefitDuration;
+
+    const totalFinancialRunway = initialBuffer + totalBenefits;
+    const survivalMonths = totalFinancialRunway / totalMonthlyBurn;
+
+    let riskLevel = "Low";
+    if (survivalMonths < 3) riskLevel = "Critical";
+    else if (survivalMonths < 6) riskLevel = "High";
+    else if (survivalMonths < 12) riskLevel = "Medium";
+
+    return {
+        survivalMonths: Math.round(survivalMonths * 10) / 10,
+        riskLevel,
+        monthlyBurn: totalMonthlyBurn,
+        recommendedEmergencyFund: totalMonthlyBurn * 6
     };
 }
