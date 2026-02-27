@@ -59,6 +59,12 @@ const schemaData = {
                 </select>
             </div>
 
+            <div style="display: flex; justify-content: center; margin: -0.5rem 0;">
+                <button type="button" id="swapLocations" class="swap-btn" aria-label="Swap Locations" title="Swap Locations">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8v12M17 20l4-4M17 20l-4-4"/></svg>
+                </button>
+            </div>
+
             <div class="input-group">
                 <label for="destLocation">Moving To</label>
                 <select id="destLocation" required style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--surface-border); background: var(--surface); color: var(--text-primary);">
@@ -246,6 +252,16 @@ const schemaData = {
             }
         }
 
+        const swapBtn = document.getElementById('swapLocations');
+        if (swapBtn) {
+            swapBtn.addEventListener('click', () => {
+                const temp = origIn.value;
+                origIn.value = destIn.value;
+                destIn.value = temp;
+                calculate();
+            });
+        }
+
         form.addEventListener('input', calculate);
 
         // SYNC Global to Local: If global changes, update local selector
@@ -270,9 +286,30 @@ const schemaData = {
         // Also try immediately (in case it's already loaded)
         initSync();
 
-        // Specific CSS for media query
+        // Specific CSS for media query and swap button
         const style = document.createElement('style');
         style.innerHTML = `
+            .swap-btn {
+                background: var(--surface);
+                border: 1px solid var(--surface-border);
+                color: var(--text-secondary);
+                border-radius: 50%;
+                width: 36px;
+                height: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                z-index: 10;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            }
+            .swap-btn:hover {
+                background: var(--surface-hover);
+                color: var(--primary-light);
+                border-color: var(--primary-light);
+                transform: rotate(180deg);
+            }
             @media (min-width: 900px) {
                 .parity-container { grid-template-columns: 350px 1fr !important; }
             }
