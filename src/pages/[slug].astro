@@ -130,7 +130,7 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
 
     <!-- Calculator Interface -->
     <div class="glass-panel" id="calculator-app" aria-live="polite">
-      <form id="calc-form" data-engine={tool.engine} data-fn={tool.slug}>
+      <form id="calc-form" data-engine={tool.engine} data-fn={tool.slug} data-definition={JSON.stringify(definition)}>
         {definition.inputs.map((input: any) => (
           <div class="input-group">
             <label for={input.name} id={`label-${input.name}`}>{input.label}</label>
@@ -223,17 +223,30 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
         }
     }
 
-    const form = document.getElementById('calc-form');
-    if (form) {
+    const form = document.getElementById('calc-form') as HTMLFormElement;
+    const definitionStr = form?.dataset.definition;
+    const definition = definitionStr ? JSON.parse(definitionStr) : null;
+    
+    if (form && definition) {
       const inputs = Array.from(form.querySelectorAll('input'));
       const slug = form.dataset.fn || '';
 
       let interactionCount = 0;
 
       function calculate() {
+        if (!window.Currency) return;
+        
         const values: Record<string, number> = {};
         inputs.forEach(input => {
-          values[input.name] = parseFloat(input.value) || 0;
+          let val = parseFloat(input.value) || 0;
+          
+          // If input is currency, convert to USD for internal engine logic
+          const inputDef = definition.inputs.find((i: any) => i.name === input.name);
+          if (inputDef && inputDef.unit === 'currency') {
+            val = window.Currency.convertToUSD(val);
+          }
+          
+          values[input.name] = val;
         });
 
         // 1. Fetch proper engine function from dictionary
@@ -243,7 +256,7 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
             return;
         }
 
-        // 2. Compute results purely
+        // 2. Compute results purely (always returns USD for currency outputs)
         const results = calcFn(values);
 
         // 3. Apply formatting & update DOM
@@ -252,14 +265,15 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
           if (el) {
             const unit = el.dataset.unit;
             if (unit === 'percent') {
-              el.textContent = (val > 0 ? '+' : '') + val.toFixed(1) + '%';
+              el.textContent = (typeof val === 'number' && val > 0 ? '+' : '') + (typeof val === 'number' ? val.toFixed(1) : val) + '%';
             } else if (unit === 'number') {
               el.textContent = typeof val === 'number' ? val.toLocaleString('en-US', { maximumFractionDigits: 1 }) : val;
             } else if (unit === 'text') {
-              el.textContent = val;
+              el.textContent = val as string;
             } else {
-              // Default to currency
-              el.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+              // Default to currency - convert back from USD to selected currency
+              const amount = typeof val === 'number' ? window.Currency.convertFromUSD(val) : 0;
+              el.textContent = window.Currency.format(amount);
             }
           }
         });
@@ -279,6 +293,10 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
       inputs.forEach(input => {
         input.addEventListener('input', calculate);
       });
+
+      // Listen for global currency changes
+      window.addEventListener('currencyChanged', calculate);
+      window.addEventListener('currencyReady', calculate);
 
       // Track related tool clicks
       const relatedLinks = Array.from(document.querySelectorAll('[data-analytics="related-tool-click"]'));

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
+import CurrencySelector from '../components/CurrencySelector.astro';
 
 interface Props {
 	title: string;
@@ -30,15 +31,19 @@ const { title, description = "Global Salary & Work Decision Platform", canonical
 		<header>
 			<div class="nav-container">
 				<a href="/" class="brand">Econified<span>.</span></a>
-				<nav>
-					<a href="/">Home</a>
-					<a href="/tools/">Tools</a>
-					<a href="/about/">About</a>
-					<a href="/contact/">Contact</a>
-				</nav>
+				<div style="display: flex; align-items: center; gap: 1.5rem;">
+					<CurrencySelector />
+					<nav>
+						<a href="/">Home</a>
+						<a href="/tools/">Tools</a>
+						<a href="/about/">About</a>
+						<a href="/contact/">Contact</a>
+					</nav>
+				</div>
 			</div>
 		</header>
 		<slot />
 		<Footer />
+		<script src="../scripts/currency.ts"></script>
 	</body>
 </html>

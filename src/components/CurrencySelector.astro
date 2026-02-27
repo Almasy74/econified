@@ -1,0 +1,90 @@
+---
+/**
+ * Global Currency Selector Component
+ */
+---
+<div class="currency-selector">
+  <select id="globalCurrencySelect" aria-label="Select currency">
+    <option value="USD">USD ($)</option>
+    <option value="EUR">EUR (€)</option>
+    <option value="GBP">GBP (£)</option>
+    <option value="NOK">NOK (kr)</option>
+    <option value="CAD">CAD ($)</option>
+    <option value="AUD">AUD ($)</option>
+  </select>
+</div>
+
+<style>
+  .currency-selector {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  select {
+    appearance: none;
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #f8fafc; /* var(--text-primary) */
+    padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    width: auto;
+    margin-bottom: 0 !important; /* Override global style if exists */
+  }
+
+  select:hover {
+    background-color: rgba(30, 41, 59, 0.8);
+    border-color: #3b82f6; /* var(--accent) */
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #3b82f6; /* var(--accent) */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4); /* var(--accent-glow) */
+  }
+</style>
+
+<script>
+  function initSelector() {
+    const select = document.getElementById('globalCurrencySelect') as HTMLSelectElement;
+    
+    if (select) {
+      const syncSelection = () => {
+        if (window.Currency) {
+          select.value = window.Currency.get();
+        }
+      };
+
+      // Periodic check until Currency is initialized
+      const checkInterval = setInterval(() => {
+        if (window.Currency) {
+          syncSelection();
+          clearInterval(checkInterval);
+        }
+      }, 100);
+
+      select.addEventListener('change', () => {
+        if (window.Currency) {
+          window.Currency.set(select.value);
+        }
+      });
+
+      window.addEventListener('currencyChanged', ((e: CustomEvent) => {
+        select.value = e.detail.currency;
+      }) as EventListener);
+    }
+  }
+
+  // Initialize on page load and after Astro transitions
+  initSelector();
+  document.addEventListener('astro:after-swap', initSelector);
+</script>
