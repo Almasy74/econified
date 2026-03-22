@@ -18,7 +18,7 @@ const { title, description = "Global Salary & Work Decision Platform", canonical
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description}>
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 		{noindex && <meta name="robots" content="noindex, follow" />}
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -33,17 +33,40 @@ const { title, description = "Global Salary & Work Decision Platform", canonical
 				<a href="/" class="brand">Econified<span>.</span></a>
 				<div style="display: flex; align-items: center; gap: 1.5rem;">
 					<CurrencySelector />
-					<nav>
+					<nav class="main-nav">
 						<a href="/">Home</a>
 						<a href="/tools/">Tools</a>
 						<a href="/about/">About</a>
 						<a href="/contact/">Contact</a>
 					</nav>
+					<button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<line x1="3" y1="12" x2="21" y2="12"></line>
+							<line x1="3" y1="6" x2="21" y2="6"></line>
+							<line x1="3" y1="18" x2="21" y2="18"></line>
+						</svg>
+					</button>
 				</div>
+			</div>
+			<div class="mobile-menu" id="mobile-menu">
+				<a href="/">Home</a>
+				<a href="/tools/">Tools</a>
+				<a href="/about/">About</a>
+				<a href="/contact/">Contact</a>
 			</div>
 		</header>
 		<slot />
 		<Footer />
 		<script src="../scripts/currency.ts"></script>
+		<script>
+			const mobileBtn = document.getElementById('mobile-menu-btn');
+			const mobileMenu = document.getElementById('mobile-menu');
+			
+			if (mobileBtn && mobileMenu) {
+				mobileBtn.addEventListener('click', () => {
+					mobileMenu.classList.toggle('active');
+				});
+			}
+		</script>
 	</body>
 </html>
