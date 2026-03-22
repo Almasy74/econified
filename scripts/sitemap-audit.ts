@@ -9,10 +9,21 @@ async function auditSitemap() {
 
     const registryData = await fs.readFile(registryPath, 'utf-8');
     const registry = JSON.parse(registryData);
-    const expectedSlugs = registry
-        .filter((tool: any) => tool.status === 'active')
-        .map((tool: any) => `/${tool.slug}/`);
-
+    const expectedSlugs: string[] = [];
+    for (const tool of registry) {
+        if (tool.status === 'active') {
+            const defPath = path.resolve(`tools/definitions/${tool.slug}.json`);
+            try {
+                const defData = await fs.readFile(defPath, 'utf-8');
+                const def = JSON.parse(defData);
+                if (!def.noindex) {
+                    expectedSlugs.push(`/${tool.slug}/`);
+                }
+            } catch (e) {
+                expectedSlugs.push(`/${tool.slug}/`);
+            }
+        }
+    }
     try {
         const sitemapData = await fs.readFile(sitemapPath, 'utf-8');
 

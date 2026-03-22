@@ -63,9 +63,9 @@
         }
     ],
     "clusters": [
-        "conversion",
-        "salary-basics"
+        "compensation-conversion"
     ],
+    "noindex": true,
     "nextDecision": "annual-salary-to-monthly",
     "upstreamDecision": "salary-to-hourly",
     "useCases": [

@@ -75,9 +75,9 @@
         }
     ],
     "clusters": [
-        "conversion",
-        "salary-basics"
+        "compensation-conversion"
     ],
+    "noindex": true,
     "nextDecision": "freelance-rate-calculator",
     "upstreamDecision": "hourly-to-salary",
     "useCases": [

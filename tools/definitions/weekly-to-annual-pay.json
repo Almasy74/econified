@@ -68,9 +68,10 @@
         }
     ],
     "clusters": [
-        "conversion",
+        "compensation-conversion",
         "freelance"
     ],
+    "noindex": true,
     "nextDecision": "monthly-to-yearly-salary",
     "upstreamDecision": "hourly-to-salary",
     "useCases": [

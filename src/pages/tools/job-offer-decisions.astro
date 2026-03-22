@@ -1,0 +1,53 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const allowedSlugs = [
+  'job-offer-comparison',
+  'promotion-value-calculator',
+  'pto-value-calculator',
+  'salary-increase-calculator',
+  'quit-calculator',
+  'layoff-survival-calculator',
+  'burnout-cost-calculator'
+];
+
+const registryPath = path.resolve('tools/registry.json');
+const registryData = await fs.readFile(registryPath, 'utf-8');
+const registry = JSON.parse(registryData);
+
+const tools = await Promise.all(registry
+  .filter((entry: any) => entry.status === 'active' && allowedSlugs.includes(entry.slug))
+  .map(async (entry: any) => {
+    const defPath = path.resolve(`tools/definitions/${entry.slug}.json`);
+    const defData = await fs.readFile(defPath, 'utf-8');
+    return { ...entry, definition: JSON.parse(defData) };
+  })
+);
+
+tools.sort((a, b) => a.priority - b.priority);
+---
+
+<Layout title="Job Offer & Compensation Decisions | Econified" description="Compare job offers, calculate the value of PTO, and map out the financial impact of your career choices." canonicalUrl="https://econified.com/tools/job-offer-decisions/">
+  <main class="container">
+    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      <a href="/" style="color: inherit;">Home</a> &rsaquo;
+      <a href="/tools/" style="color: inherit;">Tools</a> &rsaquo;
+      Job Offers & Compensation
+    </nav>
+    <div style="text-align: left; margin-bottom: 3rem;">
+      <h1>Job Offer & Compensation Decisions</h1>
+      <p class="lead">Compare job offers apples-to-apples, evaluate whether a promotion is financially worth it, and understand the true value of your benefits.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+      {tools.map((tool: any) => (
+        <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none;">
+          <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">{tool.definition.title}</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">{tool.definition.description}</p>
+        </a>
+      ))}
+    </div>
+  </main>
+</Layout>

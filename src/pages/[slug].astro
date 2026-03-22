@@ -92,7 +92,7 @@ const schemaData = {
 const canonicalUrl = `https://econified.com/${tool.slug}/`;
 ---
 
-<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl}>
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl} noindex={definition.noindex === true}>
   <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
   <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
   
@@ -205,6 +205,10 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
           </div>
         ))}
       </div>
+      
+      {definition.richContent && (
+        <div class="rich-content" style="margin-top: 4rem;" set:html={definition.richContent} />
+      )}
     </div>
 
     <!-- The Decision Graph -->

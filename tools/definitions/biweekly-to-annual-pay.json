@@ -65,6 +65,7 @@
         "Comparing semimonthly vs. biweekly schedules."
     ],
     "clusters": [
-        "salary-conversion"
-    ]
+        "compensation-conversion"
+    ],
+    "noindex": true
 }

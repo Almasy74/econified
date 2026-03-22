@@ -140,7 +140,7 @@
         },
         {
             "q": "What about lifestyle benefits?",
-            "a": "If an offer includes gym memberships or free lunch,估算 their annual value (e.g., $15/day for lunch is $3,600/year) and add to stipends."
+            "a": "If an offer includes gym memberships or free lunch, estimate their annual value (e.g., $15/day for lunch is $3,600/year) and add to stipends."
         }
     ],
     "clusters": [
@@ -151,5 +151,6 @@
         "Compare job offers side-by-side",
         "Evaluate total compensation value",
         "Negotiate using data"
-    ]
+    ],
+    "richContent": "<h3>Job Offer Comparison Scenarios</h3>\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; margin-top: 1rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Startup vs Corporate</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Startups often offer lower base salaries but higher equity upside. Corporate roles offer cash safety, higher pension matches, and better health stipends. Value the startup equity at $0 temporarily to see your worst-case \"cash baseline\".</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">High Bonus vs High Base</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">A high base salary is guaranteed and compounds with every future raise. A target bonus is variable. If Offer A has a $120k base and Offer B has a $100k base + 20% bonus, Offer A is mathematically superior due to lower risk.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Remote vs Onsite</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">An onsite offer might pay $10,000 more in base salary, but commuting 5 days a week costs money and time. Often, a $90k remote offer objectively yields a higher standard of living than a $100k onsite offer.</p>\n  </div>\n</div>\n\n<h3>3 Common Mistakes When Comparing Offers</h3>\n<ol style=\"line-height: 1.6; margin-bottom: 2rem;\">\n  <li style=\"margin-bottom: 1rem;\"><strong>Ignoring the Pension/401k Match:</strong> A 5% match on a $100k salary is an extra $5,000 of free money per year. Never look at just the base salary.</li>\n  <li style=\"margin-bottom: 1rem;\"><strong>Overvaluing Private Startup Equity:</strong> Monopoly money isn't cash. Unless the startup is late-stage or public, deeply discount the equity value when comparing against a liquid cash offer.</li>\n  <li style=\"margin-bottom: 0;\"><strong>Forgetting Insurance Premiums:</strong> If Company A pays 100% of your health premiums but Company B charges you $400/month, Company B's offer is effectively $4,800 lower per year.</li>\n</ol>"
 }

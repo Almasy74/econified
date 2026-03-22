@@ -1,42 +1,43 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-
-const registryPath = path.resolve('tools/registry.json');
-const registryData = await fs.readFile(registryPath, 'utf-8');
-const registry = JSON.parse(registryData);
-
-const tools = await Promise.all(registry
-  .filter((entry: any) => entry.status === 'active')
-  .map(async (entry: any) => {
-    const defPath = path.resolve(`tools/definitions/${entry.slug}.json`);
-    const defData = await fs.readFile(defPath, 'utf-8');
-    return { ...entry, definition: JSON.parse(defData) };
-  })
-);
-
-// Sort tools by priority to keep core decision engines at the top
-tools.sort((a, b) => a.priority - b.priority);
 ---
 
-<Layout title="All Career Decision Tools | Econified" description="Complete directory of our privacy-first, deterministic career and salary calculators." canonicalUrl="https://econified.com/tools/">
+<Layout title="All Career Decision Tools | Econified" description="Directory of our thematic tool hubs for salary, freelance, job offers, and remote work." canonicalUrl="https://econified.com/tools/">
   <main class="container">
     <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
       <a href="/" style="color: inherit;">Home</a> &rsaquo; Tools
     </nav>
     <div style="text-align: left; margin-bottom: 3rem;">
       <h1>Career Decision Tools</h1>
-      <p class="lead">A complete directory of all our interactive calculators and comparison engines. Every tool runs locally in your browser to guarantee your privacy.</p>
+      <p class="lead">Select a category below to explore our interactive calculators and comparison engines. Every tool runs locally in your browser to guarantee your privacy.</p>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
-      {tools.map((tool: any) => (
-        <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none;">
-          <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">{tool.definition.title}</h2>
-          <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">{tool.definition.description}</p>
-        </a>
-      ))}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
+      
+      <!-- Salary Conversion -->
+      <a href="/tools/salary-conversion/" class="glass-panel" style="display: block; text-decoration: none;">
+        <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">Salary Conversion Tools</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">Standard omregningskalkulatorer som timer til årslønn, dagrate og mer.</p>
+      </a>
+
+      <!-- Contractor & Freelance -->
+      <a href="/tools/contractor-freelance/" class="glass-panel" style="display: block; text-decoration: none;">
+        <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">Contractor & Freelance Economics</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">Verktøy for å vurdere risiko og inntekt som selvstendig næringsdrivende vs fast ansatt.</p>
+      </a>
+
+      <!-- Job Offer Decisions -->
+      <a href="/tools/job-offer-decisions/" class="glass-panel" style="display: block; text-decoration: none;">
+        <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">Job Offer & Compensation Decisions</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">Sammenlign jobbtilbud, forhandle lønn, og beregn verdien av goder og forfremmelser.</p>
+      </a>
+
+      <!-- Remote Work Economics -->
+      <a href="/tools/remote-work-economics/" class="glass-panel" style="display: block; text-decoration: none;">
+        <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">Remote Work & Commute Economics</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">Hvor mye koster pendlingen din egentlig? Lønner hjemmekontor seg tross lavere lønn?</p>
+      </a>
+
     </div>
   </main>
 </Layout>

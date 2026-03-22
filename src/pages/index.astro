@@ -46,15 +46,15 @@ const tools = await Promise.all(registry
         <!-- Interactive stat cards -->
         <div class="hero-stats">
           <div class="hero-stat-card">
-            <span class="hero-stat-number" data-target="30">0</span><span class="hero-stat-suffix">+</span>
+            <span class="hero-stat-number">30</span><span class="hero-stat-suffix">+</span>
             <span class="hero-stat-label">Countries</span>
           </div>
           <div class="hero-stat-card">
-            <span class="hero-stat-number" data-target="56">0</span>
+            <span class="hero-stat-number">56</span>
             <span class="hero-stat-label">Data Pages</span>
           </div>
           <div class="hero-stat-card">
-            <span class="hero-stat-number" data-target="100">0</span><span class="hero-stat-suffix">%</span>
+            <span class="hero-stat-number">100</span><span class="hero-stat-suffix">%</span>
             <span class="hero-stat-label">Free Forever</span>
           </div>
         </div>
@@ -271,34 +271,6 @@ const tools = await Promise.all(registry
       }
     </style>
 
-    <script>
-      // Animated counter effect
-      document.addEventListener('DOMContentLoaded', () => {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const counters = entry.target.querySelectorAll('.hero-stat-number');
-              counters.forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-target') || '0');
-                const duration = 1500;
-                const start = performance.now();
-                const animate = (now) => {
-                  const elapsed = now - start;
-                  const progress = Math.min(elapsed / duration, 1);
-                  const eased = 1 - Math.pow(1 - progress, 3);
-                  counter.textContent = Math.floor(eased * target).toString();
-                  if (progress < 1) requestAnimationFrame(animate);
-                };
-                requestAnimationFrame(animate);
-              });
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.3 });
-        const hero = document.getElementById('heroFeature');
-        if (hero) observer.observe(hero);
-      });
-    </script>
 
     <h2 style="margin-bottom: 2rem; font-size: 1.6rem; text-align: center;">Utility Calculators</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
