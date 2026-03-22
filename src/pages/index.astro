@@ -271,6 +271,49 @@ const tools = await Promise.all(registry
       }
     </style>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const statNumbers = document.querySelectorAll('.hero-stat-number');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              // Only animate once and only if we haven't already
+              if (!el.hasAttribute('data-animated')) {
+                // The target is mathematically what's currently in the HTML (SEO friendly!)
+                const target = parseInt(el.textContent || '0', 10);
+                
+                if (target > 0) {
+                  el.setAttribute('data-animated', 'true');
+                  
+                  let current = 0;
+                  const duration = 2000; 
+                  // Calculate steps based on target to ensure smooth animation over ~2 seconds
+                  const steps = 60; // 60fps
+                  const stepTime = duration / steps;
+                  const increment = target / steps;
+                  
+                  el.textContent = '0'; 
+                  
+                  const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                      el.textContent = target.toString(); 
+                      clearInterval(timer);
+                    } else {
+                      el.textContent = Math.floor(current).toString();
+                    }
+                  }, stepTime);
+                }
+              }
+            }
+          });
+        }, { threshold: 0.1 });
+
+        statNumbers.forEach(stat => observer.observe(stat));
+      });
+    </script>
 
     <h2 style="margin-bottom: 2rem; font-size: 1.6rem; text-align: center;">Utility Calculators</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
