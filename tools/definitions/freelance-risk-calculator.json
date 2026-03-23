@@ -1,6 +1,6 @@
 {
-    "title": "Freelance Utilization Risk Tool",
-    "description": "Analyze the financial risk of a freelance contract by calculating your runway and minimum safe rate.",
+    "title": "Freelance Risk Calculator: Can You Afford to Go Independent?",
+    "description": "Stress-test your freelance finances. Calculate your burn rate, savings runway, and the probability of a revenue gap before you quit your job.",
     "inputs": [
         {
             "name": "monthlyBurnRate",

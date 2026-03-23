@@ -1,6 +1,6 @@
 {
-    "title": "Promotion Break-Even Calculator",
-    "description": "Determine if a promotion is actually worth the extra hours and responsibility by calculating your new effective hourly rate.",
+    "title": "Is My Promotion Worth It? Break-Even Calculator",
+    "description": "Calculate if a promotion is actually worth the extra hours. Find your break-even salary and see if your effective hourly rate goes up or down.",
     "inputs": [
         {
             "name": "currentSalary",
@@ -99,5 +99,6 @@
         "Evaluate a promotion offer",
         "Negotiate raise amounts",
         "Assess career progression value"
-    ]
+    ],
+    "richContent": "<h3>Short Answer: Is that promotion actually worth it?</h3>\n<p style=\"margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6;\"><strong>Not always.</strong> A 10% salary raise with a 20% increase in hours and stress is mathematically a pay cut on a per-hour basis. This calculator reveals whether the new title comes with a real raise or just more unpaid work.</p>\n\n<h3>Break-Even Analysis</h3>\n<div style=\"background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2rem;\">\n  <strong>Break-Even Salary</strong> = Current Effective Hourly Rate × (New Total Hours/Week × 52)\n</div>\n<p style=\"margin-bottom: 2rem; line-height: 1.6;\">If the promoted salary is below this break-even number, your effective hourly rate actually drops. You are being paid less per hour of your life than before the promotion.</p>\n\n<h3>Common Mistakes</h3>\n<ol style=\"margin-left: 1.5rem; margin-bottom: 2rem; line-height: 1.7;\">\n  <li style=\"margin-bottom: 0.75rem;\"><strong>Ignoring mental load:</strong> Management roles come with evening emails, weekend anxiety, and decision fatigue. This is real, uncompensated time.</li>\n  <li style=\"margin-bottom: 0.75rem;\"><strong>Assuming linear career ROI:</strong> A promotion that burns you out in 18 months may be worse for your career than staying and performing well for 3 years.</li>\n  <li><strong>Not negotiating:</strong> Once you know the break-even salary, you have a mathematical argument for asking for more.</li>\n</ol>\n\n<div class=\"glass-panel\" style=\"margin-top: 2rem;\">\n  <h3 style=\"margin-top: 0; margin-bottom: 1rem;\">Related Tools</h3>\n  <ul style=\"list-style-type: none; margin: 0; padding: 0;\">\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/job-offer-comparison/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Job Offer Comparison</a>: Compare total compensation across multiple offers.</li>\n    <li style=\"margin-bottom: 0; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/pto-value-calculator/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">PTO Value Calculator</a>: Factor in vacation days when evaluating your real compensation.</li>\n  </ul>\n</div>"
 }

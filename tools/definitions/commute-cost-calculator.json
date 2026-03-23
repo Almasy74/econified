@@ -1,6 +1,6 @@
 {
-    "title": "Commute Cost & Time Value Calculator",
-    "description": "Calculate the true annual cost of your commute, including fuel, vehicle wear, and the implicit value of your time.",
+    "title": "Commute Cost Calculator: True Annual Impact",
+    "description": "Calculate the real cost of your commute including fuel, time value, vehicle wear, and opportunity cost. Most commuters underestimate by 50% or more.",
     "inputs": [
         {
             "name": "oneWayDistance",

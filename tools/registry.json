@@ -1,7 +1,7 @@
 [
   {
     "slug": "hourly-to-salary",
-    "tier": 0,
+    "tier": 2,
     "engine": "conversion",
     "intent": "career-decision",
     "adPolicy": "highIntent",
@@ -15,7 +15,7 @@
   },
   {
     "slug": "salary-to-hourly",
-    "tier": 0,
+    "tier": 2,
     "engine": "conversion",
     "intent": "career-decision",
     "adPolicy": "highIntent",
@@ -29,7 +29,7 @@
   },
   {
     "slug": "freelance-rate-calculator",
-    "tier": 0,
+    "tier": 1,
     "engine": "freelance",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -45,7 +45,7 @@
   },
   {
     "slug": "monthly-to-yearly-salary",
-    "tier": 0,
+    "tier": 2,
     "engine": "conversion",
     "intent": "career-decision",
     "adPolicy": "highIntent",
@@ -59,7 +59,7 @@
   },
   {
     "slug": "daily-rate-to-salary",
-    "tier": 0,
+    "tier": 2,
     "engine": "conversion",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -74,7 +74,7 @@
   },
   {
     "slug": "annual-salary-to-monthly",
-    "tier": 0,
+    "tier": 2,
     "engine": "conversion",
     "intent": "career-decision",
     "adPolicy": "highIntent",
@@ -88,7 +88,7 @@
   },
   {
     "slug": "weekly-to-annual-pay",
-    "tier": 0,
+    "tier": 2,
     "engine": "conversion",
     "intent": "career-decision",
     "adPolicy": "standard",
@@ -102,7 +102,7 @@
   },
   {
     "slug": "contractor-vs-employee",
-    "tier": 0,
+    "tier": 1,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -119,7 +119,7 @@
   },
   {
     "slug": "remote-pay-adjuster",
-    "tier": 0,
+    "tier": 3,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -134,7 +134,7 @@
   },
   {
     "slug": "biweekly-to-annual-pay",
-    "tier": 0,
+    "tier": 2,
     "engine": "conversion",
     "intent": "career-decision",
     "adPolicy": "standard",
@@ -147,7 +147,7 @@
   },
   {
     "slug": "commute-cost-calculator",
-    "tier": 0,
+    "tier": 1,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -165,7 +165,7 @@
   },
   {
     "slug": "salary-increase-calculator",
-    "tier": 0,
+    "tier": 3,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "highIntent",
@@ -179,7 +179,7 @@
   },
   {
     "slug": "pto-value-calculator",
-    "tier": 0,
+    "tier": 1,
     "engine": "conversion",
     "intent": "career-decision",
     "adPolicy": "standard",
@@ -195,7 +195,7 @@
   },
   {
     "slug": "job-offer-comparison",
-    "tier": 0,
+    "tier": 1,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -219,7 +219,7 @@
   },
   {
     "slug": "burnout-cost-calculator",
-    "tier": 0,
+    "tier": 3,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "standard",
@@ -234,7 +234,7 @@
   },
   {
     "slug": "promotion-value-calculator",
-    "tier": 0,
+    "tier": 1,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -251,7 +251,7 @@
   },
   {
     "slug": "remote-vs-office-calculator",
-    "tier": 0,
+    "tier": 1,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -269,7 +269,7 @@
   },
   {
     "slug": "freelance-risk-calculator",
-    "tier": 0,
+    "tier": 1,
     "engine": "freelance",
     "intent": "career-decision",
     "adPolicy": "compareIntent",
@@ -284,7 +284,7 @@
   },
   {
     "slug": "quit-calculator",
-    "tier": 0,
+    "tier": 3,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "highIntent",
@@ -302,7 +302,7 @@
   },
   {
     "slug": "layoff-survival-calculator",
-    "tier": 0,
+    "tier": 3,
     "engine": "comparison",
     "intent": "career-decision",
     "adPolicy": "highIntent",
@@ -319,7 +319,7 @@
   },
   {
     "slug": "meeting-cost-calculator",
-    "tier": 0,
+    "tier": 3,
     "engine": "conversion",
     "intent": "workplace",
     "adPolicy": "standard",
