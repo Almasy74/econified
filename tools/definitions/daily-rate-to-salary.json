@@ -85,5 +85,6 @@
         "Convert day rates to salary",
         "Compare short-term contracts",
         "Calculate annual equivalents"
-    ]
+    ],
+    "noindex": true
 }

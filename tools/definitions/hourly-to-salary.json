@@ -89,5 +89,6 @@
         "Compare a job offer",
         "Estimate freelance equivalent",
         "Understand effective pay"
-    ]
+    ],
+    "noindex": true
 }
