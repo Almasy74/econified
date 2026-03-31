@@ -124,10 +124,6 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
       </ul>
     </div>
 
-    {tool.adPolicy === 'highIntent' && (
-      <div class="ad-slot leaderboard" aria-hidden="true">Reserved Ad Space (Leaderboard)</div>
-    )}
-
     <!-- Calculator Interface -->
     <div class="glass-panel" id="calculator-app" aria-live="polite">
       <form id="calc-form" data-engine={tool.engine} data-fn={tool.slug} data-definition={JSON.stringify(definition)}>
@@ -175,10 +171,6 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
         ))}
       </div>
     </div>
-
-    {(tool.adPolicy === 'highIntent' || tool.adPolicy === 'standard' || tool.adPolicy === 'compareIntent') && (
-      <div class="ad-slot rectangle" aria-hidden="true">Reserved Ad Space (Rectangle)</div>
-    )}
 
     <div class="content-section">
       <h2>How it's Calculated</h2>

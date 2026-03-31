@@ -289,30 +289,6 @@ nav {
   margin-bottom: 0.5rem;
 }
 
-/* Zero-CLS Ad Placeholder Layouts */
-.ad-slot {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed var(--surface-border);
-  border-radius: var(--border-radius);
-  margin: 2rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.ad-slot.leaderboard {
-  min-height: 90px;
-}
-
-.ad-slot.rectangle {
-  min-height: 250px;
-}
-
 /* Mobile menu styles */
 .mobile-menu-btn {
   display: none;
