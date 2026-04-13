@@ -6,11 +6,24 @@ import Layout from '../../layouts/Layout.astro';
     <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
       <a href="/" style="color: inherit;">Home</a> &rsaquo; Guides
     </nav>
-    <div style="text-align: left; margin-bottom: 3rem;">
+    <div style="text-align: left; margin-bottom: 2rem;">
       <h1>Career Economics Guides</h1>
       <p class="lead" style="max-width: 600px;">In-depth mathematical breakdowns of salary negotiations, freelance viability, and compensation theory.</p>
     </div>
 
+    <div class="glass-panel" style="margin-bottom: 3rem; line-height: 1.7;">
+      <h2 style="margin-top: 0;">Career Advice Built on Math, Not Opinions</h2>
+      <p>Most career advice tells you to "follow your passion" or "negotiate confidently." Econified's guides take a different approach: they start with the numbers. Every guide includes real calculations, worked examples, and the exact formulas behind the conclusions.</p>
+      <p>The goal is not to tell you what to do, but to give you the framework to calculate the answer for your own situation. Whether you are deciding between employment and freelancing, comparing two job offers, or evaluating a commute, the math reveals trade-offs that intuition misses.</p>
+
+      <h3>How These Guides Work</h3>
+      <p>Each guide focuses on a single career economics question and breaks it into quantifiable components. You will find comparison tables with real dollar ranges, formulas you can apply to your own numbers, and links to interactive calculators that let you model your specific scenario. The guides are designed to be read alongside the <a href="/tools/">calculator tools</a> — the guides explain the theory, the tools let you run the math.</p>
+
+      <h3>Where to Start</h3>
+      <p>If you are evaluating a freelance opportunity, start with the contractor guides below — they cover the break-even formula and risk pricing methodology. If you are comparing job offers, the comparison guide walks through total compensation valuation step by step. And if you suspect your commute is costing more than you think, the commute guide includes a complete cost breakdown most people never consider.</p>
+    </div>
+
+    <h2 style="margin-bottom: 1.5rem;">All Guides</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
       <a href="/guides/contractor-vs-employee-pay/" class="glass-panel" style="display: block; text-decoration: none;">
         <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">Contractor vs Employee: What Really Pays More?</h2>
@@ -35,6 +48,21 @@ import Layout from '../../layouts/Layout.astro';
       <a href="/guides/freelance-risk-pricing/" class="glass-panel" style="display: block; text-decoration: none;">
         <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">How to Price Freelance Risk Correctly</h2>
         <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">Revenue gaps, late payments, and scope creep. Learn the risk premium formula that protects your income.</p>
+      </a>
+
+      <a href="/guides/total-compensation-equation/" class="glass-panel" style="display: block; text-decoration: none;">
+        <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">Is a Higher Salary Always Better? The Total Compensation Equation</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">Base salary is only 60-80% of total compensation. Learn to calculate the real value of PTO, retirement matching, and health insurance.</p>
+      </a>
+
+      <a href="/guides/remote-work-economics-breakdown/" class="glass-panel" style="display: block; text-decoration: none;">
+        <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">The Hidden Economics of Remote Work</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">A remote job paying 10-15% less can put more money in your pocket. Here is the complete financial breakdown.</p>
+      </a>
+
+      <a href="/guides/should-you-quit-financial-checklist/" class="glass-panel" style="display: block; text-decoration: none;">
+        <h2 style="color: var(--accent-light); margin-bottom: 0.5rem; font-size: 1.25rem;">Should You Quit? The Financial Readiness Checklist</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">Calculate your runway, emergency buffer, and break-even point before making the move. The math-first approach to quitting.</p>
       </a>
     </div>
   </main>

@@ -36,11 +36,31 @@ tools.sort((a, b) => a.priority - b.priority);
       <a href="/tools/" style="color: inherit;">Tools</a> &rsaquo;
       Job Offers & Compensation
     </nav>
-    <div style="text-align: left; margin-bottom: 3rem;">
+    <div style="text-align: left; margin-bottom: 2rem;">
       <h1>Job Offer & Compensation Decisions</h1>
       <p class="lead">Compare job offers apples-to-apples, evaluate whether a promotion is financially worth it, and understand the true value of your benefits.</p>
     </div>
 
+    <div class="glass-panel" style="margin-bottom: 3rem; line-height: 1.7;">
+      <h2 style="margin-top: 0;">Why Base Salary Is a Misleading Number</h2>
+      <p>Two job offers can have the same base salary and differ by $15,000 or more in actual value. The gap comes from benefits that are hard to compare: different PTO allowances, health insurance quality, retirement matching percentages, equity grants, and commute costs. Most people default to comparing base salary because the other numbers are difficult to convert into a single figure.</p>
+      <p>That is exactly what these tools are designed to do. Each calculator isolates one component of total compensation and converts it into an annual dollar value so you can compare offers on equal terms.</p>
+
+      <h3>The Components of Total Compensation</h3>
+      <ul style="margin-bottom: 1.5rem;">
+        <li><strong>Base salary:</strong> The headline number. Important, but typically only 60-80% of total compensation for mid-career professionals.</li>
+        <li><strong>Paid time off:</strong> An extra week of PTO at a $90,000 salary is worth roughly $1,730. Three weeks versus five weeks is a $3,460 difference most people never calculate.</li>
+        <li><strong>Retirement matching:</strong> A 6% match on a $90,000 salary is $5,400 per year in free money. Some employers vest this immediately, others over 3-4 years.</li>
+        <li><strong>Health insurance:</strong> Employer-sponsored family plans can be worth $10,000-$20,000 annually. The difference between a high-deductible plan and a PPO can be thousands in out-of-pocket costs.</li>
+        <li><strong>Promotion trajectory:</strong> A lower starting salary with a clear 18-month promotion path can outperform a higher starting salary in a flat organization within 3 years.</li>
+      </ul>
+
+      <h3>Which Tool Should You Start With?</h3>
+      <p>If you are actively choosing between two offers, start with the <strong>Job Offer Comparison</strong> tool — it takes both packages side by side and calculates total compensation including benefits. Use the <strong>PTO Value Calculator</strong> when vacation policies differ significantly. The <strong>Salary Increase Calculator</strong> helps you evaluate whether a raise or promotion matches inflation and market movement. And if you are considering leaving a job entirely, the <strong>Quit Calculator</strong> and <strong>Layoff Survival Calculator</strong> help you understand your financial runway.</p>
+      <p>For a complete walkthrough of the comparison methodology, read our guide on <a href="/guides/compare-job-offers-correctly/">how to compare two job offers correctly</a>.</p>
+    </div>
+
+    <h2 style="margin-bottom: 1.5rem;">Compensation & Career Tools</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
       {tools.map((tool: any) => (
         <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none;">

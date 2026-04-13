@@ -32,11 +32,54 @@ tools.sort((a, b) => a.priority - b.priority);
       <a href="/tools/" style="color: inherit;">Tools</a> &rsaquo;
       Contractor & Freelance
     </nav>
-    <div style="text-align: left; margin-bottom: 3rem;">
+    <div style="text-align: left; margin-bottom: 2rem;">
       <h1>Contractor & Freelance Economics</h1>
       <p class="lead">Going independent carries risks, taxes, and missing benefits. Use these tools to figure out the exact rate you need to charge to beat your salaried job.</p>
     </div>
 
+    <div class="glass-panel" style="margin-bottom: 3rem; line-height: 1.7;">
+      <h2 style="margin-top: 0;">The Real Math Behind Going Freelance</h2>
+      <p>The most common mistake people make when switching from employment to freelancing is comparing their current salary directly to a contract rate. A $50/hour contract looks better than a $90,000 salary — until you factor in self-employment taxes, health insurance, unpaid time off, and gaps between projects.</p>
+      <p>In practice, a freelancer needs to charge <strong>30% to 50% more per hour</strong> than the equivalent employee rate just to break even. This is known as the freelance premium, and it exists because employees receive invisible compensation that contractors must fund themselves.</p>
+
+      <h3>What the Freelance Premium Covers</h3>
+      <table class="base-table" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 1.5rem;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--surface-border);">
+            <th style="padding: 0.75rem 0.5rem;">Hidden Cost</th>
+            <th style="padding: 0.75rem 0.5rem;">Typical Annual Value</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 0.95rem; color: var(--text-secondary);">
+          <tr style="border-bottom: 1px solid var(--surface-border);">
+            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Self-employment tax (employer portion)</strong></td>
+            <td style="padding: 0.75rem 0.5rem;">7.65% of income</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);">
+            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Health insurance</strong></td>
+            <td style="padding: 0.75rem 0.5rem;">$5,000–$15,000</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);">
+            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Paid time off (vacation, sick days)</strong></td>
+            <td style="padding: 0.75rem 0.5rem;">$4,000–$10,000</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);">
+            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Retirement matching</strong></td>
+            <td style="padding: 0.75rem 0.5rem;">$2,000–$8,000</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);">
+            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Revenue gaps between contracts</strong></td>
+            <td style="padding: 0.75rem 0.5rem;">4–12 weeks of lost income</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Which Tool Should You Use?</h3>
+      <p>Start with the <strong>Contractor vs Employee</strong> calculator to see the side-by-side comparison of a salaried position against a contract rate. Then use the <strong>Freelance Rate Calculator</strong> to determine the minimum hourly rate you need to match your current total compensation. Finally, run the <strong>Freelance Risk Calculator</strong> to price in the uncertainty of variable income and gaps between projects.</p>
+      <p>For the full framework behind these calculations, read our guides on <a href="/guides/contractor-markup-guide/">how much more a contractor should charge</a> and <a href="/guides/freelance-risk-pricing/">how to price freelance risk</a>.</p>
+    </div>
+
+    <h2 style="margin-bottom: 1.5rem;">Freelance & Contractor Tools</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
       {tools.map((tool: any) => (
         <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none;">

@@ -33,11 +33,29 @@ tools.sort((a, b) => a.priority - b.priority);
       <a href="/tools/" style="color: inherit;">Tools</a> &rsaquo;
       Remote Work & Commute
     </nav>
-    <div style="text-align: left; margin-bottom: 3rem;">
+    <div style="text-align: left; margin-bottom: 2rem;">
       <h1>Remote Work & Commute Economics</h1>
       <p class="lead">The uncompensated time and cost of commuting is massive. Use these tools to see if a remote job with a lower salary is actually the better deal.</p>
     </div>
 
+    <div class="glass-panel" style="margin-bottom: 3rem; line-height: 1.7;">
+      <h2 style="margin-top: 0;">The Hidden Math of Commuting vs. Remote Work</h2>
+      <p>When employers offer remote positions at a 10-15% pay cut, most people focus on the salary reduction. But they rarely calculate what commuting actually costs. A typical 30-minute one-way commute costs $8,000 to $15,000 per year when you include fuel, vehicle depreciation, parking, and the time value of the hours spent driving. A 60-minute commute can exceed $20,000.</p>
+      <p>This means a remote job paying 10% less can actually put more money in your pocket if it eliminates a moderate commute. The break-even point depends on your specific costs, which is exactly what these tools calculate.</p>
+
+      <h3>Geographic Salary Arbitrage</h3>
+      <p>Remote work also creates the opportunity for geographic arbitrage — earning a salary benchmarked to a high cost-of-living city while living somewhere cheaper. A software engineer earning a San Francisco salary while living in Austin, Texas effectively gives themselves a 30-40% raise in purchasing power. However, many employers now adjust pay based on location, making the real advantage smaller than the headline suggests.</p>
+      <p>The <strong>Remote Pay Adjuster</strong> tool helps you calculate whether a location-adjusted remote salary is still better than a local office job when you factor in commute savings and cost-of-living differences.</p>
+
+      <h3>The Meeting Tax</h3>
+      <p>Remote work changes how time is spent. Without a commute, you gain 1-2 hours per day. But remote teams often fill that time with meetings. Research suggests the average knowledge worker spends 31 hours per week in meetings, and each unnecessary meeting has a calculable cost based on attendee salaries. The <strong>Meeting Cost Calculator</strong> helps quantify this so you can make the case for fewer, shorter meetings.</p>
+
+      <h3>Which Tool Fits Your Situation?</h3>
+      <p>Start with the <strong>Commute Cost Calculator</strong> to understand your current commute's true annual cost. Then use the <strong>Remote vs Office Calculator</strong> to compare a remote offer against your current in-office position. The <strong>Remote Pay Adjuster</strong> handles location-based salary adjustments, and the <strong>Meeting Cost Calculator</strong> helps evaluate the productivity side of remote work.</p>
+      <p>For the complete methodology behind commute cost calculations, read our guide on <a href="/guides/commute-true-cost/">how much your commute really costs</a>.</p>
+    </div>
+
+    <h2 style="margin-bottom: 1.5rem;">Remote Work & Commute Tools</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
       {tools.map((tool: any) => (
         <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none;">

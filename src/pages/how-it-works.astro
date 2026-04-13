@@ -2,50 +2,70 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="How Econified Tools Work | Methodology & Transparency" description="Understand the logic behind Econified calculators, from local processing to adjustable assumptions.">
+<Layout title="How Econified Tools Work | Methodology & Transparency" description="Understand the logic behind Econified calculators, from local processing to adjustable assumptions." noAds={true}>
   <main class="container">
     <div class="glass-panel content-section">
       <h1>How Econified Tools Work</h1>
-      
+
       <p>
-        Econified tools are designed to provide transparent calculations based on user inputs.
+        Every Econified calculator is built to be transparent, adjustable, and private. This page explains the methodology behind the tools, where the data comes from, and how you can get the most accurate results for your situation.
       </p>
 
-      <h2>Local Processing</h2>
+      <h2>Local Processing: Your Data Never Leaves Your Browser</h2>
       <p>
-        All calculations run directly in your browser. No financial inputs are sent to a server or stored by Econified.
+        All calculations run entirely in your web browser using JavaScript. When you enter a salary, adjust working hours, or compare two job offers, those numbers are processed on your device and never transmitted to any server. There are no accounts, no cookies tracking your inputs, and no database storing your financial information.
+      </p>
+      <p>
+        This architecture means your results are instant — there is no network delay — and your privacy is guaranteed by design, not by policy.
+      </p>
+
+      <h2>How Calculations Work: A Walkthrough</h2>
+      <p>
+        Consider a simple example: converting a $75,000 annual salary to an hourly rate. The basic formula is:
+      </p>
+      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.25rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 1.5rem; font-family: monospace;">
+        Hourly Rate = Annual Salary / (Hours per Week × Weeks per Year)
+      </div>
+      <p>
+        At the default 40 hours per week and 52 weeks per year, this gives $75,000 / 2,080 = <strong>$36.06/hour</strong>. But what if you only work 48 paid weeks because you have 4 weeks of unpaid leave? Now the calculation is $75,000 / 1,920 = <strong>$39.06/hour</strong> — an 8% difference from the same annual salary.
+      </p>
+      <p>
+        This is why Econified makes assumptions adjustable. The default values represent common standards (40 hours, 52 weeks), but you can change them to match your actual working pattern. The tool shows both the formula and the assumptions so you can verify the logic yourself.
       </p>
 
       <h2>Adjustable Assumptions</h2>
       <p>
-        Many real-world decisions depend on assumptions such as:
+        Career economics calculations depend on variables that differ by country, industry, and individual circumstance:
       </p>
       <ul>
-        <li>Working hours</li>
-        <li>Weeks worked per year</li>
-        <li>Billable time</li>
-        <li>Compensation structure</li>
+        <li><strong>Working hours per week:</strong> The standard is 40, but actual hours vary from 35 (common in France and Scandinavia) to 50+ (common in finance and consulting).</li>
+        <li><strong>Paid weeks per year:</strong> Ranges from 48 (4 weeks unpaid leave) to 52 (all weeks paid), depending on your contract and country.</li>
+        <li><strong>Billable utilization:</strong> Freelancers typically bill 60-80% of their working hours. The rest goes to admin, marketing, and business development.</li>
+        <li><strong>Tax and benefit rates:</strong> Self-employment tax, employer pension contributions, and health insurance costs vary significantly by jurisdiction.</li>
       </ul>
       <p>
-        Econified allows these values to be adjusted so users can explore different scenarios.
+        Each tool documents which assumptions it uses and provides controls to adjust them. When in doubt, the tool pages include FAQ sections that explain why specific defaults were chosen.
       </p>
 
-      <h2>Calculation Transparency</h2>
+      <h2>Cost-of-Living Data</h2>
       <p>
-        Each tool includes:
+        Tools that compare salaries across cities and countries use cost-of-living indices sourced from publicly available databases including Numbeo and government statistical agencies. These indices express the relative cost of goods, services, housing, and transportation in one location compared to a baseline.
       </p>
-      <ul>
-        <li>The formula used</li>
-        <li>Assumptions behind the calculation</li>
-        <li>Explanatory insights</li>
-      </ul>
       <p>
-        This allows users to understand how results are generated.
+        Cost-of-living data is inherently approximate — it reflects averages across a population and may not match your personal spending pattern. The tools are designed to give you a reasonable estimate, not a precise prediction. For major relocation decisions, we recommend supplementing these calculations with local research on housing, taxes, and healthcare costs specific to your situation.
       </p>
 
-      <h2>Intended Use</h2>
+      <h2>Currency Support</h2>
       <p>
-        The tools are intended for educational and informational exploration only and should not be considered professional advice.
+        Econified supports multiple currencies through the currency selector in the navigation bar. When you switch currencies, all monetary inputs and outputs are displayed in your selected currency. The underlying calculations use the same formulas regardless of currency — the tools convert display values but do not apply exchange rates, since the goal is to model your local financial situation rather than convert between economies.
+      </p>
+
+      <h2>Intended Use and Limitations</h2>
+      <p>
+        Econified tools are designed for educational and informational exploration. They help you understand the mathematical relationships behind career decisions and model different scenarios. They are not a substitute for professional financial, tax, or legal advice.
+      </p>
+      <p>
+        All results are estimates based on the inputs and assumptions you provide. Real-world outcomes will depend on factors these tools cannot capture, including tax law changes, market conditions, and personal circumstances. For decisions with significant financial impact, consult a qualified professional.
       </p>
     </div>
   </main>

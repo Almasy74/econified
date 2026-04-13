@@ -2,40 +2,47 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="About Econified | Global Salary & Work Decision Tools" description="Learn about Econified, our purpose, and how our browser-based tools help you explore salary and work decisions.">
+<Layout title="About Econified | Global Salary & Work Decision Tools" description="Learn about Econified, our purpose, and how our browser-based tools help you explore salary and work decisions." noAds={true}>
   <main class="container">
     <div class="glass-panel content-section">
       <h1>Helping you make sense of work and pay.</h1>
-      
+
       <p>
-        Hi, we're the team behind Econified. We built this platform because we realized that most work-related decisions—like switching to a new job or going freelance—often come down to numbers that are surprisingly hard to compare fairly.
+        Econified was built on a simple observation: most career decisions come down to numbers that are surprisingly hard to compare fairly. Should you take the higher-salary job with worse benefits? Is freelancing actually more profitable than employment? Does a remote position at lower pay beat an office job with a long commute? The answers are in the math — but the math is rarely straightforward.
       </p>
       <p>
-        Econified is a collection of interactive tools designed to help you strip away the noise and understand the core math behind your career decisions. 
-      </p>
-      <p>
-        Privacy is a priority here. All calculations run locally in your browser. We don't require accounts, and your personal financial data never leaves your own computer.
+        We built Econified to make that math accessible. The platform is a collection of interactive calculators and in-depth guides designed to help you strip away assumptions and see the real financial trade-offs behind work decisions.
       </p>
 
-      <h2>Our Purpose</h2>
+      <h2>Why We Built This</h2>
       <p>
-        Econified was created to make common work and income questions easier to understand through transparent and adjustable calculations.
+        Career advice is everywhere, but most of it is qualitative — "follow your passion," "negotiate confidently," "know your worth." That advice is well-intentioned but incomplete. It rarely tells you <em>how</em> to calculate your worth, or what the actual dollar difference is between two job offers after you factor in PTO, retirement matching, and commute costs.
       </p>
       <p>
-        Instead of providing advice, the platform helps users explore outcomes by changing assumptions and viewing results instantly.
-      </p>
-
-      <h2>How the Tools Work</h2>
-      <p>
-        Each tool uses clearly defined formulas and assumptions. Users can adjust inputs to model their own situations.
-      </p>
-      <p>
-        Results are estimates intended for informational purposes only.
+        Econified fills that gap. Every tool on this platform starts with a formula, shows its assumptions, and lets you adjust the inputs to match your real situation. The goal is not to tell you what to do — it is to give you the numbers so you can decide with confidence.
       </p>
 
-      <h2>Independence</h2>
+      <h2>Our Approach</h2>
       <p>
-        Econified operates independently and does not provide financial, tax, or legal advice.
+        Each Econified tool is built around three principles:
+      </p>
+      <ul>
+        <li><strong>Transparency:</strong> Every calculation shows the formula used, the assumptions behind it, and how changing inputs affects the result. No black boxes.</li>
+        <li><strong>Privacy:</strong> All calculations run locally in your browser. We do not require accounts, collect personal financial data, or send your inputs to any server. Your salary information stays on your computer.</li>
+        <li><strong>Practicality:</strong> Tools are designed around real decisions people actually face — comparing job offers, evaluating freelance rates, calculating commute costs — not abstract financial modeling.</li>
+      </ul>
+
+      <h2>Data Sources and Methodology</h2>
+      <p>
+        Our cost-of-living comparisons use publicly available index data from sources including Numbeo and government statistical agencies. Currency conversion rates are updated regularly. Each tool page documents its specific methodology, assumptions, and limitations so you can evaluate the results critically.
+      </p>
+      <p>
+        The <a href="/guides/">career economics guides</a> provide deeper context behind the calculations, including worked examples with real-world dollar amounts and comparison tables you can reference alongside the tools.
+      </p>
+
+      <h2>Independence and Limitations</h2>
+      <p>
+        Econified operates independently and is not affiliated with any employer, recruiting firm, or financial institution. The platform does not provide financial, tax, or legal advice. All results are estimates intended for informational and educational purposes. For decisions involving significant financial consequences, we recommend consulting a qualified professional who can account for your complete personal situation.
       </p>
     </div>
   </main>

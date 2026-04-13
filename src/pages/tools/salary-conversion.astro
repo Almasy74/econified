@@ -37,11 +37,30 @@ tools.sort((a, b) => a.priority - b.priority);
       <a href="/tools/" style="color: inherit;">Tools</a> &rsaquo;
       Salary Conversion
     </nav>
-    <div style="text-align: left; margin-bottom: 3rem;">
+    <div style="text-align: left; margin-bottom: 2rem;">
       <h1>Salary Conversion Tools</h1>
       <p class="lead">Fast, accurate calculators to convert your compensation between different time periods.</p>
     </div>
 
+    <div class="glass-panel" style="margin-bottom: 3rem; line-height: 1.7;">
+      <h2 style="margin-top: 0;">Why Salary Conversions Are More Complex Than They Look</h2>
+      <p>Dividing an annual salary by 12 seems simple. But the result can be misleading if you do not account for how many hours you actually work, whether overtime is included, and which weeks are paid versus unpaid.</p>
+      <p>Consider two people who both earn $60,000 per year. One works 40 hours a week with 4 weeks of unpaid leave, the other works 45 hours a week with 2 weeks of paid vacation. Their effective hourly rates are $31.25 and $25.64 respectively — a 22% difference from the same annual figure.</p>
+
+      <h3>Common Pitfalls in Salary Conversion</h3>
+      <ul style="margin-bottom: 1.5rem;">
+        <li><strong>Ignoring work weeks:</strong> The standard formula assumes 52 paid weeks. If you have unpaid leave, your real hourly rate is higher than the simple division suggests.</li>
+        <li><strong>Forgetting overtime norms:</strong> Some industries routinely expect 45-50 hour weeks. Converting a salary to hourly using a 40-hour assumption inflates your apparent rate.</li>
+        <li><strong>Mixing gross and net:</strong> A $5,000/month gross salary and a $5,000/month net salary represent very different annual incomes depending on your tax bracket and country.</li>
+        <li><strong>Currency and country differences:</strong> Pay period conventions vary globally — biweekly pay is common in the US and Canada, while monthly pay dominates in Europe and Asia.</li>
+      </ul>
+
+      <h3>When to Use Each Converter</h3>
+      <p>Use the <strong>hourly-to-annual</strong> or <strong>annual-to-hourly</strong> converters when comparing a salaried position to an hourly contract. Use the <strong>monthly-to-yearly</strong> converter when evaluating offers quoted in monthly terms, which is standard in many countries. The <strong>biweekly</strong> and <strong>daily rate</strong> converters handle the less common pay periods used in consulting and shift work.</p>
+      <p>For a deeper look at how pay period conversions affect contractor versus employee comparisons, see our guide on <a href="/guides/contractor-vs-employee-pay/">what really pays more</a>.</p>
+    </div>
+
+    <h2 style="margin-bottom: 1.5rem;">Conversion Calculators</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
       {tools.map((tool: any) => (
         <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none;">
