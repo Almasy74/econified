@@ -1,0 +1,120 @@
+{
+    "title": "Raise vs Inflation Calculator",
+    "description": "See whether your pay raise actually beat inflation, how it compares to the market rate, and what your new salary is really worth in last year's money.",
+    "inputs": [
+        {
+            "name": "oldSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Previous Salary",
+            "min": 0
+        },
+        {
+            "name": "newSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "New Salary",
+            "min": 0
+        },
+        {
+            "name": "inflationRate",
+            "type": "number",
+            "label": "Inflation Rate (%)",
+            "min": 0,
+            "step": 0.1,
+            "placeholder": "e.g. 3.5"
+        },
+        {
+            "name": "marketBenchmark",
+            "type": "number",
+            "unit": "currency",
+            "label": "Market Rate for Your Role (0 to skip)",
+            "min": 0
+        }
+    ],
+    "outputs": [
+        {
+            "name": "raisePercent",
+            "unit": "percent",
+            "label": "Nominal Raise"
+        },
+        {
+            "name": "realRaisePercent",
+            "unit": "percent",
+            "label": "Real Raise (After Inflation)"
+        },
+        {
+            "name": "realSalaryToday",
+            "unit": "currency",
+            "label": "New Salary in Last Year's Money"
+        },
+        {
+            "name": "marketGap",
+            "unit": "currency",
+            "label": "Gap vs Market (positive = underpaid)"
+        },
+        {
+            "name": "verdict",
+            "unit": "text",
+            "label": "Verdict"
+        }
+    ],
+    "methodSummary": [
+        "Nominal Raise = (New Salary − Previous Salary) / Previous Salary.",
+        "Real Raise = ((New / Previous) ÷ (1 + Inflation)) − 1. This strips out inflation to show your true purchasing-power change.",
+        "New Salary in Last Year's Money = New Salary ÷ (1 + Inflation).",
+        "Market Gap = Market Rate − New Salary, shown only when a benchmark is entered."
+    ],
+    "assumptions": [
+        "Inflation is entered as your local annual CPI figure for the relevant period.",
+        "Comparisons use gross (pre-tax) salary so tax-bracket effects are excluded.",
+        "Market rate is your own estimate from sites like Levels.fyi, Glassdoor, or recruiter data; enter 0 to ignore it."
+    ],
+    "insights": [
+        "A 4% raise during 5% inflation is a real-terms pay cut of roughly 1% — your money buys less than before despite a bigger number on the payslip.",
+        "If your real raise is positive but you sit well below the market rate, the raise is mostly cosmetic; the bigger lever is renegotiating to the benchmark or moving roles.",
+        "Compounding works both ways: a base that lags inflation two years running quietly erodes ~8-10% of your real income before you notice."
+    ],
+    "faqs": [
+        {
+            "q": "What inflation rate should I use?",
+            "a": "Use the headline annual CPI for your country over the period the raise covers. In the US/Eurozone this has recently ranged 2-9% depending on the year; check your national statistics office for the exact figure."
+        },
+        {
+            "q": "Why is my real raise negative when I still got a raise?",
+            "a": "Because prices rose faster than your pay. If inflation is higher than your nominal raise percentage, your purchasing power fell even though your salary number went up."
+        },
+        {
+            "q": "Is a raise that just matches inflation a good outcome?",
+            "a": "It keeps you flat in real terms — you are standing still, not progressing. For career growth you generally want a real raise of 1-3% on top of inflation, more if you are still below market."
+        },
+        {
+            "q": "What does the market gap tell me?",
+            "a": "A positive gap means the typical pay for your role is higher than your new salary, so you have a data-backed case for a further increase. A negative gap means you are already paid above the benchmark."
+        },
+        {
+            "q": "Should I include bonuses in these figures?",
+            "a": "Use base salary for the cleanest comparison, since bonuses are variable. If your bonus is reliable and contractual, you can include it in both the old and new figures consistently."
+        },
+        {
+            "q": "How do I project this over several years?",
+            "a": "If your raise pace stays at the nominal percentage and inflation stays at the rate you entered, multiply the real-raise factor each year. A persistent negative real raise compounds into a serious income loss over 3-5 years."
+        },
+        {
+            "q": "Does a promotion change how I read this?",
+            "a": "Yes — promotions usually come with a step-change in market rate. Re-benchmark against the higher role rather than your old one, or the market gap will look better than it really is."
+        }
+    ],
+    "clusters": [
+        "comparison",
+        "compensation"
+    ],
+    "useCases": [
+        "Check if your annual raise beat inflation",
+        "Build a data-backed case for a pay rise",
+        "Compare your salary against the market rate"
+    ],
+    "upstreamDecision": "salary-increase-calculator",
+    "nextDecision": "promotion-value-calculator",
+    "richContent": "<h3>Worked Example: The 4% Raise That Was a Pay Cut</h3>\n<p>Maria earned $80,000 and received a 4% raise to $83,200. It felt like progress — until inflation that year ran at 5.5%.</p>\n<ul style=\"line-height: 1.6; margin-bottom: 2rem;\">\n  <li><strong>Nominal raise:</strong> +4.0%</li>\n  <li><strong>Real raise:</strong> ((83,200 / 80,000) ÷ 1.055) − 1 = <strong>−1.4%</strong></li>\n  <li><strong>New salary in last year's money:</strong> $83,200 ÷ 1.055 ≈ <strong>$78,862</strong> — less buying power than her old $80,000.</li>\n</ul>\n<p>Despite a bigger paycheck, Maria can afford less than the year before. This is why \"I got a raise\" and \"I got ahead\" are not the same statement.</p>\n\n<h3>Worked Example: Beating Inflation but Trailing the Market</h3>\n<p>James moved from $95,000 to $103,000 (an 8.4% raise) while inflation was 3%. His real raise is a healthy +5.2%. But the market rate for his role is $120,000.</p>\n<ul style=\"line-height: 1.6; margin-bottom: 2rem;\">\n  <li><strong>Market gap:</strong> $120,000 − $103,000 = <strong>$17,000 underpaid</strong></li>\n</ul>\n<p>James got a genuinely good raise <em>and</em> is still $17k below market. Both facts are true at once — which is exactly the case to bring to his next review.</p>\n\n<h3>The Two Numbers That Matter</h3>\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Real Raise</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Answers \"did I get ahead?\" Aim for positive. Anything below zero means you took a quiet pay cut this year.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Market Gap</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Answers \"am I paid fairly?\" A large positive gap is your strongest negotiating lever — far stronger than inflation alone.</p>\n  </div>\n</div>"
+}

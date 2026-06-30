@@ -1,0 +1,134 @@
+{
+    "title": "Commute vs Hybrid vs Remote Calculator",
+    "description": "Compare the true annual cost — money and time — of working fully onsite, hybrid, or fully remote, and see which working pattern is economically optimal for you.",
+    "inputs": [
+        {
+            "name": "oneWayMinutes",
+            "type": "number",
+            "label": "One-Way Commute (minutes)",
+            "min": 0
+        },
+        {
+            "name": "commuteCostPerDay",
+            "type": "number",
+            "unit": "currency",
+            "label": "Commute Cost per Onsite Day",
+            "min": 0
+        },
+        {
+            "name": "hybridDaysOnsite",
+            "type": "number",
+            "label": "Hybrid: Onsite Days per Week",
+            "min": 0,
+            "max": 5,
+            "step": 1,
+            "placeholder": "e.g. 2"
+        },
+        {
+            "name": "hourlyValue",
+            "type": "number",
+            "unit": "currency",
+            "label": "Value of One Hour of Your Time",
+            "min": 0
+        },
+        {
+            "name": "homeOfficeAnnualCost",
+            "type": "number",
+            "unit": "currency",
+            "label": "Annual Home-Office Cost (remote)",
+            "min": 0
+        },
+        {
+            "name": "remoteStipend",
+            "type": "number",
+            "unit": "currency",
+            "label": "Annual Employer Remote Stipend",
+            "min": 0
+        }
+    ],
+    "outputs": [
+        {
+            "name": "onsiteAnnualCost",
+            "unit": "currency",
+            "label": "Fully Onsite — Annual Cost"
+        },
+        {
+            "name": "hybridAnnualCost",
+            "unit": "currency",
+            "label": "Hybrid — Annual Cost"
+        },
+        {
+            "name": "remoteAnnualCost",
+            "unit": "currency",
+            "label": "Fully Remote — Annual Cost"
+        },
+        {
+            "name": "onsiteHoursLost",
+            "unit": "number",
+            "label": "Hours Lost Commuting (Fully Onsite)"
+        },
+        {
+            "name": "bestOption",
+            "unit": "text",
+            "label": "Economically Optimal Pattern"
+        }
+    ],
+    "methodSummary": [
+        "For each pattern: Cost = Commute Spend + Time Value of Commuting + Home-Office Cost − Employer Stipend.",
+        "Commuting time is valued at your stated hourly rate; one-way minutes are doubled for the round trip.",
+        "Home-office cost and stipend scale with the share of days worked remotely (none onsite-only, full when fully remote).",
+        "A working year is assumed to be 48 weeks. The lowest total cost is flagged as the optimal pattern."
+    ],
+    "assumptions": [
+        "A standard week is 5 working days; hybrid sits between fully onsite (5) and fully remote (0).",
+        "Home-office cost covers extra electricity, heating, internet and equipment depreciation when working from home.",
+        "The value of your time is your own figure — often your after-tax hourly rate, or higher if commuting time is especially costly to you."
+    ],
+    "insights": [
+        "For long commutes, the time cost usually dwarfs the cash cost: an hour each way at a $40/hour valuation is worth more than $9,000 a year before you spend a cent on fuel.",
+        "Hybrid is rarely the cheapest option on pure economics — it carries part of the commute cost and part of the home-office cost. Its value is usually non-financial (collaboration, routine).",
+        "A generous remote stipend can flip fully-remote from a small cost into a net saving, so always enter any working-from-home allowance your employer offers."
+    ],
+    "faqs": [
+        {
+            "q": "How should I value an hour of my time?",
+            "a": "A reasonable default is your after-tax hourly wage, since that is what an hour is worth in the market. If you would genuinely rather pay to avoid commuting, value it higher; if commute time is productive (reading, calls), value it lower."
+        },
+        {
+            "q": "What goes into 'commute cost per onsite day'?",
+            "a": "Fuel or transit fare, parking, tolls, and a share of vehicle wear and insurance attributable to commuting. For a car, multiplying round-trip distance by a per-mile/km rate is a quick estimate."
+        },
+        {
+            "q": "Why isn't hybrid always the middle cost?",
+            "a": "It usually is on cash, but it carries both a partial commute and a partial home-office setup. Depending on your stipend and home-office costs, hybrid can occasionally cost more than one of the extremes."
+        },
+        {
+            "q": "What is a realistic annual home-office cost?",
+            "a": "For most people it is a few hundred to roughly $1,500 a year in extra utilities, internet and equipment. Enter your own estimate; if your employer fully covers it, offset it with the stipend field."
+        },
+        {
+            "q": "Does this include rent or housing differences?",
+            "a": "No. This tool isolates the commute-versus-remote trade-off. If remote work lets you move somewhere cheaper, model that separately with the geo-arbitrage calculator."
+        },
+        {
+            "q": "Should I factor in the health or stress cost of commuting?",
+            "a": "Those are real but hard to price. One practical approach is to raise your hourly time value to reflect how much you dislike commuting, which pushes the result toward remote."
+        },
+        {
+            "q": "My employer mandates a set number of office days. Is the tool still useful?",
+            "a": "Yes — set the hybrid onsite days to your mandate and compare it against the remote column to see exactly what the policy costs you per year, which is useful information when negotiating."
+        }
+    ],
+    "clusters": [
+        "comparison",
+        "remote"
+    ],
+    "useCases": [
+        "Compare onsite, hybrid and remote on total cost",
+        "Put a number on what a return-to-office mandate costs you",
+        "Decide how many days to negotiate working from home"
+    ],
+    "upstreamDecision": "commute-cost-calculator",
+    "nextDecision": "remote-vs-office-calculator",
+    "richContent": "<h3>Worked Example: A 45-Minute Each-Way Commute</h3>\n<p>Sam has a 45-minute one-way commute, spends $12 per onsite day on fuel and parking, values time at $35/hour, has $900/year of home-office cost, and gets a $500 remote stipend. Hybrid means 2 onsite days.</p>\n<ul style=\"line-height: 1.6; margin-bottom: 2rem;\">\n  <li><strong>Fully onsite:</strong> 240 days × $12 + 240 × 1.5h × $35 = $2,880 + $12,600 = <strong>$15,480</strong></li>\n  <li><strong>Hybrid (2 days):</strong> 96 days × $12 + 96 × 1.5h × $35 + 0.6 × ($900 − $500) = $1,152 + $5,040 + $240 = <strong>$6,432</strong></li>\n  <li><strong>Fully remote:</strong> $900 − $500 = <strong>$400</strong></li>\n</ul>\n<p>Going fully remote saves Sam more than <strong>$15,000 a year</strong> versus full onsite — almost all of it the value of 360 hours no longer spent commuting.</p>\n\n<h3>The Three Patterns at a Glance</h3>\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Fully Onsite</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Maximum commute cost and time loss, zero home-office cost. Dominated by time value when the commute is long.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Hybrid</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Partial commute plus partial home-office setup. The figure here is the real annual price of an office-days mandate.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Fully Remote</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Only home-office cost, offset by any stipend. With a decent allowance this can be a net financial gain.</p>\n  </div>\n</div>"
+}

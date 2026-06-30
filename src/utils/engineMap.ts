@@ -25,7 +25,10 @@ import {
     calculatePromotionValue,
     calculateRemoteVsOffice,
     calculateQuitDate,
-    calculateLayoffSurvival
+    calculateLayoffSurvival,
+    calculateRaiseVsInflation,
+    calculateGeoArbitrage,
+    calculateCommuteVsHybridVsRemote
 } from '../../tools/engines/comparison.ts';
 
 export const engineMap: Record<string, (inputs: Record<string, number>) => Record<string, any>> = {
@@ -49,5 +52,8 @@ export const engineMap: Record<string, (inputs: Record<string, number>) => Recor
     'freelance-risk-calculator': calculateFreelanceRisk,
     'quit-calculator': calculateQuitDate,
     'layoff-survival-calculator': calculateLayoffSurvival,
-    'meeting-cost-calculator': calculateMeetingCost
+    'meeting-cost-calculator': calculateMeetingCost,
+    'salary-raise-vs-inflation': calculateRaiseVsInflation,
+    'geo-arbitrage-calculator': calculateGeoArbitrage,
+    'commute-vs-hybrid-vs-remote': calculateCommuteVsHybridVsRemote
 };

@@ -332,5 +332,57 @@
     },
     "status": "active",
     "updatedAt": "2026-02-26"
+  },
+  {
+    "slug": "salary-raise-vs-inflation",
+    "tier": 3,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "highIntent",
+    "priority": 1,
+    "defaults": {
+      "oldSalary": 80000,
+      "newSalary": 83200,
+      "inflationRate": 3.5,
+      "marketBenchmark": 0
+    },
+    "status": "active",
+    "updatedAt": "2026-06-30"
+  },
+  {
+    "slug": "geo-arbitrage-calculator",
+    "tier": 3,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "currentSalary": 120000,
+      "targetSalary": 120000,
+      "currentLivingCost": 70000,
+      "currentIndex": 125,
+      "targetIndex": 85,
+      "relocationCost": 8000
+    },
+    "status": "active",
+    "updatedAt": "2026-06-30"
+  },
+  {
+    "slug": "commute-vs-hybrid-vs-remote",
+    "tier": 1,
+    "engine": "comparison",
+    "intent": "career-decision",
+    "adPolicy": "compareIntent",
+    "priority": 1,
+    "defaults": {
+      "oneWayMinutes": 45,
+      "commuteCostPerDay": 12,
+      "hybridDaysOnsite": 2,
+      "hourlyValue": 35,
+      "homeOfficeAnnualCost": 900,
+      "remoteStipend": 500
+    },
+    "status": "active",
+    "updatedAt": "2026-06-30"
   }
 ]

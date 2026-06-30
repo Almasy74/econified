@@ -1,0 +1,133 @@
+{
+    "title": "Geo-Arbitrage Relocation Calculator",
+    "description": "Quantify the real financial impact of relocating to a cheaper city while keeping a remote job: disposable income change, relocation payback period, and your salary's true purchasing power.",
+    "inputs": [
+        {
+            "name": "currentSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Current Annual Salary",
+            "min": 0
+        },
+        {
+            "name": "targetSalary",
+            "type": "number",
+            "unit": "currency",
+            "label": "Salary After Move (same or adjusted)",
+            "min": 0
+        },
+        {
+            "name": "currentLivingCost",
+            "type": "number",
+            "unit": "currency",
+            "label": "Current Annual Living Cost",
+            "min": 0
+        },
+        {
+            "name": "currentIndex",
+            "type": "number",
+            "label": "Current City Cost-of-Living Index",
+            "min": 1,
+            "placeholder": "e.g. 125"
+        },
+        {
+            "name": "targetIndex",
+            "type": "number",
+            "label": "Target City Cost-of-Living Index",
+            "min": 1,
+            "placeholder": "e.g. 85"
+        },
+        {
+            "name": "relocationCost",
+            "type": "number",
+            "unit": "currency",
+            "label": "One-Time Relocation Cost",
+            "min": 0
+        }
+    ],
+    "outputs": [
+        {
+            "name": "targetLivingCost",
+            "unit": "currency",
+            "label": "Living Cost in Target City"
+        },
+        {
+            "name": "disposableChange",
+            "unit": "currency",
+            "label": "Annual Disposable Income Change"
+        },
+        {
+            "name": "paybackMonths",
+            "unit": "number",
+            "label": "Relocation Payback (Months)"
+        },
+        {
+            "name": "realIncomeEquivalent",
+            "unit": "currency",
+            "label": "Real Income (Current-City Terms)"
+        },
+        {
+            "name": "verdict",
+            "unit": "text",
+            "label": "Verdict"
+        }
+    ],
+    "methodSummary": [
+        "Target Living Cost = Current Living Cost × (Target Index ÷ Current Index) — your spending rescaled to the cheaper city.",
+        "Disposable Income Change = (Target Salary − Target Living Cost) − (Current Salary − Current Living Cost).",
+        "Payback = One-Time Relocation Cost ÷ Monthly Disposable Gain.",
+        "Real Income = Target Salary × (Current Index ÷ Target Index), i.e. what your new pay is worth at your old city's price level."
+    ],
+    "assumptions": [
+        "Cost-of-living indices are relative numbers (e.g. Numbeo or your own basket) where a higher value means a more expensive city.",
+        "Living costs are assumed to scale roughly with the index ratio; one-off luxuries and fixed debts are not rescaled.",
+        "If your remote employer cuts pay for the cheaper location, enter that lower figure as the salary after the move."
+    ],
+    "insights": [
+        "The biggest geo-arbitrage wins come from holding a high-cost-city salary while paying low-cost-city prices — disposable income, not headline salary, is what actually grows.",
+        "A pay cut can still be worth it: dropping 15% salary to move somewhere 35% cheaper usually leaves you with more money in your pocket each month.",
+        "Watch the payback period — high moving, deposit, and furnishing costs can take a year or more to recoup, so a short planned stay can wipe out the gain."
+    ],
+    "faqs": [
+        {
+            "q": "Where do I find a cost-of-living index?",
+            "a": "Numbeo, Expatistan, and many salary sites publish city indices. Any consistent source works as long as you use the same scale for both cities — what matters is the ratio between them, not the absolute number."
+        },
+        {
+            "q": "What counts as my 'annual living cost'?",
+            "a": "Add up what you actually spend in a year on rent, food, transport, utilities and discretionary items. Exclude savings and one-off purchases for the cleanest comparison."
+        },
+        {
+            "q": "My employer wants to cut my pay if I move. Is it still worth it?",
+            "a": "Often yes. Enter the reduced salary as 'Salary After Move'. If the city is cheaper by a larger percentage than the pay cut, your disposable income still rises."
+        },
+        {
+            "q": "Why is the payback period shown as ∞?",
+            "a": "That happens when the move does not increase your monthly disposable income, so there is nothing to recoup the relocation cost. Financially, the move does not pay for itself."
+        },
+        {
+            "q": "What is 'real income in current-city terms'?",
+            "a": "It translates your post-move salary back into the price level of your current city, so you can compare like-for-like. If it is higher than your current salary, your purchasing power improved."
+        },
+        {
+            "q": "Does this account for taxes?",
+            "a": "Not directly. If moving changes your tax jurisdiction, adjust the salary figures to net-of-tax amounts, or treat the tax difference as part of your living cost."
+        },
+        {
+            "q": "What about currency differences for international moves?",
+            "a": "Use the calculator's currency selector and convert both salary and living costs into the same currency first, so the index ratio is the only thing driving the comparison."
+        }
+    ],
+    "clusters": [
+        "comparison",
+        "remote"
+    ],
+    "useCases": [
+        "Decide whether to relocate for a remote job",
+        "Compare disposable income across two cities",
+        "Estimate how fast a move pays for itself"
+    ],
+    "upstreamDecision": "remote-pay-adjuster",
+    "nextDecision": "commute-vs-hybrid-vs-remote",
+    "richContent": "<h3>Worked Example: London to Lisbon, Same Salary</h3>\n<p>Priya keeps her £70,000 fully-remote salary but moves from London (index 125) to Lisbon (index 75). She currently spends £45,000 a year. Relocation costs £6,000.</p>\n<ul style=\"line-height: 1.6; margin-bottom: 2rem;\">\n  <li><strong>Target living cost:</strong> £45,000 × (75 ÷ 125) = <strong>£27,000</strong></li>\n  <li><strong>Disposable now:</strong> £70,000 − £45,000 = £25,000</li>\n  <li><strong>Disposable after:</strong> £70,000 − £27,000 = £43,000</li>\n  <li><strong>Annual gain:</strong> <strong>+£18,000</strong> → ~£1,500/month</li>\n  <li><strong>Payback:</strong> £6,000 ÷ £1,500 = <strong>4 months</strong></li>\n</ul>\n<p>After four months the move has paid for itself, and Priya banks an extra £18k a year for the same work.</p>\n\n<h3>Worked Example: A 20% Pay Cut That Still Wins</h3>\n<p>Tom's employer applies a 20% location adjustment if he leaves San Francisco (index 100) for Austin (index 65). His $150,000 becomes $120,000. He currently spends $90,000/year; relocation costs $10,000.</p>\n<ul style=\"line-height: 1.6; margin-bottom: 2rem;\">\n  <li><strong>Target living cost:</strong> $90,000 × (65 ÷ 100) = <strong>$58,500</strong></li>\n  <li><strong>Disposable now:</strong> $150,000 − $90,000 = $60,000</li>\n  <li><strong>Disposable after:</strong> $120,000 − $58,500 = $61,500</li>\n  <li><strong>Annual gain:</strong> <strong>+$1,500</strong>, plus a far lower cost base</li>\n</ul>\n<p>Even with a $30k pay cut, Tom is marginally ahead in cash — and his fixed costs are dramatically lower, which de-risks his finances. The payback period here is long, so this move makes sense as a multi-year decision, not a one-year experiment.</p>\n\n<h3>When Geo-Arbitrage Does Not Work</h3>\n<p>If the target city is only slightly cheaper, or your employer's pay cut exceeds the cost-of-living saving, the disposable-income change turns negative and the payback period shows ∞. The headline \"cheaper city\" can still leave you worse off — which is exactly what this calculator is designed to catch before you sign a lease.</p>"
+}

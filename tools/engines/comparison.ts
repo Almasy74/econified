@@ -203,6 +203,120 @@ export function calculateQuitDate(inputs: Record<string, number>) {
     };
 }
 
+export function calculateRaiseVsInflation(inputs: Record<string, number>) {
+    const oldSalary = inputs.oldSalary;
+    const newSalary = inputs.newSalary;
+    const inflationRate = inputs.inflationRate; // e.g. 4 = 4%
+    const marketBenchmark = inputs.marketBenchmark; // 0 to ignore
+
+    const raisePercent = oldSalary > 0 ? ((newSalary - oldSalary) / oldSalary) * 100 : 0;
+
+    // Real raise = how much your purchasing power actually grew after inflation
+    const inflationFactor = 1 + inflationRate / 100;
+    const realRaisePercent = oldSalary > 0
+        ? (((newSalary / oldSalary) / inflationFactor) - 1) * 100
+        : 0;
+
+    // New salary expressed in last year's purchasing power
+    const realSalaryToday = newSalary / inflationFactor;
+
+    // Positive marketGap => you are paid BELOW the market benchmark
+    const marketGap = marketBenchmark > 0 ? marketBenchmark - newSalary : 0;
+
+    let verdict = "Beats inflation";
+    if (realRaisePercent < 0) verdict = "Real-terms pay cut";
+    else if (realRaisePercent < 1) verdict = "Barely keeps pace";
+
+    return {
+        raisePercent,
+        realRaisePercent,
+        realSalaryToday,
+        marketGap,
+        verdict
+    };
+}
+
+export function calculateGeoArbitrage(inputs: Record<string, number>) {
+    const currentSalary = inputs.currentSalary;
+    const targetSalary = inputs.targetSalary; // may be lower for a remote relocation
+    const currentLivingCost = inputs.currentLivingCost; // annual spend today
+    const currentIndex = inputs.currentIndex;
+    const targetIndex = inputs.targetIndex;
+    const relocationCost = inputs.relocationCost;
+
+    // Living costs scale with the cost-of-living index ratio
+    const targetLivingCost = currentIndex > 0
+        ? currentLivingCost * (targetIndex / currentIndex)
+        : currentLivingCost;
+
+    const disposableNow = currentSalary - currentLivingCost;
+    const disposableTarget = targetSalary - targetLivingCost;
+    const disposableChange = disposableTarget - disposableNow;
+
+    const monthlyGain = disposableChange / 12;
+    const paybackMonths = monthlyGain > 0 ? relocationCost / monthlyGain : Infinity;
+
+    // Target salary expressed in current-city purchasing power
+    const realIncomeEquivalent = targetIndex > 0
+        ? targetSalary * (currentIndex / targetIndex)
+        : targetSalary;
+
+    let verdict = "Move wins financially";
+    if (disposableChange < 0) verdict = "Stay — move costs you";
+    else if (paybackMonths > 36) verdict = "Marginal — long payback";
+
+    return {
+        targetLivingCost,
+        disposableChange,
+        paybackMonths: paybackMonths === Infinity ? Infinity : Math.round(paybackMonths * 10) / 10,
+        realIncomeEquivalent,
+        verdict
+    };
+}
+
+export function calculateCommuteVsHybridVsRemote(inputs: Record<string, number>) {
+    const oneWayMinutes = inputs.oneWayMinutes;
+    const commuteCostPerDay = inputs.commuteCostPerDay;
+    const hybridDaysOnsite = inputs.hybridDaysOnsite;
+    const hourlyValue = inputs.hourlyValue;
+    const homeOfficeAnnualCost = inputs.homeOfficeAnnualCost;
+    const remoteStipend = inputs.remoteStipend;
+
+    const weeksPerYear = 48;
+    const dailyCommuteHours = (oneWayMinutes * 2) / 60;
+
+    const modeCost = (onsiteDaysPerWeek: number) => {
+        const onsiteDaysYr = onsiteDaysPerWeek * weeksPerYear;
+        const commute = onsiteDaysYr * commuteCostPerDay;
+        const timeCost = onsiteDaysYr * dailyCommuteHours * hourlyValue;
+        const remoteFraction = (5 - onsiteDaysPerWeek) / 5;
+        const homeOffice = homeOfficeAnnualCost * remoteFraction;
+        const stipend = remoteStipend * remoteFraction;
+        return commute + timeCost + homeOffice - stipend;
+    };
+
+    const onsiteAnnualCost = modeCost(5);
+    const hybridAnnualCost = modeCost(hybridDaysOnsite);
+    const remoteAnnualCost = modeCost(0);
+
+    const onsiteHoursLost = 5 * weeksPerYear * dailyCommuteHours;
+
+    const costs = [
+        { name: "Fully onsite", value: onsiteAnnualCost },
+        { name: "Hybrid", value: hybridAnnualCost },
+        { name: "Fully remote", value: remoteAnnualCost }
+    ];
+    const bestOption = costs.reduce((a, b) => (b.value < a.value ? b : a)).name;
+
+    return {
+        onsiteAnnualCost,
+        hybridAnnualCost,
+        remoteAnnualCost,
+        onsiteHoursLost: Math.round(onsiteHoursLost),
+        bestOption
+    };
+}
+
 export function calculateLayoffSurvival(inputs: Record<string, number>) {
     const {
         savings,
