@@ -1,5 +1,20 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const registryData = await fs.readFile(path.resolve('tools/registry.json'), 'utf-8');
+const registry = JSON.parse(registryData);
+
+const allTools = await Promise.all(
+  registry
+    .filter((entry: any) => entry.status === 'active')
+    .map(async (entry: any) => {
+      const def = JSON.parse(await fs.readFile(path.resolve(`tools/definitions/${entry.slug}.json`), 'utf-8'));
+      return { slug: entry.slug, title: def.title, description: def.description };
+    })
+);
+allTools.sort((a: any, b: any) => a.title.localeCompare(b.title));
 ---
 
 <Layout title="All Career Decision Tools | Econified" description="Directory of our thematic tool hubs for salary, freelance, job offers, and remote work." canonicalUrl="https://econified.com/tools/">
@@ -58,6 +73,17 @@ import Layout from '../../layouts/Layout.astro';
         <p style="color: var(--text-secondary); margin-bottom: 0; font-size: 0.95rem;">How much does your commute really cost? Evaluate if remote work pays off despite a lower base salary.</p>
       </a>
 
+    </div>
+
+    <h2 style="margin-top: 3.5rem; margin-bottom: 0.5rem;">All Calculators (A–Z)</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Every Econified calculator in one place. {allTools.length} free tools, all running locally in your browser.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0.75rem;">
+      {allTools.map((tool: any) => (
+        <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none; padding: 1rem 1.25rem;">
+          <strong style="color: var(--accent-light); display: block; margin-bottom: 0.2rem;">{tool.title}</strong>
+          <span style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.45; display: block;">{tool.description}</span>
+        </a>
+      ))}
     </div>
   </main>
 </Layout>
