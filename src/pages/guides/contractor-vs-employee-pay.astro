@@ -1,37 +1,114 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: "How much more should a contractor charge than an employee?",
+    a: "As a floor, 30% more per hour just to break even on lost benefits and the employer share of payroll taxes. In practice, 50% to 100% more is common once you account for unpaid time off, health insurance, unbillable hours, and the absence of a pension match."
+  },
+  {
+    q: "What is self-employment tax?",
+    a: "In the US it is 15.3% of net earnings, covering both the employee and employer halves of Social Security and Medicare. As an employee you only pay half (7.65%); as a contractor you pay it all, which is why your headline rate has to be higher."
+  },
+  {
+    q: "Why do unbillable hours matter so much?",
+    a: "A contractor rarely bills 40 hours a week. Sales, admin, invoicing, and gaps between clients mean realistic utilization is often 60-75%. If you only bill 1,500 of a possible 2,000 hours, every billed hour has to carry the cost of the unbilled ones."
+  },
+  {
+    q: "Do contractors really lose paid time off?",
+    a: "Yes. A salaried employee with four weeks of vacation plus sick days is paid for roughly 200 non-working hours a year. A contractor earns nothing during that time, so the lost income must be priced into the rate."
+  },
+  {
+    q: "Is being a contractor ever financially better?",
+    a: "Often, yes &mdash; once the rate is set correctly. Higher gross rates, business expense deductions, retirement-plan flexibility, and multiple clients can leave a well-priced contractor ahead of an equivalent employee. The danger is only in undercharging."
+  },
+  {
+    q: "Does this math apply outside the US?",
+    a: "The structure does, but the numbers differ. Replace self-employment tax with your country's social-contribution rules and adjust for public versus private healthcare. The principle &mdash; that a contractor must charge a premium to cover what an employer otherwise provides &mdash; is universal."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+  }))
+};
 ---
-<Layout title="Contractor vs Employee: What Really Pays More?" description="A deep dive into the true cost of freelance overhead, taxes, and hidden benefits that W-2 employees get." canonicalUrl="https://econified.com/guides/contractor-vs-employee-pay/">
-  <main class="container">
+<Layout title="Contractor vs Employee: What Really Pays More? | Econified" description="The true math behind self-employment taxes, unbillable time, lost benefits, and the freelance premium a contractor must charge to match an employee's take-home pay." canonicalUrl="https://econified.com/guides/contractor-vs-employee-pay/">
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <main class="container" style="max-width: 780px;">
     <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
       <a href="/" style="color: inherit;">Home</a> &rsaquo;
       <a href="/guides/" style="color: inherit;">Guides</a> &rsaquo;
       Contractor vs Employee
     </nav>
-    <article class="glass-panel" style="padding: 3rem; max-width: 800px; margin: 0 auto;">
-      <h1 class="guide-title" style="color: var(--accent-light); margin-top: 0;">Contractor vs Employee: What Really Pays More?</h1>
-      <p class="lead" style="font-size: 1.2rem; margin-bottom: 2rem;">Understanding the math behind self-employment taxes, unbillable time, and hidden corporate benefits.</p>
 
-      <div style="font-size: 1.05rem; line-height: 1.7; color: var(--text-primary);">
-        <h2 style="color: white; margin-top: 2rem;">The Freelance Premium</h2>
-        <p>Many professionals mistakenly compare a $50/hour W-2 salary directly to a $50/hour 1099 contract rate. This is the fastest way to take a massive pay cut without realizing it.</p>
-        <p>As a 1099 independent contractor, you must charge a <strong>Freelance Premium</strong>. Why? Because you are now a business. Your employer no longer pays half your payroll taxes, no longer subsidizes your health insurance, and no longer pays you when you take a sick day.</p>
+    <article>
+      <h1>Contractor vs Employee: What Really Pays More?</h1>
+      <p class="byline" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">By the <strong>Econified Editorial Team</strong> &middot; Last reviewed June 2026 &middot; Methodology-first, no sponsored placements</p>
+      <p class="lead" style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 2rem;">Comparing a $50/hour salary to a $50/hour contract rate is the fastest way to take a large pay cut without noticing. As a contractor you are a business, and you have to charge a premium just to stand still. Here is the math behind that premium.</p>
 
-        <h2 style="color: white; margin-top: 2.5rem;">The 30% Rule</h2>
-        <p>As a rule of thumb, a contractor must charge at least 30% to 50% more per hour than a salaried employee to achieve the same take-home lifestyle.</p>
-        <ul style="margin-left: 1.5rem; margin-bottom: 2rem;">
-          <li style="margin-bottom: 0.5rem;"><strong>Self-Employment Tax:</strong> In the US, this is 15.3% (you pay both the employee and employer portions of FICA).</li>
-          <li style="margin-bottom: 0.5rem;"><strong>Unpaid Time Off (PTO):</strong> Employees get 3-5 weeks of paid vacation and sick leave. Contractors get $0 when they don't work.</li>
-          <li><strong>Health Insurance:</strong> Corporate plans are heavily subsidized. A family plan on the open market can cost $1,500+ per month out of pocket.</li>
+      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2.5rem;">
+        <strong style="font-size: 1.1rem;">Short answer:</strong> To match an employee's take-home lifestyle, a contractor must charge roughly <strong>30% more at the absolute minimum, and realistically 50&ndash;100% more</strong>. The gap covers the employer half of payroll taxes, unpaid time off, self-funded health insurance, no pension match, and the unbillable hours every freelancer absorbs.
+      </div>
+
+      <h2>The Freelance Premium</h2>
+      <p style="line-height: 1.7; margin-bottom: 1rem;">When you switch from a W-2 employee to a 1099 independent contractor, your employer stops paying for a long list of things on your behalf. They no longer cover half your payroll taxes, subsidize your health insurance, pay you for holidays and sick days, or match your retirement contributions. All of that becomes your cost.</p>
+      <p style="line-height: 1.7; margin-bottom: 2rem;">The amount you must add to your rate to absorb those costs is the <strong>freelance premium</strong>. Charge too little and you are quietly funding your client's savings out of your own pocket.</p>
+
+      <h2>Where the Premium Goes</h2>
+      <table class="base-table" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 1.5rem;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--surface-border);">
+            <th style="padding: 0.75rem 0.5rem;">Cost the employer used to cover</th>
+            <th style="padding: 0.75rem 0.5rem;">Typical annual impact</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 0.95rem; color: var(--text-secondary);">
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Employer payroll tax (FICA, half of 15.3%)</td><td style="padding: 0.6rem 0.5rem;">~7.65% of income</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Health insurance (self-funded)</td><td style="padding: 0.6rem 0.5rem;">$6,000&ndash;$18,000+</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Paid time off &amp; sick leave (now unpaid)</td><td style="padding: 0.6rem 0.5rem;">~8% of income</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Retirement / pension match (gone)</td><td style="padding: 0.6rem 0.5rem;">3&ndash;6% of salary</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Unbillable hours (sales, admin, gaps)</td><td style="padding: 0.6rem 0.5rem;">25&ndash;40% of capacity</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Worked Example: Matching a $100,000 Salary</h2>
+      <p style="line-height: 1.7; margin-bottom: 1rem;">An employee earning $100,000 actually receives a package worth more once you add the employer's contributions: roughly $7,650 in employer payroll tax, a $9,000 health subsidy, and a $4,000 pension match &mdash; a true value near <strong>$120,000</strong> before counting paid time off.</p>
+      <p style="line-height: 1.7; margin-bottom: 1rem;">Now suppose a contractor wants the same take-home lifestyle but realistically bills only <strong>1,500 hours</strong> a year (after admin, sales, and downtime). They must recover that ~$120,000 of value, plus the extra self-employment tax and their own overhead, across just those 1,500 billed hours:</p>
+      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin: 1.5rem 0;">
+        $120,000 value &divide; 1,500 billable hours &asymp; <strong>$80/hour just to break even</strong>, and closer to <strong>$95&ndash;$110/hour</strong> once self-employment tax and business overhead are added.
+      </div>
+      <p style="line-height: 1.7; margin-bottom: 2rem;">The salaried role pays the equivalent of about $48/hour for 2,080 hours. The contractor needs roughly double that headline rate to land in the same place. That is the freelance premium made concrete.</p>
+
+      <h2>The 30% Rule (and Why It's Only a Floor)</h2>
+      <p style="line-height: 1.7; margin-bottom: 1rem;">A common rule of thumb is that a contractor should charge at least 30% above the equivalent salaried hourly rate. That figure roughly covers the employer payroll tax and a thin benefits replacement &mdash; but it assumes you bill nearly full-time and buy cheap insurance.</p>
+      <p style="line-height: 1.7; margin-bottom: 2rem;">Once you factor in realistic utilization, a proper health plan, retirement saving, and the income you lose during vacations and dry spells, the real premium is usually <strong>50% to 100%</strong>. Treat 30% as the line below which you are certainly losing money, not as a target.</p>
+
+      <h2>When Contracting Comes Out Ahead</h2>
+      <p style="line-height: 1.7; margin-bottom: 2rem;">Priced correctly, contracting can beat employment: gross rates are higher, legitimate business expenses are deductible, retirement contribution limits are often more generous, and multiple clients reduce the risk of any single one. The losers are the contractors who copy an employee's hourly number &mdash; the winners are the ones who charge the premium and invest the difference.</p>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list" style="margin-bottom: 2rem;">
+        {faqs.map(f => (
+          <div class="faq-item" style="margin-bottom: 1.25rem;">
+            <strong style="display: block; color: var(--text-primary); margin-bottom: 0.35rem;">{f.q}</strong>
+            <p style="margin: 0; line-height: 1.6; color: var(--text-secondary);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="glass-panel" style="margin-top: 3rem;">
+        <h2 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem;">Calculate Your Exact Numbers</h2>
+        <ul style="list-style-type: none; margin: 0; padding: 0;">
+          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/contractor-vs-employee/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Contractor vs Employee Calculator</a> &mdash; compare net take-home directly</li>
+          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/freelance-rate-calculator/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Freelance Rate Calculator</a> &mdash; find the rate you need to charge</li>
+          <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/freelance-risk-calculator/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Freelance Risk Calculator</a> &mdash; price in dry spells and income gaps</li>
         </ul>
-
-        <h2 style="color: white; margin-top: 2.5rem;">Calculate Your Exact Rate</h2>
-        <p>Don't guess. Use our interactive calculators to plug in your exact numbers and see the mathematical truth:</p>
-        
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
-          <a href="/contractor-vs-employee/" style="display: inline-block; padding: 0.8rem 1.5rem; background: var(--primary); color: white; text-decoration: none; border-radius: 6px; font-weight: 500;">Contractor vs Employee Calculator</a>
-          <a href="/freelance-rate-calculator/" style="display: inline-block; padding: 0.8rem 1.5rem; background: rgba(99,102,241,0.2); border: 1px solid var(--primary); color: var(--primary-light); text-decoration: none; border-radius: 6px; font-weight: 500;">Freelance Rate Calculator</a>
-        </div>
       </div>
     </article>
   </main>

@@ -1,38 +1,131 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: "Is a higher base salary always the better offer?",
+    a: "No. Base salary is only one line of total compensation. A lower base paired with a strong bonus, pension match, equity, and fully-paid health insurance frequently beats a higher base with none of those. Always reduce every component to an annual cash-equivalent and compare the totals."
+  },
+  {
+    q: "How should I value stock options or RSUs?",
+    a: "For public-company RSUs, use the current share price and divide the grant by the vesting period to get an annual figure. For private startup options, discount heavily — often to zero — unless the company is late-stage with a clear path to liquidity. Never treat illiquid options as if they were cash."
+  },
+  {
+    q: "Do I compare pre-tax or post-tax numbers?",
+    a: "Use gross (pre-tax) figures for consistency, unless the two offers are in different tax jurisdictions or countries. In that case, convert both to net-of-tax take-home pay so you are comparing like for like."
+  },
+  {
+    q: "How much is an employer pension or 401k match worth?",
+    a: "It is direct, often tax-advantaged money. A 5% match on a $100,000 salary is $5,000 per year you would otherwise have to fund yourself. An offer with a lower base but a higher match can win on total compensation alone."
+  },
+  {
+    q: "Should I factor in the commute?",
+    a: "Yes. A long commute carries real fuel, vehicle, and time costs that can exceed $10,000 a year. A remote or nearby role paying slightly less can leave you financially ahead of a higher-paying office job."
+  },
+  {
+    q: "What about a signing bonus?",
+    a: "Signing bonuses are one-time, so do not treat them as recurring income. Divide the amount by your expected tenure (say two or three years) to see its true impact on your annual compensation."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+  }))
+};
 ---
-<Layout title="How to Compare Two Job Offers Correctly" description="Don't just look at the base salary. Learn how to value equity, pension matches, and health benefits." canonicalUrl="https://econified.com/guides/compare-job-offers-correctly/">
-  <main class="container">
+<Layout title="How to Compare Two Job Offers Correctly | Econified" description="Don't just compare base salary. Learn how to value equity, bonuses, pension matches, health benefits, and commute cost to find which offer actually pays more." canonicalUrl="https://econified.com/guides/compare-job-offers-correctly/">
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <main class="container" style="max-width: 780px;">
     <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
       <a href="/" style="color: inherit;">Home</a> &rsaquo;
       <a href="/guides/" style="color: inherit;">Guides</a> &rsaquo;
       Comparing Job Offers
     </nav>
-    <article class="glass-panel" style="padding: 3rem; max-width: 800px; margin: 0 auto;">
-      <h1 class="guide-title" style="color: var(--accent-light); margin-top: 0;">How to Compare Two Job Offers Correctly</h1>
-      <p class="lead" style="font-size: 1.2rem; margin-bottom: 2rem;">The base salary is only half the story. Here is exactly how to calculate Total Compensation (TC).</p>
 
-      <div style="font-size: 1.05rem; line-height: 1.7; color: var(--text-primary);">
-        <h2 style="color: white; margin-top: 2rem;">The Total Compensation Formula</h2>
-        <p>When comparing offers, you must reduce every perk to a cash-equivalent annual value. In modern career economics, the only number that matters is your true, liquid total compensation.</p>
-        <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin: 1.5rem 0;">
-          <strong>Total Compensation (TC)</strong> = Base Salary + Target Bonus + Annualized Equity + Employer Pension Match + Health Premium Value + Stipends.
-        </div>
+    <article>
+      <h1>How to Compare Two Job Offers Correctly</h1>
+      <p class="byline" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">By the <strong>Econified Editorial Team</strong> &middot; Last reviewed June 2026 &middot; Methodology-first, no sponsored placements</p>
+      <p class="lead" style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 2rem;">The base salary is only half the story. The offer that looks bigger on the headline number is often the worse deal once you add up bonuses, equity, benefits, and the cost of getting to work. Here is exactly how to calculate the number that actually matters: Total Compensation.</p>
 
-        <h2 style="color: white; margin-top: 2.5rem;">Common Evaluation Traps</h2>
-        <p>Candidates repeatedly fall into the same traps when evaluating offer letters:</p>
-        <ol style="margin-left: 1.5rem; margin-bottom: 2rem;">
-          <li style="margin-bottom: 1rem;"><strong>Over-valuing Startup Equity:</strong> Monopoly money isn't cash. Unless the startup is public (RSUs) or late-stage with a clear path to liquidity, options should be heavily discounted—sometimes to $0—when comparing against a safe cash offer.</li>
-          <li style="margin-bottom: 1rem;"><strong>Ignoring the 401k/Pension Match:</strong> A 5% match on a $100,000 salary is a free $5,000 every year. It compounds tax-free. An offer of $100k with a 5% match mathematically beats a $104k offer with no match.</li>
-          <li><strong>Health Insurance Premiums:</strong> If Company A pays 100% of your family premium, but Company B deducts $500 a month from your paycheck, Company B's offer is effectively $6,000 lower per year.</li>
-        </ol>
+      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2.5rem;">
+        <strong style="font-size: 1.1rem;">Short answer:</strong> Reduce every part of each offer to an annual cash-equivalent value &mdash; base, bonus, employer pension match, annualized equity, employer-paid health premiums, and stipends &mdash; then subtract hidden costs like commuting and employee-paid insurance. Compare the totals, not the base salaries. A lower base can easily out-earn a higher one.
+      </div>
 
-        <h2 style="color: white; margin-top: 2.5rem;">The Remote Factor</h2>
-        <p>Finally, factor in the commute. If Offer A pays $10,000 more but requires commuting 5 days a week, your costs in gas, wear-and-tear, and lost time likely exceed the extra cash. Remote roles provide inherent financial value even when the base salary is slightly lower.</p>
-        
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem;">
-          <a href="/job-offer-comparison/" style="display: inline-block; padding: 0.8rem 1.5rem; background: var(--primary); color: white; text-decoration: none; border-radius: 6px; font-weight: 500;">Launch the Job Offer Calculator</a>
-        </div>
+      <h2>The Total Compensation Formula</h2>
+      <p style="line-height: 1.7; margin-bottom: 1rem;">In career economics, the only honest way to compare offers is to convert every perk into a single liquid number. That number is your Total Compensation (TC):</p>
+      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin: 1.5rem 0;">
+        <strong>Total Compensation (TC)</strong> = Base Salary + Target Bonus + Annualized Equity + Employer Pension Match + Employer-Paid Health Value + Stipends &minus; Employee-Paid Premiums &minus; Commute Cost
+      </div>
+      <p style="line-height: 1.7; margin-bottom: 2rem;">Every term on that line is measured in money per year. Once you have it for both offers, the comparison becomes arithmetic instead of guesswork.</p>
+
+      <h2>Worked Example: When the Lower Base Wins</h2>
+      <p style="line-height: 1.7; margin-bottom: 1rem;">Consider two offers. Offer A leads with a higher base; Offer B has a richer overall package.</p>
+      <table class="base-table" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 1.5rem;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--surface-border);">
+            <th style="padding: 0.75rem 0.5rem;">Component</th>
+            <th style="padding: 0.75rem 0.5rem;">Offer A</th>
+            <th style="padding: 0.75rem 0.5rem;">Offer B</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 0.95rem; color: var(--text-secondary);">
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Base salary</td><td style="padding: 0.6rem 0.5rem;">$115,000</td><td style="padding: 0.6rem 0.5rem;">$100,000</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Target bonus</td><td style="padding: 0.6rem 0.5rem;">$0</td><td style="padding: 0.6rem 0.5rem;">12% &rarr; $12,000</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Pension match</td><td style="padding: 0.6rem 0.5rem;">3% &rarr; $3,450</td><td style="padding: 0.6rem 0.5rem;">6% &rarr; $6,000</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Annualized equity</td><td style="padding: 0.6rem 0.5rem;">$0</td><td style="padding: 0.6rem 0.5rem;">$8,000</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Stipends</td><td style="padding: 0.6rem 0.5rem;">$0</td><td style="padding: 0.6rem 0.5rem;">$1,000</td></tr>
+          <tr style="border-bottom: 1px solid var(--surface-border);"><td style="padding: 0.6rem 0.5rem; color: var(--text-primary);">Employer-paid health value</td><td style="padding: 0.6rem 0.5rem;">$3,000</td><td style="padding: 0.6rem 0.5rem;">$7,000</td></tr>
+          <tr style="border-bottom: 2px solid var(--surface-border);"><td style="padding: 0.75rem 0.5rem; color: var(--accent-light);"><strong>Total Compensation</strong></td><td style="padding: 0.75rem 0.5rem; color: var(--accent-light);"><strong>$121,450</strong></td><td style="padding: 0.75rem 0.5rem; color: var(--accent-light);"><strong>$134,000</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="line-height: 1.7; margin-bottom: 2rem;">Offer A's base salary is $15,000 higher, yet Offer B wins by roughly <strong>$12,550 a year</strong> &mdash; about 10% more total compensation. Anyone who compared only the base would have picked the worse deal.</p>
+
+      <h2>Three Evaluation Traps That Cost People Thousands</h2>
+      <ol style="margin-left: 1.5rem; margin-bottom: 2rem; line-height: 1.7;">
+        <li style="margin-bottom: 1rem;"><strong>Over-valuing startup equity.</strong> Private options are not cash. Unless the company is public (liquid RSUs) or late-stage with a credible exit, discount the equity steeply &mdash; sometimes to zero &mdash; when weighing it against a safe cash offer. Then run the comparison again with the equity at full value to see your best case. The truth is usually somewhere between.</li>
+        <li style="margin-bottom: 1rem;"><strong>Ignoring the pension or 401k match.</strong> A 5% match on a $100,000 salary is $5,000 of free, often tax-advantaged money every year, and it compounds. An offer of $100k with a 5% match mathematically beats a $104k offer with no match.</li>
+        <li><strong>Forgetting health insurance premiums.</strong> If Company A covers 100% of your family premium but Company B deducts $500 a month, Company B is effectively $6,000 a year poorer than its offer letter suggests.</li>
+      </ol>
+
+      <h2>The Commute and Remote Factor</h2>
+      <p style="line-height: 1.7; margin-bottom: 1rem;">Two offers with identical pay are not equal if one requires a daily commute. A 30-minute one-way drive costs most people $8,000&ndash;$14,000 a year in fuel, depreciation, and the value of lost time. That means:</p>
+      <ul style="line-height: 1.8; margin-bottom: 2rem; padding-left: 1.5rem;">
+        <li>A remote role paying $10,000 less than an office role with a real commute is often the better financial deal.</li>
+        <li>A hybrid schedule (e.g. two office days) cuts most of that commute cost while keeping the in-person benefits.</li>
+        <li>Relocating closer to the office can be worth the equivalent of a several-thousand-dollar raise.</li>
+      </ul>
+
+      <h2>A Simple Step-by-Step Process</h2>
+      <ol style="margin-left: 1.5rem; margin-bottom: 2rem; line-height: 1.7;">
+        <li style="margin-bottom: 0.5rem;">List every component of each offer in annual terms.</li>
+        <li style="margin-bottom: 0.5rem;">Annualize equity (total grant &divide; vesting years) and discount it for risk.</li>
+        <li style="margin-bottom: 0.5rem;">Add the employer pension match and the value of employer-paid benefits.</li>
+        <li style="margin-bottom: 0.5rem;">Subtract employee-paid premiums and your estimated annual commute cost.</li>
+        <li>Compare the two totals &mdash; and only then weigh the non-financial factors (team, growth, stability).</li>
+      </ol>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list" style="margin-bottom: 2rem;">
+        {faqs.map(f => (
+          <div class="faq-item" style="margin-bottom: 1.25rem;">
+            <strong style="display: block; color: var(--text-primary); margin-bottom: 0.35rem;">{f.q}</strong>
+            <p style="margin: 0; line-height: 1.6; color: var(--text-secondary);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="glass-panel" style="margin-top: 3rem;">
+        <h2 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem;">Run the Numbers on Your Own Offers</h2>
+        <ul style="list-style-type: none; margin: 0; padding: 0;">
+          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/job-offer-comparison/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Job Offer Comparison Calculator</a> &mdash; side-by-side total compensation</li>
+          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/commute-vs-hybrid-vs-remote/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Commute vs Hybrid vs Remote Calculator</a> &mdash; price the commute factor</li>
+          <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/salary-raise-vs-inflation/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Raise vs Inflation Calculator</a> &mdash; check if a new salary really gets you ahead</li>
+        </ul>
       </div>
     </article>
   </main>
