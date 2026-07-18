@@ -44,8 +44,14 @@ import Layout from '../../layouts/Layout.astro';
         <div id="signed-in" hidden>
             <div class="glass-panel" style="margin-bottom: 2rem;">
                 <h2 style="font-size: 1.3rem;">Signed in</h2>
+                <p id="checkout-result" role="status" aria-live="polite" hidden style="color: var(--accent-light);"></p>
                 <p>You are signed in as <strong id="user-email"></strong>. Plan: <strong id="user-plan">free</strong>.</p>
-                <button type="button" class="btn-secondary" id="signout-btn">Sign out</button>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="button" class="btn-secondary" id="signout-btn">Sign out</button>
+                    <a href="/pricing/" class="btn-secondary" id="upgrade-link" style="text-decoration: none;" hidden>See plans</a>
+                    <button type="button" class="btn-secondary" id="billing-btn" hidden>Manage billing (cancel, invoices)</button>
+                </div>
+                <p id="billing-status" role="status" aria-live="polite" class="hint" style="margin-top: 1rem; margin-bottom: 0;"></p>
             </div>
 
             <div class="glass-panel" style="margin-bottom: 2rem;">
@@ -259,10 +265,31 @@ import Layout from '../../layouts/Layout.astro';
                 el('user-email').textContent = session.user.email ?? '';
                 renderCases();
                 renderShares();
+                if (new URLSearchParams(window.location.search).get('checkout') === 'success') {
+                    const banner = el('checkout-result');
+                    banner.hidden = false;
+                    banner.textContent = 'Payment received — your plan updates within a few seconds. Reload if it still shows free.';
+                }
                 getPlan().then((plan) => {
                     el('user-plan').textContent = plan === 'decision_pass' ? 'Decision Pass' : plan;
+                    el('upgrade-link').hidden = plan !== 'free';
                     if (plan !== 'free') {
                         el('cases-hint').textContent = 'Your plan stores multiple cases. Saving updates the loaded case; use “Save as new case” in a workflow to add another.';
+                    }
+                });
+                import('../../lib/cloud.ts').then(async (cloud) => {
+                    if (await cloud.hasStripeBilling()) {
+                        const btn = el('billing-btn') as HTMLButtonElement;
+                        btn.hidden = false;
+                        btn.addEventListener('click', async () => {
+                            el('billing-status').textContent = 'Opening billing portal…';
+                            const { url, error } = await cloud.openBillingPortal();
+                            if (error || !url) {
+                                el('billing-status').textContent = `Could not open the billing portal: ${error ?? 'unknown error'}`;
+                                return;
+                            }
+                            window.location.href = url;
+                        });
                     }
                 });
             }

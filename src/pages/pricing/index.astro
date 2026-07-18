@@ -1,0 +1,199 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { PRICING, FEATURES } from '../../config/features.ts';
+
+const metaTitle = 'Pricing – Econified';
+const metaDescription =
+    'All core calculators stay free with no account. Econified Plus adds unlimited saved decision cases, share links and version history. One-time Decision Pass available.';
+---
+
+<Layout
+    title={metaTitle}
+    description={metaDescription}
+    canonicalUrl="https://econified.com/pricing/"
+    noAds={true}
+>
+    <main class="container">
+        <h1>Pricing</h1>
+        <p class="lead">
+            Every core calculator is free and requires no account — that does not change.
+            Paid plans exist for one reason: keeping a consequential decision organized over time,
+            across devices, and shareable with the people it affects.
+        </p>
+
+        <div class="pricing-grid">
+            <!-- FREE -->
+            <div class="glass-panel price-card">
+                <h2>Free</h2>
+                <p class="price-line"><strong>$0</strong></p>
+                <ul>
+                    <li>All public calculators, no account needed</li>
+                    <li>Full job-offer decision workflow</li>
+                    <li>Results saved locally in your browser</li>
+                    <li>Optional account with one stored decision case</li>
+                    <li>Printable report</li>
+                </ul>
+                <a href="/decisions/job-offer/" class="btn-secondary price-cta">Start a decision analysis</a>
+            </div>
+
+            <!-- PLUS -->
+            <div class="glass-panel price-card featured">
+                <h2>Plus</h2>
+                <p class="price-line">
+                    <strong>${PRICING.plusMonthlyUsd}/month</strong>
+                    <span class="price-alt">or ${PRICING.plusAnnualUsd}/year (about {Math.round((1 - PRICING.plusAnnualUsd / (PRICING.plusMonthlyUsd * 12)) * 100)}% less)</span>
+                </p>
+                <ul>
+                    <li>Everything in Free</li>
+                    <li>Multiple stored decision cases</li>
+                    <li>Read-only share links (revocable, with expiry)</li>
+                    <li>Version history with restore</li>
+                    <li>No ads in the workspace</li>
+                </ul>
+                {FEATURES.BILLING_ENABLED ? (
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                        <button type="button" class="btn-primary price-cta" data-checkout="plus_monthly">Get Plus monthly</button>
+                        <button type="button" class="btn-secondary price-cta" data-checkout="plus_annual">Get Plus annual</button>
+                    </div>
+                ) : (
+                    <p class="field-hint" style="margin: 0;">Purchasing opens shortly. Existing free features are unaffected.</p>
+                )}
+            </div>
+
+            <!-- DECISION PASS -->
+            <div class="glass-panel price-card">
+                <h2>Decision Pass</h2>
+                <p class="price-line"><strong>${PRICING.decisionPassUsd}</strong> <span class="price-alt">one-time</span></p>
+                <ul>
+                    <li>All Plus features for 60 days</li>
+                    <li>Built for one decision: analyze, share, decide</li>
+                    <li>No subscription, nothing renews</li>
+                </ul>
+                {FEATURES.BILLING_ENABLED ? (
+                    <button type="button" class="btn-secondary price-cta" data-checkout="decision_pass">Get a Decision Pass</button>
+                ) : (
+                    <p class="field-hint" style="margin: 0;">Purchasing opens shortly.</p>
+                )}
+            </div>
+
+            <!-- PROFESSIONAL -->
+            <div class="glass-panel price-card">
+                <h2>Professional</h2>
+                <p class="price-line"><strong>For advisers</strong></p>
+                <ul>
+                    <li>Client workspaces and branded reports</li>
+                    <li>Under consideration — built if there is real demand</li>
+                </ul>
+                <a href="/contact/" class="btn-secondary price-cta">Join the waitlist</a>
+            </div>
+        </div>
+
+        <p id="checkout-status" role="status" aria-live="polite" class="field-hint" style="min-height: 1.5rem;"></p>
+
+        <div class="content-section">
+            <h2>The fine print, plainly</h2>
+            <ul class="insights-list">
+                <li><strong>Cancel anytime</strong> from your account page — access continues to the end of the paid period. No retention tricks.</li>
+                <li><strong>Prices are hypotheses.</strong> They may change; existing subscribers keep their price for their current term.</li>
+                <li><strong>Payments are processed by Stripe.</strong> Econified never sees or stores your card details.</li>
+                <li><strong>Free means free.</strong> The public calculators and the core decision workflow stay free and account-free. Paid plans fund them.</li>
+                <li><strong>Your data stays yours:</strong> export or delete everything from your account page at any time, on any plan.</li>
+            </ul>
+        </div>
+    </main>
+
+    <style is:global>
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .price-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+        .price-card.featured {
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        .price-line {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        .price-alt {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+        .price-card ul {
+            padding-left: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        .price-card ul li {
+            margin-bottom: 0.5rem;
+        }
+        .price-cta {
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+        .field-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .btn-primary, .btn-secondary {
+            font-family: var(--font-family);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.8rem 1.6rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-light); color: #0f172a; }
+        .btn-secondary { background: transparent; border-color: var(--surface-border); color: var(--text-primary); }
+        .btn-primary:focus-visible, .btn-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    </style>
+
+    <script>
+        import { FEATURES } from '../../config/features.ts';
+
+        function track(event: string, props: Record<string, string | number> = {}) {
+            const w = window as any;
+            if (w.plausible) w.plausible(event, { props });
+        }
+
+        if (new URLSearchParams(window.location.search).get('checkout') === 'cancelled') {
+            document.getElementById('checkout-status')!.textContent =
+                'Checkout was cancelled — nothing was charged. The free tools remain fully available.';
+        }
+
+        if (FEATURES.BILLING_ENABLED) {
+            document.querySelectorAll<HTMLButtonElement>('[data-checkout]').forEach((btn) => {
+                btn.addEventListener('click', async () => {
+                    const status = document.getElementById('checkout-status')!;
+                    const plan = btn.dataset.checkout as 'plus_monthly' | 'plus_annual' | 'decision_pass';
+                    track('checkout_started', { plan });
+                    const { getSession, startCheckout } = await import('../../lib/cloud.ts');
+                    const session = await getSession();
+                    if (!session) {
+                        status.innerHTML =
+                            'You need a (free) account first so the purchase has somewhere to live — <a href="/account/">sign in or create one</a>, then come back here.';
+                        return;
+                    }
+                    status.textContent = 'Preparing secure checkout…';
+                    const { url, error } = await startCheckout(plan);
+                    if (error || !url) {
+                        status.textContent = `Checkout is unavailable right now: ${error ?? 'unknown error'}`;
+                        return;
+                    }
+                    window.location.href = url;
+                });
+            });
+        }
+    </script>
+</Layout>
