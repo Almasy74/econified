@@ -198,7 +198,12 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
                         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                             <button type="button" class="btn-primary" id="cloud-save">Save to my account</button>
                             <button type="button" class="btn-secondary" id="cloud-load">Load my saved case</button>
+                            <button type="button" class="btn-secondary" id="cloud-save-new" hidden>Save as new case</button>
+                            <button type="button" class="btn-secondary" id="cloud-share" hidden>Create share link</button>
                         </div>
+                        <p id="cloud-plus-hint" class="field-hint" hidden style="margin-top: 1rem; margin-bottom: 0;">
+                            Multiple saved cases and read-only share links are part of Econified Plus (not yet available for purchase).
+                        </p>
                         <p id="cloud-status" role="status" aria-live="polite" style="margin-top: 1rem; margin-bottom: 0;" class="field-hint"></p>
                     </div>
                 </div>
@@ -365,56 +370,7 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
             outline-offset: 2px;
         }
 
-        /* Results */
-        .verdict-card {
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(59, 130, 246, 0.35);
-            background: rgba(59, 130, 246, 0.08);
-            padding: 1.5rem 2rem;
-            margin-bottom: 2rem;
-        }
-        .verdict-card h3 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.4rem;
-        }
-        .verdict-card.close {
-            border-color: rgba(234, 179, 8, 0.4);
-            background: rgba(234, 179, 8, 0.07);
-        }
-        .verdict-card.insufficient {
-            border-color: var(--surface-border);
-            background: var(--surface);
-        }
-        .comparison-table-wrap {
-            overflow-x: auto;
-            margin-bottom: 2rem;
-        }
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-        }
-        .comparison-table th,
-        .comparison-table td {
-            text-align: right;
-            padding: 0.6rem 0.9rem;
-            border-bottom: 1px solid var(--surface-border);
-            white-space: nowrap;
-        }
-        .comparison-table th[scope='row'] {
-            text-align: left;
-            font-weight: 500;
-            color: var(--text-secondary);
-            white-space: normal;
-        }
-        .comparison-table thead th {
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--accent);
-        }
-        .comparison-table .winner {
-            color: var(--accent-light);
-            font-weight: 600;
-        }
+        /* Results styles live in global.css (shared with /shared/ report pages) */
         .results-block {
             margin-bottom: 2rem;
         }
@@ -449,8 +405,9 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
     </style>
 
     <script>
-        import { compareCase, COMPONENT_LABELS } from '../../../../tools/decision/engine.ts';
-        import type { ComparisonResult, ScenarioMetrics } from '../../../../tools/decision/engine.ts';
+        import { compareCase } from '../../../../tools/decision/engine.ts';
+        import type { ComparisonResult } from '../../../../tools/decision/engine.ts';
+        import { buildResultsHtml } from '../../../lib/report.ts';
         import { emptyCase, parseStoredCase, type DecisionCase, type Scenario } from '../../../../tools/decision/schema.ts';
 
         const STORAGE_KEY = 'econified_case_job_offer_v1';
@@ -491,22 +448,6 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
                     /* storage full/blocked — the session still works in memory */
                 }
             }, 300);
-        }
-
-        // ---------- formatting ----------
-        function fmtMoney(v: number): string {
-            if (v === 0) v = 0; // normalize -0 so zero costs don't render as "−0"
-            return new Intl.NumberFormat(navigator.language || 'en-US', {
-                style: 'currency',
-                currency: state.assumptions.currency,
-                maximumFractionDigits: 0,
-            }).format(v);
-        }
-        function fmtHours(v: number): string {
-            return `${Math.round(v).toLocaleString()} h`;
-        }
-        function fmtNum(v: number, digits = 1): string {
-            return v.toLocaleString(undefined, { maximumFractionDigits: digits });
         }
 
         // ---------- DOM wiring ----------
@@ -579,12 +520,6 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
         }
 
         // ---------- results rendering ----------
-        function esc(text: string): string {
-            const d = document.createElement('div');
-            d.textContent = text;
-            return d.innerHTML;
-        }
-
         function renderResults() {
             const result: ComparisonResult = compareCase(state);
             const rec = result.recommendation;
@@ -598,124 +533,7 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
                 liveStatus.textContent = '';
             }
 
-            if (rec.verdict === 'insufficient') {
-                resultsRoot.innerHTML = `
-                    <div class="verdict-card insufficient">
-                        <h3>Not enough information yet</h3>
-                        <ul>${rec.missingInfo.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>
-                    </div>`;
-                return;
-            }
-
-            const verdictClass = rec.verdict === 'close' ? 'close' : '';
-            const headline =
-                rec.verdict === 'close'
-                    ? `${esc(rec.leaderLabel!)} and ${esc(rec.runnerUpLabel!)} are financially close`
-                    : `${esc(rec.leaderLabel!)} is stronger under your current assumptions`;
-            const gapLine =
-                rec.verdict === 'close'
-                    ? `The gap is ${fmtMoney(rec.annualGap)} per year — inside your ${fmtNum(state.assumptions.closeCallPercent)}% close-call tolerance. Treat this as a decision about preferences, not money.`
-                    : `Estimated advantage: <strong>${fmtMoney(rec.annualGap)} per year</strong> over ${esc(rec.runnerUpLabel!)}, on expected value net of costs${state.assumptions.hourlyTimeValue != null ? ' and commute time at your time value' : ''}.`;
-
-            const tableRows: Array<[string, (m: ScenarioMetrics) => string]> = [
-                ['Guaranteed annual value', (m) => fmtMoney(m.guaranteedAnnual)],
-                ['Expected annual value', (m) => fmtMoney(m.expectedAnnual)],
-                ['Share of value at risk', (m) => `${fmtNum(m.atRiskShare * 100, 0)}%`],
-                ['Recurring work costs', (m) => fmtMoney(-m.annualWorkCosts)],
-                ['Switching cost (per year of tenure)', (m) => fmtMoney(-m.amortizedTransitionCost)],
-                ['Net expected value', (m) => fmtMoney(m.netExpectedAnnual)],
-                ['Hours worked per year', (m) => fmtHours(m.workedHoursAnnual)],
-                ['Commute hours per year', (m) => fmtHours(m.commuteHoursAnnual)],
-                ['Effective hourly value', (m) => (m.effectiveHourly != null ? fmtMoney(m.effectiveHourly) + '/h' : '—')],
-                ['PTO days', (m) => fmtNum(m.ptoDays, 0)],
-            ];
-            if (state.assumptions.hourlyTimeValue != null) {
-                tableRows.push(['Commute time cost (your valuation)', (m) => fmtMoney(-(m.commuteTimeCost ?? 0))]);
-            }
-            tableRows.push(['Decision value (ranking basis)', (m) => fmtMoney(m.decisionValue)]);
-
-            const included = result.metrics;
-            const leaderId = rec.leaderId;
-
-            const table = `
-                <div class="comparison-table-wrap results-block">
-                    <table class="comparison-table">
-                        <caption class="field-hint" style="text-align:left; caption-side: bottom; margin-top: 0.5rem;">
-                            All amounts are annual, gross, in ${esc(state.assumptions.currency)}. “Expected” values discount bonuses and equity by your own risk assumptions.
-                        </caption>
-                        <thead>
-                            <tr><th scope="col" style="text-align:left;">Dimension</th>${included
-                                .map((m) => `<th scope="col">${esc(m.label)}${m.scenarioId === leaderId ? ' ★' : ''}</th>`)
-                                .join('')}</tr>
-                        </thead>
-                        <tbody>
-                            ${tableRows
-                                .map(
-                                    ([label, get]) => `
-                                <tr><th scope="row">${esc(label)}</th>${included
-                                        .map((m) => `<td class="${m.scenarioId === leaderId ? 'winner' : ''}">${get(m)}</td>`)
-                                        .join('')}</tr>`,
-                                )
-                                .join('')}
-                        </tbody>
-                    </table>
-                </div>`;
-
-            const drivers = rec.drivers.length
-                ? `<div class="results-block">
-                        <h3>What drives the result</h3>
-                        <ol>${rec.drivers
-                            .map(
-                                (d) =>
-                                    `<li><strong>${esc(COMPONENT_LABELS[d.key])}:</strong> ${
-                                        d.delta >= 0 ? 'favors' : 'works against'
-                                    } ${esc(rec.leaderLabel!)} by ${fmtMoney(Math.abs(d.delta))} per year.</li>`,
-                            )
-                            .join('')}</ol>
-                   </div>`
-                : '';
-
-            const breakEvens = rec.breakEvens.length
-                ? `<div class="results-block">
-                        <h3>What would change the answer</h3>
-                        <ul>${rec.breakEvens
-                            .map((b) => {
-                                const val =
-                                    b.kind === 'baseSalary'
-                                        ? fmtMoney(b.value)
-                                        : b.kind === 'timeValue'
-                                          ? fmtMoney(b.value) + '/h'
-                                          : b.kind === 'onsiteDays'
-                                            ? `${fmtNum(b.value)} days/week`
-                                            : `${fmtNum(b.value, 0)}%`;
-                                return `<li>${esc(b.description)} <strong>${val}</strong>.</li>`;
-                            })
-                            .join('')}</ul>
-                        <p class="field-hint">The base-salary threshold doubles as a negotiation target for ${esc(rec.runnerUpLabel!)}.</p>
-                   </div>`
-                : '';
-
-            const missing = rec.missingInfo.length
-                ? `<div class="results-block">
-                        <h3>Worth confirming</h3>
-                        <ul>${rec.missingInfo.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>
-                   </div>`
-                : '';
-
-            const caveats = `<div class="results-block">
-                    <h3>Assumptions and limits</h3>
-                    <ul>${rec.caveats.map((cv) => `<li>${esc(cv)}</li>`).join('')}</ul>
-                    <p class="field-hint">Confidence in this comparison: <strong>${rec.confidence}</strong>
-                    (based on how close the scenarios are, how much value is at risk, and what is still unconfirmed).
-                    This is an economic comparison, not financial advice.</p>
-                </div>`;
-
-            resultsRoot.innerHTML = `
-                <div class="verdict-card ${verdictClass}">
-                    <h3>${headline}</h3>
-                    <p style="margin-bottom: 0;">${gapLine}</p>
-                </div>
-                ${table}${drivers}${breakEvens}${missing}${caveats}`;
+            resultsRoot.innerHTML = buildResultsHtml(state, result);
 
             if (currentStep === 'results' && !resultsViewed && rec.verdict !== 'insufficient') {
                 resultsViewed = true;
@@ -840,7 +658,9 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
 
             // Cheap check: only load supabase-js when a session token exists
             // or the page was asked to load a cloud case.
-            const wantsCloudLoad = new URLSearchParams(window.location.search).get('load') === 'cloud';
+            const params = new URLSearchParams(window.location.search);
+            const requestedCaseId = params.get('case');
+            const wantsCloudLoad = params.get('load') === 'cloud' || !!requestedCaseId;
             const hasLikelySession = Object.keys(localStorage).some(
                 (k) => k.startsWith('sb-') && k.endsWith('-auth-token'),
             );
@@ -859,14 +679,22 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
             document.getElementById('cloud-email')!.textContent = session.user.email ?? '';
             const status = document.getElementById('cloud-status')!;
 
-            async function loadFromCloud() {
-                status.textContent = 'Loading…';
-                const loaded = await cloud.loadCase('job-offer');
-                if (!loaded) {
-                    status.textContent = 'No saved case found in your account yet.';
-                    return;
-                }
-                state = loaded;
+            /** The stored row this browser session is editing, if any. */
+            let cloudCaseId: string | null = null;
+            const plan = await cloud.getPlan();
+
+            const saveNewBtn = document.getElementById('cloud-save-new') as HTMLButtonElement;
+            const shareBtn = document.getElementById('cloud-share') as HTMLButtonElement;
+            if (plan !== 'free') {
+                saveNewBtn.hidden = false;
+                shareBtn.hidden = false;
+            } else {
+                document.getElementById('cloud-plus-hint')!.hidden = false;
+            }
+
+            function applyLoaded(loaded: { id: string; decisionCase: typeof state }) {
+                cloudCaseId = loaded.id;
+                state = loaded.decisionCase;
                 document.querySelectorAll<HTMLInputElement>('input[data-scenario]').forEach((i) =>
                     i.setAttribute('data-touched', 'true'),
                 );
@@ -877,15 +705,52 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
                 track('cloud_case_loaded', { decision: 'job-offer' });
             }
 
-            document.getElementById('cloud-save')!.addEventListener('click', async () => {
+            async function loadFromCloud() {
+                status.textContent = 'Loading…';
+                const loaded = requestedCaseId
+                    ? await cloud.loadCaseById(requestedCaseId)
+                    : await cloud.loadCase('job-offer');
+                if (!loaded) {
+                    status.textContent = 'No saved case found in your account yet.';
+                    return;
+                }
+                applyLoaded(loaded);
+            }
+
+            async function doSave(asNew: boolean) {
                 status.textContent = 'Saving…';
-                const { error } = await cloud.saveCase(session.user.id, state);
-                status.textContent = error
-                    ? `Save failed: ${error}`
+                const { id, error } = await cloud.saveCase(session!.user.id, state, asNew ? null : cloudCaseId);
+                if (error) {
+                    status.textContent = `Save failed: ${error}`;
+                    if (error.includes('Plus')) track('upgrade_prompt_viewed', { decision: 'job-offer', feature: 'multi_case' });
+                    return;
+                }
+                cloudCaseId = id;
+                status.textContent = asNew
+                    ? 'Saved as a new case in your account.'
                     : 'Saved to your account. Manage saved cases under Account.';
-                if (!error) track('cloud_case_saved', { decision: 'job-offer' });
-            });
+                track('cloud_case_saved', { decision: 'job-offer' });
+            }
+
+            document.getElementById('cloud-save')!.addEventListener('click', () => doSave(cloudCaseId == null));
+            saveNewBtn.addEventListener('click', () => doSave(true));
             document.getElementById('cloud-load')!.addEventListener('click', loadFromCloud);
+
+            shareBtn.addEventListener('click', async () => {
+                status.textContent = 'Creating share link…';
+                const { url, error } = await cloud.createShareLink(session!.user.id, state);
+                if (error || !url) {
+                    status.textContent = `Could not create share link: ${error}`;
+                    return;
+                }
+                try {
+                    await navigator.clipboard.writeText(url);
+                    status.textContent = `Read-only link copied to clipboard (valid 90 days, revocable under Account): ${url}`;
+                } catch {
+                    status.textContent = `Read-only link (valid 90 days, revocable under Account): ${url}`;
+                }
+                track('share_link_created', { decision: 'job-offer' });
+            });
 
             if (wantsCloudLoad) {
                 await loadFromCloud();

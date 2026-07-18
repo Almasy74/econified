@@ -32,6 +32,7 @@ export default defineConfig({
         filter: (page) => {
             // Exclude private application routes (noindexed)
             if (page.includes('/account/')) return false;
+            if (page.includes('/shared/')) return false;
             // Exclude noindexed tool pages
             if (noindexPaths.some(p => page.endsWith(p))) return false;
             // Exclude noindexed destination pages

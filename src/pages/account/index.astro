@@ -44,14 +44,20 @@ import Layout from '../../layouts/Layout.astro';
         <div id="signed-in" hidden>
             <div class="glass-panel" style="margin-bottom: 2rem;">
                 <h2 style="font-size: 1.3rem;">Signed in</h2>
-                <p>You are signed in as <strong id="user-email"></strong>.</p>
+                <p>You are signed in as <strong id="user-email"></strong>. Plan: <strong id="user-plan">free</strong>.</p>
                 <button type="button" class="btn-secondary" id="signout-btn">Sign out</button>
             </div>
 
             <div class="glass-panel" style="margin-bottom: 2rem;">
                 <h2 style="font-size: 1.3rem;">Saved decision cases</h2>
                 <div id="cases-list"><p>Loading…</p></div>
-                <p class="hint">Free accounts store one case per decision type. Saving again overwrites the stored copy.</p>
+                <p class="hint" id="cases-hint">Free accounts store one decision case. Saving again overwrites the stored copy.</p>
+            </div>
+
+            <div class="glass-panel" style="margin-bottom: 2rem;" id="shares-panel" hidden>
+                <h2 style="font-size: 1.3rem;">Share links</h2>
+                <p class="hint">Read-only links to a snapshot of a case. Revoking a link disables it immediately; the snapshot does not update when you edit the case.</p>
+                <div id="shares-list"><p>Loading…</p></div>
             </div>
 
             <div class="glass-panel">
@@ -108,6 +114,7 @@ import Layout from '../../layouts/Layout.astro';
         import {
             getSession, sendSignInEmail, verifyEmailCode, signOut,
             listCases, deleteCase, exportAllCases, deleteAccount,
+            getPlan, listShares, revokeShare, listVersions, restoreVersion,
         } from '../../lib/cloud.ts';
 
         const el = (id: string) => document.getElementById(id)!;
@@ -137,9 +144,11 @@ import Layout from '../../layouts/Layout.astro';
                                 <span class="hint">${esc(c.decision_type)} · updated ${new Date(c.updated_at).toLocaleDateString()}</span>
                             </div>
                             <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                                ${DECISION_ROUTES[c.decision_type] ? `<a class="btn-secondary" style="text-decoration:none;" href="${DECISION_ROUTES[c.decision_type]}">Open</a>` : ''}
+                                ${DECISION_ROUTES[c.decision_type] ? `<a class="btn-secondary" style="text-decoration:none;" href="${DECISION_ROUTES[c.decision_type]}?case=${esc(c.id)}">Open</a>` : ''}
+                                <button type="button" class="btn-secondary case-history" data-id="${esc(c.id)}">History</button>
                                 <button type="button" class="btn-danger case-delete" data-id="${esc(c.id)}">Delete</button>
                             </div>
+                            <div class="case-versions" data-for="${esc(c.id)}" hidden style="flex-basis: 100%;"></div>
                         </div>`,
                     )
                     .join('');
@@ -150,8 +159,91 @@ import Layout from '../../layouts/Layout.astro';
                         renderCases();
                     }),
                 );
+                list.querySelectorAll<HTMLButtonElement>('.case-history').forEach((btn) =>
+                    btn.addEventListener('click', async () => {
+                        const box = list.querySelector<HTMLElement>(`.case-versions[data-for="${btn.dataset.id}"]`)!;
+                        if (!box.hidden) {
+                            box.hidden = true;
+                            return;
+                        }
+                        box.hidden = false;
+                        box.innerHTML = '<p class="hint">Loading history…</p>';
+                        try {
+                            const versions = await listVersions(btn.dataset.id!);
+                            if (!versions.length) {
+                                box.innerHTML = '<p class="hint">No earlier versions yet. A version is kept every time a save changes the case.</p>';
+                                return;
+                            }
+                            box.innerHTML = versions
+                                .map(
+                                    (v) => `
+                                    <div style="display:flex; justify-content:space-between; align-items:center; padding:0.4rem 0;">
+                                        <span class="hint">Version from ${new Date(v.saved_at).toLocaleString()}</span>
+                                        <button type="button" class="btn-secondary version-restore" data-case="${btn.dataset.id}" data-version="${v.id}" style="padding:0.4rem 0.9rem; font-size:0.85rem;">Restore</button>
+                                    </div>`,
+                                )
+                                .join('');
+                            box.querySelectorAll<HTMLButtonElement>('.version-restore').forEach((rb) =>
+                                rb.addEventListener('click', async () => {
+                                    if (!window.confirm('Restore this version? The current stored state is kept as a new version.')) return;
+                                    const { error } = await restoreVersion(rb.dataset.case!, parseInt(rb.dataset.version!, 10));
+                                    if (error) window.alert(`Restore failed: ${error}`);
+                                    renderCases();
+                                }),
+                            );
+                        } catch {
+                            box.innerHTML = '<p class="hint">Could not load history.</p>';
+                        }
+                    }),
+                );
             } catch (e) {
                 list.innerHTML = '<p style="margin:0;">Could not load saved cases. Try reloading the page.</p>';
+            }
+        }
+
+        async function renderShares() {
+            const panel = el('shares-panel');
+            const list = el('shares-list');
+            try {
+                const shares = await listShares();
+                if (!shares.length) {
+                    panel.hidden = true;
+                    return;
+                }
+                panel.hidden = false;
+                list.innerHTML = shares
+                    .map(
+                        (s) => `
+                        <div class="case-row">
+                            <div>
+                                <strong>${esc(s.title)}</strong><br/>
+                                <span class="hint">${s.revoked ? 'Revoked' : s.expires_at && new Date(s.expires_at) < new Date() ? 'Expired' : 'Active'} · created ${new Date(s.created_at).toLocaleDateString()}${s.expires_at ? ` · expires ${new Date(s.expires_at).toLocaleDateString()}` : ''}</span>
+                            </div>
+                            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                ${!s.revoked ? `<button type="button" class="btn-secondary share-copy" data-id="${esc(s.id)}">Copy link</button>` : ''}
+                                ${!s.revoked ? `<button type="button" class="btn-danger share-revoke" data-id="${esc(s.id)}">Revoke</button>` : ''}
+                            </div>
+                        </div>`,
+                    )
+                    .join('');
+                list.querySelectorAll<HTMLButtonElement>('.share-copy').forEach((btn) =>
+                    btn.addEventListener('click', async () => {
+                        try {
+                            await navigator.clipboard.writeText(`${window.location.origin}/shared/?id=${btn.dataset.id}`);
+                            btn.textContent = 'Copied!';
+                            setTimeout(() => (btn.textContent = 'Copy link'), 2000);
+                        } catch { /* clipboard blocked */ }
+                    }),
+                );
+                list.querySelectorAll<HTMLButtonElement>('.share-revoke').forEach((btn) =>
+                    btn.addEventListener('click', async () => {
+                        if (!window.confirm('Revoke this link? Anyone holding it loses access immediately.')) return;
+                        await revokeShare(btn.dataset.id!);
+                        renderShares();
+                    }),
+                );
+            } catch {
+                panel.hidden = true;
             }
         }
 
@@ -166,6 +258,13 @@ import Layout from '../../layouts/Layout.astro';
             if (session) {
                 el('user-email').textContent = session.user.email ?? '';
                 renderCases();
+                renderShares();
+                getPlan().then((plan) => {
+                    el('user-plan').textContent = plan === 'decision_pass' ? 'Decision Pass' : plan;
+                    if (plan !== 'free') {
+                        el('cases-hint').textContent = 'Your plan stores multiple cases. Saving updates the loaded case; use “Save as new case” in a workflow to add another.';
+                    }
+                });
             }
         }
 

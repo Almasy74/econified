@@ -53,6 +53,20 @@ export async function signOut(): Promise<void> {
     await supabase.auth.signOut();
 }
 
+export type Plan = 'free' | 'plus' | 'decision_pass';
+
+/** Client-side plan lookup for UI gating only — real enforcement is in DB triggers/RLS. */
+export async function getPlan(): Promise<Plan> {
+    const supabase = await getClient();
+    const { data } = await supabase
+        .from('entitlements')
+        .select('plan, status, current_period_end')
+        .maybeSingle();
+    if (!data || data.status !== 'active') return 'free';
+    if (data.current_period_end && new Date(data.current_period_end) < new Date()) return 'free';
+    return (data.plan as Plan) ?? 'free';
+}
+
 export interface CloudCaseMeta {
     id: string;
     decision_type: string;
@@ -70,32 +84,74 @@ export async function listCases(): Promise<CloudCaseMeta[]> {
     return data ?? [];
 }
 
-/** Upsert the user's saved case for this decision type (free tier: one per type). */
-export async function saveCase(userId: string, c: DecisionCase): Promise<{ error: string | null }> {
-    const supabase = await getClient();
-    const { error } = await supabase.from('decision_cases').upsert(
-        {
-            user_id: userId,
-            decision_type: c.decisionType,
-            title: c.title || 'Untitled decision',
-            schema_version: c.version,
-            data: c,
-            updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'user_id,decision_type' },
-    );
-    return { error: error ? error.message : null };
+function friendlyDbError(message: string): string {
+    if (message.includes('CASE_LIMIT_FREE')) {
+        return 'Free accounts store one decision case. Delete the stored case under Account first (Plus will lift this limit).';
+    }
+    if (message.includes('CASE_LIMIT_MAX')) {
+        return 'You have reached the maximum number of stored cases.';
+    }
+    if (message.includes('SHARE_REQUIRES_PLUS')) {
+        return 'Share links are a Plus feature.';
+    }
+    return message;
 }
 
-export async function loadCase(decisionType: string): Promise<DecisionCase | null> {
+/**
+ * Save a case. With targetId, updates that stored case (always allowed);
+ * without, inserts a new one (plan limits enforced by the database).
+ * Returns the stored row id on success.
+ */
+export async function saveCase(
+    userId: string,
+    c: DecisionCase,
+    targetId?: string | null,
+): Promise<{ id: string | null; error: string | null }> {
+    const supabase = await getClient();
+    const row = {
+        user_id: userId,
+        decision_type: c.decisionType,
+        title: c.title || 'Untitled decision',
+        schema_version: c.version,
+        data: c,
+        updated_at: new Date().toISOString(),
+    };
+    if (targetId) {
+        const { error } = await supabase.from('decision_cases').update(row).eq('id', targetId);
+        if (!error) return { id: targetId, error: null };
+        return { id: null, error: friendlyDbError(error.message) };
+    }
+    const { data, error } = await supabase.from('decision_cases').insert(row).select('id').single();
+    if (error) return { id: null, error: friendlyDbError(error.message) };
+    return { id: data.id, error: null };
+}
+
+export interface LoadedCase {
+    id: string;
+    decisionCase: DecisionCase;
+}
+
+/** Load the most recently updated stored case of a type. */
+export async function loadCase(decisionType: string): Promise<LoadedCase | null> {
     const supabase = await getClient();
     const { data, error } = await supabase
         .from('decision_cases')
-        .select('data')
+        .select('id, data')
         .eq('decision_type', decisionType)
+        .order('updated_at', { ascending: false })
+        .limit(1)
         .maybeSingle();
     if (error || !data) return null;
-    return parseStoredCase(data.data);
+    const parsed = parseStoredCase(data.data);
+    return parsed ? { id: data.id, decisionCase: parsed } : null;
+}
+
+export async function loadCaseById(id: string): Promise<LoadedCase | null> {
+    const supabase = await getClient();
+    const { data, error } = await supabase.from('decision_cases').select('id, data').eq('id', id).maybeSingle();
+    if (error || !data) return null;
+    const parsed = parseStoredCase(data.data);
+    return parsed ? { id: data.id, decisionCase: parsed } : null;
 }
 
 export async function deleteCase(id: string): Promise<{ error: string | null }> {
@@ -117,6 +173,97 @@ export async function exportAllCases(): Promise<void> {
     a.download = 'econified-export.json';
     a.click();
     URL.revokeObjectURL(a.href);
+}
+
+// ---------------------------------------------------------------- shares
+
+export interface ShareMeta {
+    id: string;
+    title: string;
+    decision_type: string;
+    created_at: string;
+    expires_at: string | null;
+    revoked: boolean;
+}
+
+/** Create a read-only share link (Plus — enforced by a DB trigger). */
+export async function createShareLink(
+    userId: string,
+    c: DecisionCase,
+    expiresDays: number | null = 90,
+): Promise<{ url: string | null; error: string | null }> {
+    const supabase = await getClient();
+    const { data, error } = await supabase
+        .from('shared_reports')
+        .insert({
+            user_id: userId,
+            decision_type: c.decisionType,
+            title: c.title || 'Untitled decision',
+            snapshot: c,
+            expires_at: expiresDays ? new Date(Date.now() + expiresDays * 86400_000).toISOString() : null,
+        })
+        .select('id')
+        .single();
+    if (error) return { url: null, error: friendlyDbError(error.message) };
+    return { url: `${window.location.origin}/shared/?id=${data.id}`, error: null };
+}
+
+export async function listShares(): Promise<ShareMeta[]> {
+    const supabase = await getClient();
+    const { data, error } = await supabase
+        .from('shared_reports')
+        .select('id, title, decision_type, created_at, expires_at, revoked')
+        .order('created_at', { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+}
+
+export async function revokeShare(id: string): Promise<{ error: string | null }> {
+    const supabase = await getClient();
+    const { error } = await supabase.from('shared_reports').update({ revoked: true }).eq('id', id);
+    return { error: error ? error.message : null };
+}
+
+/** Public fetch of a shared report by exact token (works signed out). */
+export async function fetchSharedReport(
+    shareId: string,
+): Promise<{ title: string; decisionCase: DecisionCase; created_at: string } | null> {
+    const supabase = await getClient();
+    const { data, error } = await supabase.rpc('get_shared_report', { share_id: shareId });
+    if (error || !data) return null;
+    const parsed = parseStoredCase(data.snapshot);
+    if (!parsed) return null;
+    return { title: data.title, decisionCase: parsed, created_at: data.created_at };
+}
+
+// ---------------------------------------------------------------- versions
+
+export interface VersionMeta {
+    id: number;
+    saved_at: string;
+}
+
+export async function listVersions(caseId: string): Promise<VersionMeta[]> {
+    const supabase = await getClient();
+    const { data, error } = await supabase
+        .from('case_versions')
+        .select('id, saved_at')
+        .eq('case_id', caseId)
+        .order('saved_at', { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+}
+
+/** Restore a snapshot: writes the version's data back onto the stored case. */
+export async function restoreVersion(caseId: string, versionId: number): Promise<{ error: string | null }> {
+    const supabase = await getClient();
+    const { data, error } = await supabase.from('case_versions').select('data').eq('id', versionId).single();
+    if (error || !data) return { error: error?.message ?? 'Version not found' };
+    const { error: updateError } = await supabase
+        .from('decision_cases')
+        .update({ data: data.data, updated_at: new Date().toISOString() })
+        .eq('id', caseId);
+    return { error: updateError ? updateError.message : null };
 }
 
 /** Permanently delete the account and all stored data via the delete-account edge function. */
