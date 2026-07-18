@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const metaTitle = 'Career Decisions — Analyze the Full Picture | Econified';
+const metaDescription =
+    'Start from the decision you are facing: compare job offers, evaluate a promotion, test whether you can afford to quit, or weigh remote against office work. Structured analysis, transparent assumptions.';
+
+const decisions = [
+    {
+        title: 'Should I accept this job offer?',
+        body: 'Compare an offer against your current job or a second offer on guaranteed pay, variable pay and risk, commute time, PTO and switching costs — with break-even thresholds and a negotiation target.',
+        href: '/decisions/job-offer/',
+        cta: 'Start the full analysis',
+        flagship: true,
+    },
+    {
+        title: 'Is this promotion actually worth it?',
+        body: 'A higher title often means more hours for a lower effective hourly rate. Check the real increase and the salary that would break even.',
+        href: '/promotion-value-calculator/',
+        cta: 'Check the promotion math',
+    },
+    {
+        title: 'Can I afford to quit?',
+        body: 'Test how long your savings last and how far you are from a six-month safety buffer before you hand in notice.',
+        href: '/quit-calculator/',
+        cta: 'Test your runway',
+    },
+    {
+        title: 'How long could I survive a layoff?',
+        body: 'Savings, severance and benefits against your real monthly burn — and the emergency fund that would make you comfortable.',
+        href: '/layoff-survival-calculator/',
+        cta: 'Check your buffer',
+    },
+    {
+        title: 'Remote, hybrid or office?',
+        body: 'Commute costs, commute hours, food and home-office costs per working pattern — and which arrangement wins for your numbers.',
+        href: '/commute-vs-hybrid-vs-remote/',
+        cta: 'Compare working patterns',
+    },
+    {
+        title: 'Should I go freelance or stay employed?',
+        body: 'Translate a salary into the day rate you would actually need — including the unpaid gaps, admin time and benefits you give up.',
+        href: '/freelance-rate-calculator/',
+        cta: 'Price the switch',
+    },
+    {
+        title: 'Did my raise beat inflation?',
+        body: 'A raise below inflation is a pay cut in disguise. See your real purchasing-power change and the gap to market.',
+        href: '/salary-raise-vs-inflation/',
+        cta: 'Check your real raise',
+    },
+    {
+        title: 'Is relocating economically worthwhile?',
+        body: 'Salary change against cost-of-living change, with the payback period on your relocation costs.',
+        href: '/geo-arbitrage-calculator/',
+        cta: 'Weigh the move',
+    },
+];
+---
+
+<Layout
+    title={metaTitle}
+    description={metaDescription}
+    canonicalUrl="https://econified.com/decisions/"
+>
+    <main class="container">
+        <h1>Start With Your Decision</h1>
+        <p class="lead">
+            Career choices are rarely lost on the math — they are lost on the parts of the math nobody wrote down:
+            the commute hours, the bonus that never fully pays out, the pension match left on the table.
+            Pick the decision you are facing and work through it with explicit numbers and adjustable assumptions.
+        </p>
+
+        <div class="decision-grid">
+            {decisions.map((d) => (
+                <a href={d.href} class={`glass-panel decision-card${d.flagship ? ' flagship' : ''}`}>
+                    {d.flagship && <span class="badge" style="margin-bottom: 0.75rem; display: inline-block;">Full decision workflow</span>}
+                    <h2>{d.title}</h2>
+                    <p>{d.body}</p>
+                    <span class="decision-cta">{d.cta} &rarr;</span>
+                </a>
+            ))}
+        </div>
+
+        <div class="content-section">
+            <h2>How Econified approaches decisions</h2>
+            <p>
+                Every analysis here follows the same principles: the formula is shown, the assumptions are yours to change,
+                qualitative factors are never silently converted into money, and when two options are close we say so
+                instead of manufacturing a winner. Calculations run in your browser; the free calculators require no account.
+            </p>
+            <p>
+                The <a href="/decisions/job-offer/">job offer decision workflow</a> is the most complete: it combines
+                compensation, risk, time and costs into one saved, printable case. The other decisions link to focused
+                calculators today and will graduate into full workflows based on what people actually use.
+            </p>
+        </div>
+    </main>
+
+    <style>
+        .decision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .decision-card {
+            display: block;
+            text-decoration: none;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+        .decision-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .decision-card h2 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .decision-card p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .decision-cta {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .decision-card.flagship {
+            border-color: rgba(59, 130, 246, 0.45);
+        }
+    </style>
+</Layout>

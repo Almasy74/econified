@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "tsx scripts/validate-definitions.ts && astro build && tsx scripts/split-sitemaps.ts && tsx scripts/sitemap-audit.ts",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "tsx --test tools/decision/*.test.ts"
   },
   "dependencies": {
     "astro": "^5.17.1",
