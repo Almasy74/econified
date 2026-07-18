@@ -1,0 +1,240 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+    title="Your Account – Econified"
+    description="Sign in to save decision cases across devices. Optional — all calculators work without an account."
+    noindex={true}
+    noAds={true}
+>
+    <main class="container" style="max-width: 720px;">
+        <h1>Your Account</h1>
+        <p class="lead">
+            An account is optional. It exists for one purpose: saving your decision cases so you can
+            continue on another device. Calculators and the decision workflow work fully without one.
+        </p>
+
+        <div id="account-disabled" class="glass-panel" hidden>
+            <p style="margin: 0;">Accounts are not enabled right now. All tools remain available without one.</p>
+        </div>
+
+        <!-- Signed out -->
+        <div id="signed-out" class="glass-panel" hidden>
+            <h2 style="font-size: 1.3rem;">Sign in or create an account</h2>
+            <p>Enter your email and we send you a sign-in link and a one-time code. No password to remember, nothing to reuse.</p>
+            <form id="email-form" novalidate>
+                <div class="input-group">
+                    <label for="auth-email">Email address</label>
+                    <input type="email" id="auth-email" autocomplete="email" required placeholder="you@example.com" />
+                </div>
+                <button type="submit" class="btn-primary" id="send-link-btn">Email me a sign-in link</button>
+            </form>
+            <form id="code-form" hidden novalidate style="margin-top: 1.5rem;">
+                <div class="input-group">
+                    <label for="auth-code">Or enter the 6-digit code from the email</label>
+                    <input type="text" id="auth-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" />
+                </div>
+                <button type="submit" class="btn-secondary">Verify code</button>
+            </form>
+            <p id="auth-status" role="status" aria-live="polite" style="margin-top: 1rem; margin-bottom: 0;"></p>
+        </div>
+
+        <!-- Signed in -->
+        <div id="signed-in" hidden>
+            <div class="glass-panel" style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.3rem;">Signed in</h2>
+                <p>You are signed in as <strong id="user-email"></strong>.</p>
+                <button type="button" class="btn-secondary" id="signout-btn">Sign out</button>
+            </div>
+
+            <div class="glass-panel" style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.3rem;">Saved decision cases</h2>
+                <div id="cases-list"><p>Loading…</p></div>
+                <p class="hint">Free accounts store one case per decision type. Saving again overwrites the stored copy.</p>
+            </div>
+
+            <div class="glass-panel">
+                <h2 style="font-size: 1.3rem;">Your data</h2>
+                <p>
+                    Stored for your account: your email address and the decision cases you explicitly saved
+                    (titles, scenario numbers, assumptions). Nothing is stored unless you press Save.
+                    Data lives in the EU (Stockholm region). Analytics never receive case contents.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="button" class="btn-secondary" id="export-btn">Export all my data (JSON)</button>
+                    <button type="button" class="btn-danger" id="delete-account-btn">Delete account and all data</button>
+                </div>
+                <p id="data-status" role="status" aria-live="polite" style="margin-top: 1rem; margin-bottom: 0;"></p>
+            </div>
+        </div>
+    </main>
+
+    <style is:global>
+        .btn-primary,
+        .btn-secondary,
+        .btn-danger {
+            font-family: var(--font-family);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.8rem 1.6rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-light); color: #0f172a; }
+        .btn-secondary { background: transparent; border-color: var(--surface-border); color: var(--text-primary); }
+        .btn-danger { background: transparent; border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
+        .btn-primary:focus-visible, .btn-secondary:focus-visible, .btn-danger:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .hint { font-size: 0.85rem; color: var(--text-secondary); }
+        .case-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 0.9rem 0;
+            border-bottom: 1px solid var(--surface-border);
+        }
+        .case-row:last-of-type { border-bottom: none; }
+    </style>
+
+    <script>
+        import { FEATURES } from '../../config/features.ts';
+        import {
+            getSession, sendSignInEmail, verifyEmailCode, signOut,
+            listCases, deleteCase, exportAllCases, deleteAccount,
+        } from '../../lib/cloud.ts';
+
+        const el = (id: string) => document.getElementById(id)!;
+
+        function esc(text: string): string {
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
+        }
+
+        const DECISION_ROUTES: Record<string, string> = { 'job-offer': '/decisions/job-offer/?load=cloud' };
+
+        async function renderCases() {
+            const list = el('cases-list');
+            try {
+                const cases = await listCases();
+                if (!cases.length) {
+                    list.innerHTML = '<p style="margin:0;">No saved cases yet. Save one from the <a href="/decisions/job-offer/">job offer decision workflow</a>.</p>';
+                    return;
+                }
+                list.innerHTML = cases
+                    .map(
+                        (c) => `
+                        <div class="case-row" data-id="${esc(c.id)}">
+                            <div>
+                                <strong>${esc(c.title)}</strong><br/>
+                                <span class="hint">${esc(c.decision_type)} · updated ${new Date(c.updated_at).toLocaleDateString()}</span>
+                            </div>
+                            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                ${DECISION_ROUTES[c.decision_type] ? `<a class="btn-secondary" style="text-decoration:none;" href="${DECISION_ROUTES[c.decision_type]}">Open</a>` : ''}
+                                <button type="button" class="btn-danger case-delete" data-id="${esc(c.id)}">Delete</button>
+                            </div>
+                        </div>`,
+                    )
+                    .join('');
+                list.querySelectorAll<HTMLButtonElement>('.case-delete').forEach((btn) =>
+                    btn.addEventListener('click', async () => {
+                        if (!window.confirm('Delete this saved case from your account? Your local copy in the browser is not affected.')) return;
+                        await deleteCase(btn.dataset.id!);
+                        renderCases();
+                    }),
+                );
+            } catch (e) {
+                list.innerHTML = '<p style="margin:0;">Could not load saved cases. Try reloading the page.</p>';
+            }
+        }
+
+        async function render() {
+            if (!FEATURES.ACCOUNTS_ENABLED) {
+                el('account-disabled').hidden = false;
+                return;
+            }
+            const session = await getSession();
+            el('signed-out').hidden = !!session;
+            el('signed-in').hidden = !session;
+            if (session) {
+                el('user-email').textContent = session.user.email ?? '';
+                renderCases();
+            }
+        }
+
+        let pendingEmail = '';
+
+        el('email-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = (el('auth-email') as HTMLInputElement).value.trim();
+            const status = el('auth-status');
+            if (!email || !email.includes('@')) {
+                status.textContent = 'Enter a valid email address.';
+                return;
+            }
+            status.textContent = 'Sending…';
+            const { error } = await sendSignInEmail(email, '/account/');
+            if (error) {
+                status.textContent = `Could not send the email: ${error}`;
+                return;
+            }
+            pendingEmail = email;
+            el('code-form').hidden = false;
+            status.textContent = 'Check your inbox. Click the link, or type the code here if the email includes one.';
+        });
+
+        el('code-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const code = (el('auth-code') as HTMLInputElement).value.trim();
+            const status = el('auth-status');
+            if (!pendingEmail || code.length < 6) {
+                status.textContent = 'Enter the 6-digit code from the email.';
+                return;
+            }
+            status.textContent = 'Verifying…';
+            const { error } = await verifyEmailCode(pendingEmail, code);
+            if (error) {
+                status.textContent = `Verification failed: ${error}`;
+                return;
+            }
+            render();
+        });
+
+        el('signout-btn').addEventListener('click', async () => {
+            await signOut();
+            render();
+        });
+
+        el('export-btn').addEventListener('click', async () => {
+            const status = el('data-status');
+            try {
+                await exportAllCases();
+                status.textContent = 'Export downloaded.';
+            } catch {
+                status.textContent = 'Export failed. Try again.';
+            }
+        });
+
+        el('delete-account-btn').addEventListener('click', async () => {
+            if (!window.confirm('Permanently delete your account and every saved case? This cannot be undone.')) return;
+            const status = el('data-status');
+            status.textContent = 'Deleting…';
+            const { error } = await deleteAccount();
+            if (error) {
+                status.textContent = `Deletion failed: ${error}. Contact us via the contact page and we will remove it manually.`;
+                return;
+            }
+            status.textContent = '';
+            render();
+        });
+
+        render();
+    </script>
+</Layout>

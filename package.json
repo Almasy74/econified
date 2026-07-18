@@ -11,6 +11,7 @@
     "test": "tsx --test tools/decision/*.test.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.7",
     "astro": "^5.17.1",
     "tsx": "^4.21.0",
     "zod": "^3.25.76"
