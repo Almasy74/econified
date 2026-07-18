@@ -9,8 +9,8 @@
 export const FEATURES = {
     /** Optional accounts + cloud-saved decision cases (Phase 4). */
     ACCOUNTS_ENABLED: true,
-    /** Paid entitlements UI (Phase 5/6) — keep off until billing is live. */
-    BILLING_ENABLED: false,
+    /** Paid entitlements UI (Phase 5/6). */
+    BILLING_ENABLED: true,
 } as const;
 
 export const SUPABASE_URL = 'https://ppaudjummnonvyynswza.supabase.co';
