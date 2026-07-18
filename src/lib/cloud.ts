@@ -266,6 +266,36 @@ export async function restoreVersion(caseId: string, versionId: number): Promise
     return { error: updateError ? updateError.message : null };
 }
 
+// ---------------------------------------------------------------- billing
+
+export type CheckoutPlan = 'plus_monthly' | 'plus_annual' | 'decision_pass';
+
+/** Start a Stripe Checkout session; resolves to a redirect URL. */
+export async function startCheckout(plan: CheckoutPlan): Promise<{ url: string | null; error: string | null }> {
+    const supabase = await getClient();
+    const { data, error } = await supabase.functions.invoke('create-checkout', {
+        method: 'POST',
+        body: { plan },
+    });
+    if (error) return { url: null, error: error.message };
+    return { url: data?.url ?? null, error: data?.url ? null : 'No checkout URL returned' };
+}
+
+/** Open the Stripe billing portal (cancel, invoices, payment method). */
+export async function openBillingPortal(): Promise<{ url: string | null; error: string | null }> {
+    const supabase = await getClient();
+    const { data, error } = await supabase.functions.invoke('create-portal', { method: 'POST' });
+    if (error) return { url: null, error: error.message };
+    return { url: data?.url ?? null, error: data?.url ? null : 'No portal URL returned' };
+}
+
+/** Whether this user's plan is managed by Stripe (shows Manage billing). */
+export async function hasStripeBilling(): Promise<boolean> {
+    const supabase = await getClient();
+    const { data } = await supabase.from('entitlements').select('source, stripe_customer_id').maybeSingle();
+    return !!data?.stripe_customer_id && data.source === 'stripe';
+}
+
 /** Permanently delete the account and all stored data via the delete-account edge function. */
 export async function deleteAccount(): Promise<{ error: string | null }> {
     const supabase = await getClient();
