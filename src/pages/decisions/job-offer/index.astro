@@ -184,6 +184,25 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
                 <div id="results-root">
                     <p class="field-hint">Enter a base salary and weekly hours for at least two scenarios to see a comparison.</p>
                 </div>
+                <div class="glass-panel no-print" id="cloud-panel" hidden style="margin-top: 2rem; padding: 1.5rem 2rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Keep this case</h3>
+                    <div id="cloud-signed-out" hidden>
+                        <p style="margin-bottom: 1rem;">
+                            This case is saved in this browser only. With a free account you can store it in your
+                            workspace and continue on another device. Optional — everything here works without it.
+                        </p>
+                        <a href="/account/" class="btn-secondary" style="text-decoration: none; display: inline-block;">Create a free account / sign in</a>
+                    </div>
+                    <div id="cloud-signed-in" hidden>
+                        <p style="margin-bottom: 1rem;">Signed in as <strong id="cloud-email"></strong>. Saving stores this case in your account (one saved case per decision type on the free tier).</p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button type="button" class="btn-primary" id="cloud-save">Save to my account</button>
+                            <button type="button" class="btn-secondary" id="cloud-load">Load my saved case</button>
+                        </div>
+                        <p id="cloud-status" role="status" aria-live="polite" style="margin-top: 1rem; margin-bottom: 0;" class="field-hint"></p>
+                    </div>
+                </div>
+
                 <div class="step-actions no-print" style="margin-top: 2rem;">
                     <button type="button" class="btn-secondary" data-prev="assumptions">Back</button>
                     <button type="button" class="btn-primary" id="print-report">Print / save report (PDF)</button>
@@ -206,7 +225,7 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
             <ul class="insights-list">
                 <li>No tax calculations. All values are gross; if your scenarios sit in very different tax situations, treat the result as a starting point and verify net pay separately.</li>
                 <li>No score for career growth, culture or stress. Those matter, but pretending they are currency would be false precision. Use the financial result as one input to your judgment, not a verdict on your life.</li>
-                <li>No cloud storage. Your case is saved in this browser only. Clearing browser data deletes it.</li>
+                <li>No storage you didn't ask for. Your case is saved in this browser by default; it is only stored in a cloud workspace if you create an account and explicitly press Save. You can export and delete stored data at any time.</li>
             </ul>
             <h2>Related free calculators</h2>
             <p>
@@ -809,8 +828,74 @@ const canonicalUrl = 'https://econified.com/decisions/job-offer/';
             track('case_reset', { decision: 'job-offer' });
         });
 
+        // ---------- optional cloud workspace (feature-flagged, lazy) ----------
+        async function initCloud() {
+            const { FEATURES } = await import('../../../config/features.ts');
+            if (!FEATURES.ACCOUNTS_ENABLED) return;
+
+            const panel = document.getElementById('cloud-panel')!;
+            const signedOutEl = document.getElementById('cloud-signed-out')!;
+            const signedInEl = document.getElementById('cloud-signed-in')!;
+            panel.hidden = false;
+
+            // Cheap check: only load supabase-js when a session token exists
+            // or the page was asked to load a cloud case.
+            const wantsCloudLoad = new URLSearchParams(window.location.search).get('load') === 'cloud';
+            const hasLikelySession = Object.keys(localStorage).some(
+                (k) => k.startsWith('sb-') && k.endsWith('-auth-token'),
+            );
+            if (!hasLikelySession && !wantsCloudLoad) {
+                signedOutEl.hidden = false;
+                return;
+            }
+
+            const cloud = await import('../../../lib/cloud.ts');
+            const session = await cloud.getSession();
+            if (!session) {
+                signedOutEl.hidden = false;
+                return;
+            }
+            signedInEl.hidden = false;
+            document.getElementById('cloud-email')!.textContent = session.user.email ?? '';
+            const status = document.getElementById('cloud-status')!;
+
+            async function loadFromCloud() {
+                status.textContent = 'Loading…';
+                const loaded = await cloud.loadCase('job-offer');
+                if (!loaded) {
+                    status.textContent = 'No saved case found in your account yet.';
+                    return;
+                }
+                state = loaded;
+                document.querySelectorAll<HTMLInputElement>('input[data-scenario]').forEach((i) =>
+                    i.setAttribute('data-touched', 'true'),
+                );
+                hydrateForm();
+                saveCase();
+                renderResults();
+                status.textContent = `Loaded “${state.title || 'Untitled decision'}” from your account.`;
+                track('cloud_case_loaded', { decision: 'job-offer' });
+            }
+
+            document.getElementById('cloud-save')!.addEventListener('click', async () => {
+                status.textContent = 'Saving…';
+                const { error } = await cloud.saveCase(session.user.id, state);
+                status.textContent = error
+                    ? `Save failed: ${error}`
+                    : 'Saved to your account. Manage saved cases under Account.';
+                if (!error) track('cloud_case_saved', { decision: 'job-offer' });
+            });
+            document.getElementById('cloud-load')!.addEventListener('click', loadFromCloud);
+
+            if (wantsCloudLoad) {
+                await loadFromCloud();
+                goToStep('results');
+            }
+        }
+
         // ---------- init ----------
         hydrateForm();
         renderResults();
+        initCloud();
     </script>
 </Layout>

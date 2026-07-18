@@ -30,6 +30,8 @@ export default defineConfig({
     trailingSlash: 'always', // Strictly enforce trailing slash for canonical URLs
     integrations: [sitemap({
         filter: (page) => {
+            // Exclude private application routes (noindexed)
+            if (page.includes('/account/')) return false;
             // Exclude noindexed tool pages
             if (noindexPaths.some(p => page.endsWith(p))) return false;
             // Exclude noindexed destination pages
