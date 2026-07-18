@@ -88,7 +88,7 @@ const metaDescription =
             </div>
         </div>
 
-        <p id="checkout-status" role="status" aria-live="polite" class="field-hint" style="min-height: 1.5rem;"></p>
+        <p id="checkout-status" role="status" aria-live="polite" style="min-height: 1.5rem; font-size: 1rem; color: var(--accent-light); font-weight: 500;"></p>
 
         <div class="content-section">
             <h2>The fine print, plainly</h2>
@@ -167,31 +167,50 @@ const metaDescription =
             if (w.plausible) w.plausible(event, { props });
         }
 
+        const statusEl = document.getElementById('checkout-status')!;
+
+        function setStatus(html: string, scroll = true) {
+            statusEl.innerHTML = html;
+            if (scroll) {
+                const y = statusEl.getBoundingClientRect().top + window.scrollY - window.innerHeight / 2;
+                window.scrollTo({ top: Math.max(0, y) });
+            }
+        }
+
         if (new URLSearchParams(window.location.search).get('checkout') === 'cancelled') {
-            document.getElementById('checkout-status')!.textContent =
-                'Checkout was cancelled — nothing was charged. The free tools remain fully available.';
+            setStatus('Checkout was cancelled — nothing was charged. The free tools remain fully available.', false);
         }
 
         if (FEATURES.BILLING_ENABLED) {
             document.querySelectorAll<HTMLButtonElement>('[data-checkout]').forEach((btn) => {
+                const originalLabel = btn.textContent;
                 btn.addEventListener('click', async () => {
-                    const status = document.getElementById('checkout-status')!;
                     const plan = btn.dataset.checkout as 'plus_monthly' | 'plus_annual' | 'decision_pass';
                     track('checkout_started', { plan });
-                    const { getSession, startCheckout } = await import('../../lib/cloud.ts');
-                    const session = await getSession();
-                    if (!session) {
-                        status.innerHTML =
-                            'You need a (free) account first so the purchase has somewhere to live — <a href="/account/">sign in or create one</a>, then come back here.';
-                        return;
+                    btn.disabled = true;
+                    btn.textContent = 'One moment…';
+                    try {
+                        const { getSession, startCheckout } = await import('../../lib/cloud.ts');
+                        const session = await getSession();
+                        if (!session) {
+                            setStatus(
+                                'You need a (free) account first so the purchase has somewhere to live — <a href="/account/">sign in or create one</a>, then come back here.',
+                            );
+                            return;
+                        }
+                        btn.textContent = 'Preparing secure checkout…';
+                        const { url, error } = await startCheckout(plan);
+                        if (error || !url) {
+                            setStatus(`Checkout is unavailable right now: ${error ?? 'unknown error'}. Nothing was charged.`);
+                            return;
+                        }
+                        window.location.href = url;
+                    } catch (e) {
+                        setStatus('Something went wrong before checkout opened. Nothing was charged — please try again.');
+                    } finally {
+                        btn.disabled = false;
+                        btn.textContent = originalLabel;
                     }
-                    status.textContent = 'Preparing secure checkout…';
-                    const { url, error } = await startCheckout(plan);
-                    if (error || !url) {
-                        status.textContent = `Checkout is unavailable right now: ${error ?? 'unknown error'}`;
-                        return;
-                    }
-                    window.location.href = url;
                 });
             });
         }
