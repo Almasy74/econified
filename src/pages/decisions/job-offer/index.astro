@@ -1,0 +1,816 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { SCENARIO_SECTIONS, SUPPORTED_CURRENCIES } from '../../../../tools/decision/fields.ts';
+
+const metaTitle = 'Job Offer Decision — Compare Offers on Money, Time and Risk | Econified';
+const metaDescription =
+    'Compare a job offer against your current job or a second offer. See guaranteed vs expected value, commute time, risk, break-even thresholds and what to negotiate. Free, runs in your browser.';
+
+const scenarioSlots = [
+    { id: 'current', label: 'Current job', kind: 'current', optionalToggle: true, toggleLabel: 'I have a current job to compare against' },
+    { id: 'offer-a', label: 'Offer A', kind: 'offer', optionalToggle: false, toggleLabel: '' },
+    { id: 'offer-b', label: 'Offer B', kind: 'offer', optionalToggle: true, toggleLabel: 'I have a second offer to compare' },
+];
+
+const steps = [
+    { id: 'setup', label: 'Setup' },
+    { id: 'current', label: 'Current job' },
+    { id: 'offer-a', label: 'Offer A' },
+    { id: 'offer-b', label: 'Offer B' },
+    { id: 'assumptions', label: 'Your assumptions' },
+    { id: 'results', label: 'Results' },
+];
+
+const canonicalUrl = 'https://econified.com/decisions/job-offer/';
+---
+
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl} noAds={true}>
+    <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
+    <main class="container">
+        <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            <a href="/" style="color: inherit;">Home</a> &rsaquo; <a href="/decisions/" style="color: inherit;">Decisions</a> &rsaquo; Job offer
+        </nav>
+
+        <h1>Job Offer Decision</h1>
+        <p class="lead">
+            Compare a job offer against your current job — or two offers against each other — on the full
+            picture: guaranteed pay, variable pay and its risk, commute time, PTO and switching costs.
+            You get a transparent conclusion, the three variables that drive it, and the thresholds that would
+            reverse it.
+        </p>
+
+        <div class="capability-block" role="list">
+            <span class="badge" role="listitem"><strong>Runs locally:</strong> your numbers never leave this browser</span>
+            <span class="badge" role="listitem"><strong>Saved locally:</strong> close the tab and continue later on this device</span>
+            <span class="badge" role="listitem"><strong>Transparent:</strong> every threshold is calculated, not guessed</span>
+        </div>
+
+        <!-- Progress -->
+        <nav aria-label="Workflow steps" class="wizard-progress no-print">
+            <ol>
+                {steps.map((step, i) => (
+                    <li>
+                        <button type="button" class="step-link" data-step={step.id} aria-current={i === 0 ? 'step' : undefined}>
+                            <span class="step-num" aria-hidden="true">{i + 1}</span> {step.label}
+                        </button>
+                    </li>
+                ))}
+            </ol>
+        </nav>
+
+        <!-- Live status line -->
+        <p id="live-status" class="live-status no-print" aria-live="polite"></p>
+
+        <form id="decision-form" novalidate>
+            <!-- STEP: Setup -->
+            <section class="wizard-step glass-panel" id="step-setup" aria-labelledby="h-setup">
+                <h2 id="h-setup" tabindex="-1">1. Setup</h2>
+                <p>Only three choices here. Everything else can wait until it becomes relevant.</p>
+                <div class="input-group">
+                    <label for="case-title">Name this decision (optional)</label>
+                    <input type="text" id="case-title" maxlength="120" placeholder="e.g. Acme offer vs staying" autocomplete="off" />
+                </div>
+                <div class="input-group">
+                    <label for="case-currency">Currency</label>
+                    <select id="case-currency">
+                        {SUPPORTED_CURRENCIES.map((c) => <option value={c}>{c}</option>)}
+                    </select>
+                    <p class="field-hint">Enter every amount in this one currency. This workflow does not convert between currencies.</p>
+                </div>
+                <div class="input-group">
+                    <label for="case-deadline">Decision deadline (optional)</label>
+                    <input type="date" id="case-deadline" />
+                </div>
+                <fieldset class="toggle-fieldset">
+                    <legend>What are you comparing?</legend>
+                    {scenarioSlots.filter((s) => s.optionalToggle).map((s) => (
+                        <div class="toggle-row">
+                            <input type="checkbox" id={`include-${s.id}`} data-include={s.id} checked={s.id === 'current'} />
+                            <label for={`include-${s.id}`} style="display: inline; margin: 0;">{s.toggleLabel}</label>
+                        </div>
+                    ))}
+                    <p class="field-hint">Offer A is always included. You need at least two scenarios for a comparison.</p>
+                </fieldset>
+                <div class="step-actions">
+                    <button type="button" class="btn-primary" data-next="current">Continue</button>
+                </div>
+            </section>
+
+            <!-- STEPS: Scenarios -->
+            {scenarioSlots.map((slot, slotIndex) => (
+                <section class="wizard-step glass-panel" id={`step-${slot.id}`} aria-labelledby={`h-${slot.id}`} hidden>
+                    <h2 id={`h-${slot.id}`} tabindex="-1">{slotIndex + 2}. {slot.label}</h2>
+                    <div class="input-group">
+                        <label for={`label-${slot.id}`}>Label</label>
+                        <input type="text" id={`label-${slot.id}`} data-scenario-label={slot.id} maxlength="60" value={slot.label} autocomplete="off" />
+                    </div>
+                    {SCENARIO_SECTIONS.map((section) => (
+                        <fieldset class="scenario-fieldset">
+                            <legend>{section.title}</legend>
+                            <p class="field-hint">{section.intro}</p>
+                            <div class="field-grid">
+                                {section.fields.map((f) => (
+                                    <div class="input-group">
+                                        <label for={`${slot.id}--${f.key}`}>
+                                            {f.label}
+                                            {f.required && <span class="req" aria-hidden="true"> *</span>}
+                                        </label>
+                                        <input
+                                            type="number"
+                                            id={`${slot.id}--${f.key}`}
+                                            inputmode="decimal"
+                                            data-scenario={slot.id}
+                                            data-group={f.group}
+                                            data-key={f.key}
+                                            min={f.min}
+                                            max={f.max}
+                                            step={f.step ?? 'any'}
+                                            value={f.defaultValue ?? ''}
+                                            placeholder={f.defaultValue == null ? '0' : undefined}
+                                            aria-describedby={f.hint ? `hint-${slot.id}-${f.key}` : undefined}
+                                        />
+                                        {f.hint && <p class="field-hint" id={`hint-${slot.id}-${f.key}`}>{f.hint}</p>}
+                                    </div>
+                                ))}
+                            </div>
+                        </fieldset>
+                    ))}
+                    <div class="step-actions">
+                        <button type="button" class="btn-secondary" data-prev={slotIndex === 0 ? 'setup' : scenarioSlots[slotIndex - 1].id}>Back</button>
+                        <button type="button" class="btn-primary" data-next={slotIndex === scenarioSlots.length - 1 ? 'assumptions' : scenarioSlots[slotIndex + 1].id}>Continue</button>
+                    </div>
+                </section>
+            ))}
+
+            <!-- STEP: Assumptions -->
+            <section class="wizard-step glass-panel" id="step-assumptions" aria-labelledby="h-assumptions" hidden>
+                <h2 id="h-assumptions" tabindex="-1">5. Your assumptions</h2>
+                <p>
+                    These two assumptions affect every scenario the same way, but they can change which one wins.
+                    Both are yours to set — there is no objectively correct value.
+                </p>
+                <fieldset class="scenario-fieldset">
+                    <legend>Value of your personal time</legend>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="tv-enabled" />
+                        <label for="tv-enabled" style="display: inline; margin: 0;">Price my commute time into the comparison</label>
+                    </div>
+                    <div class="input-group" id="tv-value-group" hidden>
+                        <label for="tv-value">One hour of your free time is worth</label>
+                        <input type="number" id="tv-value" inputmode="decimal" min="0" step="1" value="" placeholder="e.g. 25" />
+                        <p class="field-hint">
+                            A common starting point is a third to a half of your gross hourly pay. If you leave this off,
+                            commute hours are still reported — they just do not move the ranking.
+                        </p>
+                    </div>
+                </fieldset>
+                <fieldset class="scenario-fieldset">
+                    <legend>Expected tenure</legend>
+                    <div class="input-group">
+                        <label for="tenure-years">Years you expect to stay</label>
+                        <input type="number" id="tenure-years" inputmode="decimal" min="0.5" max="20" step="0.5" value="3" />
+                        <p class="field-hint">Spreads one-time amounts (signing bonus, relocation) into annual value. Labeled an estimate for a reason.</p>
+                    </div>
+                </fieldset>
+                <div class="step-actions">
+                    <button type="button" class="btn-secondary" data-prev="offer-b">Back</button>
+                    <button type="button" class="btn-primary" data-next="results">See results</button>
+                </div>
+            </section>
+
+            <!-- STEP: Results -->
+            <section class="wizard-step" id="step-results" aria-labelledby="h-results" hidden>
+                <h2 id="h-results" tabindex="-1">6. Results</h2>
+                <div id="results-root">
+                    <p class="field-hint">Enter a base salary and weekly hours for at least two scenarios to see a comparison.</p>
+                </div>
+                <div class="step-actions no-print" style="margin-top: 2rem;">
+                    <button type="button" class="btn-secondary" data-prev="assumptions">Back</button>
+                    <button type="button" class="btn-primary" id="print-report">Print / save report (PDF)</button>
+                    <button type="button" class="btn-danger" id="reset-case">Start over &amp; clear saved data</button>
+                </div>
+            </section>
+        </form>
+
+        <!-- Methodology / SEO content -->
+        <div class="content-section" id="methodology">
+            <h2>How this comparison works</h2>
+            <ul class="insights-list">
+                <li><strong>Guaranteed value</strong> = base salary + guaranteed bonus + employer pension match + stipends + signing bonus spread over your expected tenure.</li>
+                <li><strong>Expected value</strong> = guaranteed value + target bonus &times; your expected payout + equity &times; (1 &minus; your risk discount). The at-risk share is reported separately, never hidden inside one number.</li>
+                <li><strong>Time</strong> = realistic weekly hours plus commute hours (onsite days &times; round-trip commute), over a year shortened by your PTO. Effective hourly value = net expected value &divide; total hours committed.</li>
+                <li><strong>Ranking</strong> = expected value &minus; work costs &minus; amortized switching costs &minus; commute time priced at your own time value (only if you set one).</li>
+                <li><strong>Break-even thresholds</strong> are solved from the same equations: the base salary, onsite days, bonus payout or time value at which the ranking flips.</li>
+            </ul>
+            <h2>What this deliberately does not do</h2>
+            <ul class="insights-list">
+                <li>No tax calculations. All values are gross; if your scenarios sit in very different tax situations, treat the result as a starting point and verify net pay separately.</li>
+                <li>No score for career growth, culture or stress. Those matter, but pretending they are currency would be false precision. Use the financial result as one input to your judgment, not a verdict on your life.</li>
+                <li>No cloud storage. Your case is saved in this browser only. Clearing browser data deletes it.</li>
+            </ul>
+            <h2>Related free calculators</h2>
+            <p>
+                Want a single number fast instead? Try the
+                <a href="/job-offer-comparison/">job offer comparison calculator</a>,
+                <a href="/commute-cost-calculator/">commute cost calculator</a> or
+                <a href="/pto-value-calculator/">PTO value calculator</a>.
+                This workflow combines what they do — and adds risk, thresholds and a saved case.
+            </p>
+        </div>
+    </main>
+
+    <style is:global>
+        .wizard-progress ol {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1rem 0;
+        }
+        .step-link {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: 9999px;
+            color: var(--text-secondary);
+            font-family: var(--font-family);
+            font-size: 0.875rem;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+        }
+        .step-link[aria-current='step'] {
+            border-color: var(--accent);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 2px var(--accent-glow);
+        }
+        .step-link:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .step-num {
+            display: inline-block;
+            margin-right: 0.25rem;
+            opacity: 0.7;
+        }
+        .live-status {
+            min-height: 1.5rem;
+            color: var(--accent-light);
+            font-weight: 500;
+        }
+        .wizard-step {
+            margin-bottom: 2rem;
+        }
+        .scenario-fieldset {
+            border: 1px solid var(--surface-border);
+            border-radius: var(--border-radius);
+            padding: 1.25rem 1.5rem;
+            margin: 0 0 1.5rem 0;
+        }
+        .scenario-fieldset legend {
+            font-weight: 600;
+            color: var(--text-primary);
+            padding: 0 0.5rem;
+        }
+        .toggle-fieldset {
+            border: 1px solid var(--surface-border);
+            border-radius: var(--border-radius);
+            padding: 1.25rem 1.5rem;
+        }
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.75rem;
+        }
+        .toggle-row input[type='checkbox'] {
+            width: 1.15rem;
+            height: 1.15rem;
+            accent-color: var(--accent);
+        }
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 0 1.5rem;
+        }
+        .field-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: -0.75rem 0 1.25rem 0;
+        }
+        fieldset .field-hint:first-of-type {
+            margin-top: 0;
+        }
+        .req {
+            color: var(--accent-light);
+        }
+        .step-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .btn-primary,
+        .btn-secondary,
+        .btn-danger {
+            font-family: var(--font-family);
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.8rem 1.6rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: var(--accent-light);
+            color: #0f172a;
+        }
+        .btn-secondary {
+            background: transparent;
+            border-color: var(--surface-border);
+            color: var(--text-primary);
+        }
+        .btn-danger {
+            background: transparent;
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+        .btn-primary:focus-visible,
+        .btn-secondary:focus-visible,
+        .btn-danger:focus-visible,
+        .toggle-row input:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* Results */
+        .verdict-card {
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            background: rgba(59, 130, 246, 0.08);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .verdict-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.4rem;
+        }
+        .verdict-card.close {
+            border-color: rgba(234, 179, 8, 0.4);
+            background: rgba(234, 179, 8, 0.07);
+        }
+        .verdict-card.insufficient {
+            border-color: var(--surface-border);
+            background: var(--surface);
+        }
+        .comparison-table-wrap {
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            text-align: right;
+            padding: 0.6rem 0.9rem;
+            border-bottom: 1px solid var(--surface-border);
+            white-space: nowrap;
+        }
+        .comparison-table th[scope='row'] {
+            text-align: left;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: normal;
+        }
+        .comparison-table thead th {
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent);
+        }
+        .comparison-table .winner {
+            color: var(--accent-light);
+            font-weight: 600;
+        }
+        .results-block {
+            margin-bottom: 2rem;
+        }
+        .results-block h3 {
+            font-size: 1.15rem;
+            border-bottom: 1px solid var(--surface-border);
+            padding-bottom: 0.4rem;
+        }
+
+        @media print {
+            .no-print,
+            header,
+            footer,
+            .wizard-progress {
+                display: none !important;
+            }
+            .wizard-step {
+                display: block !important;
+                background: none;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                break-inside: avoid;
+            }
+            .wizard-step[hidden] {
+                display: block !important;
+            }
+            body {
+                background: #fff;
+                color: #111;
+            }
+        }
+    </style>
+
+    <script>
+        import { compareCase, COMPONENT_LABELS } from '../../../../tools/decision/engine.ts';
+        import type { ComparisonResult, ScenarioMetrics } from '../../../../tools/decision/engine.ts';
+        import { emptyCase, parseStoredCase, type DecisionCase, type Scenario } from '../../../../tools/decision/schema.ts';
+
+        const STORAGE_KEY = 'econified_case_job_offer_v1';
+        const STEPS = ['setup', 'current', 'offer-a', 'offer-b', 'assumptions', 'results'];
+
+        function track(event: string, props: Record<string, string | number> = {}) {
+            const w = window as any;
+            if (w.plausible) w.plausible(event, { props });
+        }
+
+        // ---------- state ----------
+        let state: DecisionCase = loadCase();
+        let currentStep = 'setup';
+        let started = false;
+        let resultsViewed = false;
+
+        function loadCase(): DecisionCase {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = parseStoredCase(JSON.parse(raw));
+                    if (parsed) return parsed;
+                }
+            } catch {
+                /* corrupted or unavailable storage: start fresh */
+            }
+            return emptyCase(new Date().toISOString());
+        }
+
+        let saveTimer: number | undefined;
+        function saveCase() {
+            state.updatedAt = new Date().toISOString();
+            window.clearTimeout(saveTimer);
+            saveTimer = window.setTimeout(() => {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                } catch {
+                    /* storage full/blocked — the session still works in memory */
+                }
+            }, 300);
+        }
+
+        // ---------- formatting ----------
+        function fmtMoney(v: number): string {
+            if (v === 0) v = 0; // normalize -0 so zero costs don't render as "−0"
+            return new Intl.NumberFormat(navigator.language || 'en-US', {
+                style: 'currency',
+                currency: state.assumptions.currency,
+                maximumFractionDigits: 0,
+            }).format(v);
+        }
+        function fmtHours(v: number): string {
+            return `${Math.round(v).toLocaleString()} h`;
+        }
+        function fmtNum(v: number, digits = 1): string {
+            return v.toLocaleString(undefined, { maximumFractionDigits: digits });
+        }
+
+        // ---------- DOM wiring ----------
+        const form = document.getElementById('decision-form') as HTMLFormElement;
+        const resultsRoot = document.getElementById('results-root')!;
+        const liveStatus = document.getElementById('live-status')!;
+
+        function scenarioById(id: string): Scenario {
+            return state.scenarios.find((s) => s.id === id)!;
+        }
+
+        /** Write current state into the form controls. */
+        function hydrateForm() {
+            (document.getElementById('case-title') as HTMLInputElement).value = state.title;
+            (document.getElementById('case-currency') as HTMLSelectElement).value = state.assumptions.currency;
+            (document.getElementById('case-deadline') as HTMLInputElement).value = state.decisionDeadline ?? '';
+            for (const s of state.scenarios) {
+                const includeBox = document.querySelector<HTMLInputElement>(`[data-include="${s.id}"]`);
+                if (includeBox) includeBox.checked = s.included;
+                const labelInput = document.querySelector<HTMLInputElement>(`[data-scenario-label="${s.id}"]`);
+                if (labelInput) labelInput.value = s.label;
+            }
+            document.querySelectorAll<HTMLInputElement>('input[data-scenario]').forEach((input) => {
+                const s = scenarioById(input.dataset.scenario!);
+                const group = input.dataset.group as 'comp' | 'time' | 'costs';
+                const key = input.dataset.key!;
+                const val = (s[group] as Record<string, number>)[key];
+                input.value = val === 0 && !input.hasAttribute('data-touched') ? (input.value || String(val)) : String(val);
+            });
+            const tvEnabled = document.getElementById('tv-enabled') as HTMLInputElement;
+            const tvValue = document.getElementById('tv-value') as HTMLInputElement;
+            tvEnabled.checked = state.assumptions.hourlyTimeValue != null;
+            tvValue.value = state.assumptions.hourlyTimeValue != null ? String(state.assumptions.hourlyTimeValue) : '';
+            (document.getElementById('tv-value-group') as HTMLElement).hidden = !tvEnabled.checked;
+            (document.getElementById('tenure-years') as HTMLInputElement).value = String(state.assumptions.expectedTenureYears);
+            syncScenarioVisibility();
+        }
+
+        /** Read one input into state, clamped to its declared bounds. */
+        function readInput(input: HTMLInputElement) {
+            const s = scenarioById(input.dataset.scenario!);
+            const group = input.dataset.group as 'comp' | 'time' | 'costs';
+            const key = input.dataset.key!;
+            let v = parseFloat(input.value);
+            if (!Number.isFinite(v)) v = 0;
+            const min = input.min !== '' ? parseFloat(input.min) : 0;
+            const max = input.max !== '' ? parseFloat(input.max) : Infinity;
+            v = Math.min(Math.max(v, min), max);
+            (s[group] as Record<string, number>)[key] = v;
+        }
+
+        function readAssumptions() {
+            const tvEnabled = (document.getElementById('tv-enabled') as HTMLInputElement).checked;
+            const tvRaw = parseFloat((document.getElementById('tv-value') as HTMLInputElement).value);
+            state.assumptions.hourlyTimeValue = tvEnabled && Number.isFinite(tvRaw) && tvRaw >= 0 ? tvRaw : null;
+            const tenure = parseFloat((document.getElementById('tenure-years') as HTMLInputElement).value);
+            state.assumptions.expectedTenureYears = Number.isFinite(tenure) ? Math.min(Math.max(tenure, 0.5), 20) : 3;
+        }
+
+        function syncScenarioVisibility() {
+            for (const s of state.scenarios) {
+                const stepEl = document.getElementById(`step-${s.id}`);
+                const navBtn = document.querySelector<HTMLButtonElement>(`.step-link[data-step="${s.id}"]`);
+                const off = !s.included;
+                if (navBtn) navBtn.parentElement!.style.display = off ? 'none' : '';
+                if (off && stepEl && !stepEl.hidden && currentStep === s.id) {
+                    goToStep('setup');
+                }
+            }
+        }
+
+        // ---------- results rendering ----------
+        function esc(text: string): string {
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
+        }
+
+        function renderResults() {
+            const result: ComparisonResult = compareCase(state);
+            const rec = result.recommendation;
+
+            // Live status line (safe: labels only, no amounts)
+            if (rec.verdict === 'leader') {
+                liveStatus.textContent = `Currently leading: ${rec.leaderLabel}`;
+            } else if (rec.verdict === 'close') {
+                liveStatus.textContent = `Close call between ${rec.leaderLabel} and ${rec.runnerUpLabel}`;
+            } else {
+                liveStatus.textContent = '';
+            }
+
+            if (rec.verdict === 'insufficient') {
+                resultsRoot.innerHTML = `
+                    <div class="verdict-card insufficient">
+                        <h3>Not enough information yet</h3>
+                        <ul>${rec.missingInfo.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>
+                    </div>`;
+                return;
+            }
+
+            const verdictClass = rec.verdict === 'close' ? 'close' : '';
+            const headline =
+                rec.verdict === 'close'
+                    ? `${esc(rec.leaderLabel!)} and ${esc(rec.runnerUpLabel!)} are financially close`
+                    : `${esc(rec.leaderLabel!)} is stronger under your current assumptions`;
+            const gapLine =
+                rec.verdict === 'close'
+                    ? `The gap is ${fmtMoney(rec.annualGap)} per year — inside your ${fmtNum(state.assumptions.closeCallPercent)}% close-call tolerance. Treat this as a decision about preferences, not money.`
+                    : `Estimated advantage: <strong>${fmtMoney(rec.annualGap)} per year</strong> over ${esc(rec.runnerUpLabel!)}, on expected value net of costs${state.assumptions.hourlyTimeValue != null ? ' and commute time at your time value' : ''}.`;
+
+            const tableRows: Array<[string, (m: ScenarioMetrics) => string]> = [
+                ['Guaranteed annual value', (m) => fmtMoney(m.guaranteedAnnual)],
+                ['Expected annual value', (m) => fmtMoney(m.expectedAnnual)],
+                ['Share of value at risk', (m) => `${fmtNum(m.atRiskShare * 100, 0)}%`],
+                ['Recurring work costs', (m) => fmtMoney(-m.annualWorkCosts)],
+                ['Switching cost (per year of tenure)', (m) => fmtMoney(-m.amortizedTransitionCost)],
+                ['Net expected value', (m) => fmtMoney(m.netExpectedAnnual)],
+                ['Hours worked per year', (m) => fmtHours(m.workedHoursAnnual)],
+                ['Commute hours per year', (m) => fmtHours(m.commuteHoursAnnual)],
+                ['Effective hourly value', (m) => (m.effectiveHourly != null ? fmtMoney(m.effectiveHourly) + '/h' : '—')],
+                ['PTO days', (m) => fmtNum(m.ptoDays, 0)],
+            ];
+            if (state.assumptions.hourlyTimeValue != null) {
+                tableRows.push(['Commute time cost (your valuation)', (m) => fmtMoney(-(m.commuteTimeCost ?? 0))]);
+            }
+            tableRows.push(['Decision value (ranking basis)', (m) => fmtMoney(m.decisionValue)]);
+
+            const included = result.metrics;
+            const leaderId = rec.leaderId;
+
+            const table = `
+                <div class="comparison-table-wrap results-block">
+                    <table class="comparison-table">
+                        <caption class="field-hint" style="text-align:left; caption-side: bottom; margin-top: 0.5rem;">
+                            All amounts are annual, gross, in ${esc(state.assumptions.currency)}. “Expected” values discount bonuses and equity by your own risk assumptions.
+                        </caption>
+                        <thead>
+                            <tr><th scope="col" style="text-align:left;">Dimension</th>${included
+                                .map((m) => `<th scope="col">${esc(m.label)}${m.scenarioId === leaderId ? ' ★' : ''}</th>`)
+                                .join('')}</tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows
+                                .map(
+                                    ([label, get]) => `
+                                <tr><th scope="row">${esc(label)}</th>${included
+                                        .map((m) => `<td class="${m.scenarioId === leaderId ? 'winner' : ''}">${get(m)}</td>`)
+                                        .join('')}</tr>`,
+                                )
+                                .join('')}
+                        </tbody>
+                    </table>
+                </div>`;
+
+            const drivers = rec.drivers.length
+                ? `<div class="results-block">
+                        <h3>What drives the result</h3>
+                        <ol>${rec.drivers
+                            .map(
+                                (d) =>
+                                    `<li><strong>${esc(COMPONENT_LABELS[d.key])}:</strong> ${
+                                        d.delta >= 0 ? 'favors' : 'works against'
+                                    } ${esc(rec.leaderLabel!)} by ${fmtMoney(Math.abs(d.delta))} per year.</li>`,
+                            )
+                            .join('')}</ol>
+                   </div>`
+                : '';
+
+            const breakEvens = rec.breakEvens.length
+                ? `<div class="results-block">
+                        <h3>What would change the answer</h3>
+                        <ul>${rec.breakEvens
+                            .map((b) => {
+                                const val =
+                                    b.kind === 'baseSalary'
+                                        ? fmtMoney(b.value)
+                                        : b.kind === 'timeValue'
+                                          ? fmtMoney(b.value) + '/h'
+                                          : b.kind === 'onsiteDays'
+                                            ? `${fmtNum(b.value)} days/week`
+                                            : `${fmtNum(b.value, 0)}%`;
+                                return `<li>${esc(b.description)} <strong>${val}</strong>.</li>`;
+                            })
+                            .join('')}</ul>
+                        <p class="field-hint">The base-salary threshold doubles as a negotiation target for ${esc(rec.runnerUpLabel!)}.</p>
+                   </div>`
+                : '';
+
+            const missing = rec.missingInfo.length
+                ? `<div class="results-block">
+                        <h3>Worth confirming</h3>
+                        <ul>${rec.missingInfo.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>
+                   </div>`
+                : '';
+
+            const caveats = `<div class="results-block">
+                    <h3>Assumptions and limits</h3>
+                    <ul>${rec.caveats.map((cv) => `<li>${esc(cv)}</li>`).join('')}</ul>
+                    <p class="field-hint">Confidence in this comparison: <strong>${rec.confidence}</strong>
+                    (based on how close the scenarios are, how much value is at risk, and what is still unconfirmed).
+                    This is an economic comparison, not financial advice.</p>
+                </div>`;
+
+            resultsRoot.innerHTML = `
+                <div class="verdict-card ${verdictClass}">
+                    <h3>${headline}</h3>
+                    <p style="margin-bottom: 0;">${gapLine}</p>
+                </div>
+                ${table}${drivers}${breakEvens}${missing}${caveats}`;
+
+            if (currentStep === 'results' && !resultsViewed && rec.verdict !== 'insufficient') {
+                resultsViewed = true;
+                track('recommendation_viewed', { decision: 'job-offer', verdict: rec.verdict, confidence: rec.confidence });
+            }
+        }
+
+        // ---------- step navigation ----------
+        function visibleSteps(): string[] {
+            return STEPS.filter((id) => {
+                const s = state.scenarios.find((sc) => sc.id === id);
+                return !s || s.included;
+            });
+        }
+
+        function goToStep(id: string) {
+            if (!visibleSteps().includes(id)) return;
+            currentStep = id;
+            for (const stepId of STEPS) {
+                const el = document.getElementById(`step-${stepId}`);
+                if (el) el.hidden = stepId !== id;
+                const btn = document.querySelector<HTMLButtonElement>(`.step-link[data-step="${stepId}"]`);
+                if (btn) {
+                    if (stepId === id) btn.setAttribute('aria-current', 'step');
+                    else btn.removeAttribute('aria-current');
+                }
+            }
+            const heading = document.querySelector<HTMLElement>(`#step-${id} h2`);
+            heading?.focus();
+            if (id === 'results') renderResults();
+            track('decision_step_viewed', { decision: 'job-offer', step: id });
+        }
+
+        function nextVisible(from: string, dir: 1 | -1): string {
+            const vis = visibleSteps();
+            const i = vis.indexOf(from);
+            return vis[Math.min(Math.max(i + dir, 0), vis.length - 1)];
+        }
+
+        // ---------- events ----------
+        form.addEventListener('input', (e) => {
+            const t = e.target as HTMLInputElement;
+            if (!started) {
+                started = true;
+                track('decision_started', { decision: 'job-offer' });
+            }
+            if (t.matches('input[data-scenario]')) {
+                t.setAttribute('data-touched', 'true');
+                readInput(t);
+            } else if (t.id === 'case-title') {
+                state.title = t.value;
+            } else if (t.id === 'case-deadline') {
+                state.decisionDeadline = t.value || null;
+            } else if (t.matches('[data-scenario-label]')) {
+                const s = scenarioById(t.dataset.scenarioLabel!);
+                s.label = t.value.trim() || s.label;
+            } else if (t.id === 'tv-value' || t.id === 'tenure-years') {
+                readAssumptions();
+            }
+            saveCase();
+            renderResults();
+        });
+
+        form.addEventListener('change', (e) => {
+            const t = e.target as HTMLInputElement | HTMLSelectElement;
+            if (t.id === 'case-currency') {
+                state.assumptions.currency = (t as HTMLSelectElement).value;
+            } else if ((t as HTMLInputElement).matches?.('[data-include]')) {
+                const s = scenarioById((t as HTMLInputElement).dataset.include!);
+                s.included = (t as HTMLInputElement).checked;
+                syncScenarioVisibility();
+            } else if (t.id === 'tv-enabled') {
+                (document.getElementById('tv-value-group') as HTMLElement).hidden = !(t as HTMLInputElement).checked;
+                readAssumptions();
+            }
+            saveCase();
+            renderResults();
+        });
+
+        form.addEventListener('click', (e) => {
+            const t = (e.target as HTMLElement).closest('button');
+            if (!t) return;
+            if (t.dataset.next) {
+                goToStep(visibleSteps().includes(t.dataset.next) ? t.dataset.next : nextVisible(currentStep, 1));
+            } else if (t.dataset.prev) {
+                goToStep(visibleSteps().includes(t.dataset.prev) ? t.dataset.prev : nextVisible(currentStep, -1));
+            }
+        });
+
+        document.querySelectorAll<HTMLButtonElement>('.step-link').forEach((btn) => {
+            btn.addEventListener('click', () => goToStep(btn.dataset.step!));
+        });
+
+        document.getElementById('print-report')!.addEventListener('click', () => {
+            track('report_printed', { decision: 'job-offer' });
+            window.print();
+        });
+
+        document.getElementById('reset-case')!.addEventListener('click', () => {
+            if (!window.confirm('This clears every value in this decision case from this browser. Continue?')) return;
+            try {
+                localStorage.removeItem(STORAGE_KEY);
+            } catch { /* ignore */ }
+            state = emptyCase(new Date().toISOString());
+            resultsViewed = false;
+            document.querySelectorAll<HTMLInputElement>('input[data-scenario]').forEach((i) => i.removeAttribute('data-touched'));
+            hydrateForm();
+            renderResults();
+            goToStep('setup');
+            track('case_reset', { decision: 'job-offer' });
+        });
+
+        // ---------- init ----------
+        hydrateForm();
+        renderResults();
+    </script>
+</Layout>

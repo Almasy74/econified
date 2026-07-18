@@ -20,7 +20,7 @@ const tools = await Promise.all(registry
   <main class="container">
     <div style="text-align: center; margin-bottom: 4rem;">
       <h1>Make Data-Driven Career Decisions.</h1>
-      <p class="lead">Global salary comparisons and economic decision tools.</p>
+      <p class="lead">Compare job offers, promotions, remote work and relocation with transparent numbers — free calculators, no account required.</p>
     </div>
 
     <!-- HERO FEATURE BLOCK for Entity Alignment -->
@@ -54,15 +54,20 @@ const tools = await Promise.all(registry
             <span class="hero-stat-label">Data Pages</span>
           </div>
           <div class="hero-stat-card">
-            <span class="hero-stat-number">100</span><span class="hero-stat-suffix">%</span>
-            <span class="hero-stat-label">Free Forever</span>
+            <span class="hero-stat-number">24</span>
+            <span class="hero-stat-label">Free Calculators</span>
           </div>
         </div>
 
-        <a href="/global-salary/" class="hero-cta">
-          <span>Try Global Salary Calculator</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="/decisions/job-offer/" class="hero-cta">
+            <span>Analyze a Career Decision</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="/global-salary/" class="hero-cta hero-cta-secondary">
+            <span>Try Global Salary Calculator</span>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -262,6 +267,15 @@ const tools = await Promise.all(registry
       .hero-cta:active {
         transform: translateY(-1px);
       }
+      .hero-cta-secondary {
+        background: transparent;
+        border: 1px solid rgba(99,102,241,0.4);
+        box-shadow: none;
+        color: var(--text-primary);
+      }
+      .hero-cta-secondary:hover {
+        box-shadow: 0 4px 20px rgba(99,102,241,0.2);
+      }
       @media (max-width: 640px) {
         .hero-title { font-size: 2.2rem; }
         .hero-feature { padding: 3rem 1.5rem; }
@@ -314,6 +328,31 @@ const tools = await Promise.all(registry
         statNumbers.forEach(stat => observer.observe(stat));
       });
     </script>
+
+    <div style="margin-bottom: 3.5rem;">
+      <h2 style="margin-bottom: 0.5rem; font-size: 1.6rem; text-align: center;">Start With Your Decision</h2>
+      <p style="text-align: center; margin-bottom: 1.5rem;">Pick the choice you're actually facing — each path combines the relevant numbers instead of leaving you to juggle calculators.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <a href="/decisions/job-offer/" class="glass-panel" style="display: block; text-decoration: none; border: 1px solid rgba(59,130,246,0.45);">
+          <span style="display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-light); background: rgba(59,130,246,0.12); padding: 0.2rem 0.6rem; border-radius: 100px; margin-bottom: 0.75rem;">Full workflow</span>
+          <h3 style="color: var(--accent-light); margin: 0 0 0.4rem 0;">Should I accept this job offer?</h3>
+          <p style="margin-bottom: 0;">Compare offers on pay, risk, commute time and costs — with break-even thresholds and a negotiation target.</p>
+        </a>
+        <a href="/quit-calculator/" class="glass-panel" style="display: block; text-decoration: none;">
+          <h3 style="color: var(--accent-light); margin: 0 0 0.4rem 0;">Can I afford to quit?</h3>
+          <p style="margin-bottom: 0;">Test your savings runway against a six-month safety buffer before you hand in notice.</p>
+        </a>
+        <a href="/promotion-value-calculator/" class="glass-panel" style="display: block; text-decoration: none;">
+          <h3 style="color: var(--accent-light); margin: 0 0 0.4rem 0;">Is this promotion worth it?</h3>
+          <p style="margin-bottom: 0;">More money, more hours — see the real change in your effective hourly rate.</p>
+        </a>
+        <a href="/commute-vs-hybrid-vs-remote/" class="glass-panel" style="display: block; text-decoration: none;">
+          <h3 style="color: var(--accent-light); margin: 0 0 0.4rem 0;">Remote, hybrid or office?</h3>
+          <p style="margin-bottom: 0;">Commute money and hours per working pattern, priced at your own value of time.</p>
+        </a>
+      </div>
+      <p style="text-align: center; margin-top: 1.5rem; margin-bottom: 0;"><a href="/decisions/">See all decision paths &rarr;</a></p>
+    </div>
 
     {(() => {
       const newSlugs = ['salary-raise-vs-inflation', 'geo-arbitrage-calculator', 'commute-vs-hybrid-vs-remote'];
