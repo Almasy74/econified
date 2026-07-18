@@ -1,0 +1,107 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+    title="Shared Decision Report – Econified"
+    description="A read-only career decision report shared from Econified."
+    noindex={true}
+    noAds={true}
+>
+    <main class="container" style="max-width: 900px;">
+        <div id="share-loading">
+            <h1>Shared Decision Report</h1>
+            <p class="lead">Loading report…</p>
+        </div>
+
+        <div id="share-missing" hidden>
+            <h1>Report not available</h1>
+            <p class="lead">
+                This share link is invalid, has expired, or was revoked by its owner.
+            </p>
+            <p><a href="/decisions/job-offer/">Build your own decision analysis &rarr;</a></p>
+        </div>
+
+        <div id="share-report" hidden>
+            <p class="share-banner">
+                Read-only report shared via <a href="/">Econified</a>. The numbers and assumptions below were
+                entered by the person who shared it.
+            </p>
+            <h1 id="share-title"></h1>
+            <p class="lead" id="share-meta"></p>
+            <div id="share-results"></div>
+            <div class="content-section">
+                <p>
+                    Want to test this with your own numbers — or see what happens when an assumption changes?
+                    <a href="/decisions/job-offer/">Run your own job offer decision analysis</a>. It's free and runs in your browser.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <style is:global>
+        .share-banner {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .field-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        @media print {
+            header, footer, .share-banner, .content-section { display: none !important; }
+            body { background: #fff; color: #111; }
+        }
+    </style>
+
+    <script>
+        import { compareCase } from '../../../tools/decision/engine.ts';
+        import { buildResultsHtml } from '../../lib/report.ts';
+        import { fetchSharedReport } from '../../lib/cloud.ts';
+
+        function track(event: string, props: Record<string, string | number> = {}) {
+            const w = window as any;
+            if (w.plausible) w.plausible(event, { props });
+        }
+
+        async function init() {
+            const loading = document.getElementById('share-loading')!;
+            const missing = document.getElementById('share-missing')!;
+            const reportEl = document.getElementById('share-report')!;
+
+            const id = new URLSearchParams(window.location.search).get('id');
+            if (!id || !/^[0-9a-f-]{36}$/i.test(id)) {
+                loading.hidden = true;
+                missing.hidden = false;
+                return;
+            }
+
+            try {
+                const shared = await fetchSharedReport(id);
+                if (!shared) {
+                    loading.hidden = true;
+                    missing.hidden = false;
+                    return;
+                }
+                const c = shared.decisionCase;
+                const result = compareCase(c);
+                document.getElementById('share-title')!.textContent = shared.title || 'Decision report';
+                document.getElementById('share-meta')!.textContent =
+                    `Job offer comparison · shared ${new Date(shared.created_at).toLocaleDateString()} · amounts in ${c.assumptions.currency}`;
+                document.getElementById('share-results')!.innerHTML = buildResultsHtml(c, result);
+                loading.hidden = true;
+                reportEl.hidden = false;
+                track('share_link_viewed', { decision: c.decisionType });
+            } catch {
+                loading.hidden = true;
+                missing.hidden = false;
+            }
+        }
+
+        init();
+    </script>
+</Layout>
