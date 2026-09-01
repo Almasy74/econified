@@ -1,0 +1,44 @@
+{
+    "slug": "commute-cost-calculator",
+    "formula": [
+        "totalYearlyDistance = oneWayDistance * 2 * daysPerWeek * weeksPerYear",
+        "totalYearlyCommuteHours = (oneWayTimeMinutes * 2 / 60) * daysPerWeek * weeksPerYear",
+        "fuelCost = totalYearlyDistance * costPerUnitDistance",
+        "implicitTimeCost = totalYearlyCommuteHours * hourlyValue",
+        "totalAnnualCost = fuelCost + implicitTimeCost"
+    ],
+    "elements": {
+        "costPerUnitDistance": "Per-mile (or per-km) vehicle cost: fuel, maintenance, insurance, depreciation. The IRS standard business mileage rate is offered as a documented PROXY - it is a tax rate for business driving, not an official measure of personal commuting cost. Users can always enter their own figure.",
+        "hourlyValue": "The user's subjective value of an hour of personal time. Not a market rate; the calculator makes the assumption explicit.",
+        "weeksPerYear": "Commuting weeks, typically 46-48 after vacation and holidays."
+    },
+    "constraints": [
+        "totalAnnualCost must be non-decreasing in costPerUnitDistance, distance, time, days, and weeks.",
+        "Any per-mile rate quoted in definition text or presets must match a value in sources below.",
+        "The tool's registry updatedAt must not be newer than this model's reviewedAt."
+    ],
+    "sources": [
+        {
+            "name": "IRS standard mileage rate, business use, Jan 1 - Jun 30 2026",
+            "url": "https://www.irs.gov/tax-professionals/standard-mileage-rates",
+            "value": 0.725,
+            "validFrom": "2026-01-01",
+            "validTo": "2026-06-30"
+        },
+        {
+            "name": "IRS standard mileage rate, business use, Jul 1 - Dec 31 2026",
+            "url": "https://www.irs.gov/tax-professionals/standard-mileage-rates",
+            "value": 0.76,
+            "validFrom": "2026-07-01",
+            "validTo": "2026-12-31"
+        },
+        {
+            "name": "Derived: 2026 full-year simple average of the two half-year rates",
+            "value": 0.7425,
+            "validFrom": "2026-01-01",
+            "validTo": "2026-12-31"
+        }
+    ],
+    "reviewedAt": "2026-09-01",
+    "reviewedBy": "Trond Ausland"
+}

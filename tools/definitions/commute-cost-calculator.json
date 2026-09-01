@@ -30,7 +30,13 @@
             "name": "costPerUnitDistance",
             "label": "Fuel/Wear Cost (per unit)",
             "type": "number",
-            "placeholder": "e.g. 0.76"
+            "placeholder": "e.g. 0.76",
+            "presets": [
+                { "label": "IRS standard mileage rate, Jul-Dec 2026 ($0.76/mile)", "value": 0.76 },
+                { "label": "IRS standard mileage rate, Jan-Jun 2026 ($0.725/mile)", "value": 0.725 },
+                { "label": "IRS 2026 full-year average ($0.7425/mile)", "value": 0.7425 }
+            ],
+            "presetLabel": "Use a reference rate (or enter your own cost below)"
         },
         {
             "name": "hourlyValue",

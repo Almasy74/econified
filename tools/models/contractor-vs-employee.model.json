@@ -1,0 +1,36 @@
+{
+    "slug": "contractor-vs-employee",
+    "formula": [
+        "contractorGross = contractorHourlyRate * contractorHoursPerWeek * contractorWeeksPerYear",
+        "simple: contractorNetEquivalent = contractorGross * (1 - contractorOverheadPercent / 100)",
+        "advanced: percentOverhead = extraPayrollTaxPercent + lostPensionMatchPercent + riskPremiumPercent",
+        "advanced: fixedAnnualCosts = healthInsuranceDeltaAnnual + adminSoftwareInsuranceAnnual + otherOperatingAnnual",
+        "advanced: contractorNetEquivalent = contractorGross * (1 - percentOverhead / 100) - fixedAnnualCosts",
+        "breakEvenRate = (employeeSalary + fixedAnnualCosts) / (billableHoursPerYear * (1 - percentOverhead / 100))",
+        "difference = contractorNetEquivalent - employeeSalary"
+    ],
+    "elements": {
+        "contractorWeeksPerYear": "The ONLY place unpaid vacation, holidays, sick days, and bench time are modeled. Reducing weeks lowers gross revenue directly.",
+        "contractorOverheadPercent": "Simple mode. Covers only costs NOT captured by fewer billable weeks: employer-share payroll taxes, health insurance, lost retirement match, business expenses. Documented default range 20-30%. Must never include vacation or unpaid time - that would double-count against Weeks/Year.",
+        "extraPayrollTaxPercent": "The extra tax burden versus an employee. US default 7.65% (the employer half of FICA). A documented default, not a universal figure: income thresholds (Social Security wage base) and the deductibility of the employer-equivalent portion shift the exact burden.",
+        "lostPensionMatchPercent": "Employer retirement match the contractor no longer receives. Typical US 401(k) match 3-6% of salary; default 4%.",
+        "riskPremiumPercent": "Optional buffer for income volatility, dry spells, and client concentration. Default 0; the freelance-risk-calculator prices this explicitly.",
+        "healthInsuranceDeltaAnnual": "The annual difference between self-funded coverage and the employee's subsidized plan, not the full premium. Default $8,000 (US individual marketplace vs typical employer subsidy).",
+        "adminSoftwareInsuranceAnnual": "Accounting, invoicing software, liability insurance, legal. Default $3,000.",
+        "otherOperatingAnnual": "Equipment, coworking, travel, licenses. Default $0."
+    },
+    "constraints": [
+        "Unpaid time off must affect the result through contractorWeeksPerYear only, never through overhead.",
+        "Increasing contractorHourlyRate must never decrease contractorNetEquivalent.",
+        "In simple mode, contractorNetEquivalent must equal contractorGross * (1 - overhead/100) exactly - overhead is applied once."
+    ],
+    "sources": [
+        {
+            "name": "IRS Self-Employment Tax (15.3% total; 7.65% is the employer half)",
+            "url": "https://www.irs.gov/businesses/small-businesses-self-employed/self-employment-tax-social-security-and-medicare-taxes",
+            "validFrom": "2026-01-01"
+        }
+    ],
+    "reviewedAt": "2026-09-01",
+    "reviewedBy": "Trond Ausland"
+}

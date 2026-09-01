@@ -3,9 +3,31 @@ export function calculateContractorVsEmployee(inputs: Record<string, number>) {
 
     const contractorGross = inputs.contractorHourlyRate * inputs.contractorHoursPerWeek * inputs.contractorWeeksPerYear;
 
-    // Subtract overhead / taxes / lost benefits proxy (e.g., 30%)
-    const contractorOverhead = contractorGross * (inputs.contractorOverheadPercent / 100);
-    const contractorNetEquivalent = contractorGross - contractorOverhead;
+    // Overhead never includes unpaid vacation/holidays - those are captured by Weeks/Year.
+    // Simple mode: one percentage. Advanced mode: itemized percent + fixed annual costs.
+    let percentOverhead: number;
+    let fixedAnnualCosts = 0;
+    if (inputs.advancedMode === 1) {
+        percentOverhead = (inputs.extraPayrollTaxPercent || 0)
+            + (inputs.lostPensionMatchPercent || 0)
+            + (inputs.riskPremiumPercent || 0);
+        fixedAnnualCosts = (inputs.healthInsuranceDeltaAnnual || 0)
+            + (inputs.adminSoftwareInsuranceAnnual || 0)
+            + (inputs.otherOperatingAnnual || 0);
+    } else {
+        percentOverhead = inputs.contractorOverheadPercent || 0;
+    }
+
+    const contractorNetEquivalent = contractorGross * (1 - percentOverhead / 100) - fixedAnnualCosts;
+    const effectiveOverheadPercent = contractorGross > 0
+        ? ((contractorGross - contractorNetEquivalent) / contractorGross) * 100
+        : percentOverhead;
+
+    // Minimum hourly rate at which the contractor's equivalent matches the employee salary.
+    const billableHoursPerYear = inputs.contractorHoursPerWeek * inputs.contractorWeeksPerYear;
+    const breakEvenRate = billableHoursPerYear > 0 && percentOverhead < 100
+        ? (employeeTotalPay + fixedAnnualCosts) / (billableHoursPerYear * (1 - percentOverhead / 100))
+        : 0;
 
     const difference = contractorNetEquivalent - employeeTotalPay;
     const differencePercent = (difference / employeeTotalPay) * 100;
@@ -14,6 +36,8 @@ export function calculateContractorVsEmployee(inputs: Record<string, number>) {
         employeeTotalPay,
         contractorGross,
         contractorNetEquivalent,
+        effectiveOverheadPercent,
+        breakEvenRate,
         difference,
         differencePercent
     };

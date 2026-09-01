@@ -128,13 +128,19 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
           </div>
         )}
         {definition.inputs.map((input: any) => (
-          <div class="input-group">
+          <div class="input-group" data-input-name={input.name}>
             <label for={input.name} id={`label-${input.name}`}>{input.label}</label>
-            <input 
-              type="number" 
-              id={input.name} 
-              name={input.name} 
-              value={tool.defaults[input.name] || ''} 
+            {input.presets && (
+              <select class="preset-select" data-fills={input.name} aria-label={input.presetLabel || `Reference values for ${input.label}`} style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem; border-radius: 8px; border: 1px solid var(--surface-border); background: var(--surface); color: var(--text-primary); font-size: 0.9rem;">
+                <option value="">{input.presetLabel || 'Choose a reference value (optional)'}</option>
+                {input.presets.map((p: any) => <option value={p.value}>{p.label}</option>)}
+              </select>
+            )}
+            <input
+              type="number"
+              id={input.name}
+              name={input.name}
+              value={tool.defaults[input.name] || ''}
               required
               aria-labelledby={`label-${input.name}`}
               min={input.min !== undefined ? input.min : "0"}
@@ -144,6 +150,34 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
             />
           </div>
         ))}
+        {definition.advanced && (
+          <>
+            <div class="input-group" style="margin-top: 0.5rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 600;">
+                <input type="checkbox" id="advanced-toggle" style="width: auto;" />
+                {definition.advanced.label}
+              </label>
+            </div>
+            <div id="advanced-inputs" hidden>
+              {definition.advanced.inputs.map((input: any) => (
+                <div class="input-group" data-input-name={input.name}>
+                  <label for={input.name} id={`label-${input.name}`}>{input.label}</label>
+                  <input
+                    type="number"
+                    id={input.name}
+                    name={input.name}
+                    value={input.default !== undefined ? input.default : (tool.defaults[input.name] || '')}
+                    aria-labelledby={`label-${input.name}`}
+                    min={input.min !== undefined ? input.min : "0"}
+                    max={input.max !== undefined ? input.max : undefined}
+                    step={input.step !== undefined ? input.step : "any"}
+                    placeholder={input.placeholder || `Enter ${input.label.toLowerCase()}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </form>
 
       <div class="outputs" aria-atomic="true">
@@ -240,28 +274,33 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
     const definition = definitionStr ? JSON.parse(definitionStr) : null;
     
     if (form && definition) {
-      const inputs = Array.from(form.querySelectorAll('input'));
+      const inputs = Array.from(form.querySelectorAll('input[type="number"]')) as HTMLInputElement[];
       const slug = form.dataset.fn || '';
 
       const currIn = document.getElementById('currency-override') as HTMLSelectElement;
+      const advToggle = document.getElementById('advanced-toggle') as HTMLInputElement | null;
+      const advPanel = document.getElementById('advanced-inputs');
+      const allInputDefs = [...definition.inputs, ...(definition.advanced?.inputs || [])];
+      let interactionCount = 0;
 
       function calculate() {
         if (!window.Currency) return;
-        
+
         const localCurrency = currIn ? currIn.value : window.Currency.get();
         const values: Record<string, number> = {};
-        
+
         inputs.forEach(input => {
           let val = parseFloat(input.value) || 0;
-          
+
           // If input is currency, convert from LOCAL currency to USD for internal engine logic
-          const inputDef = definition.inputs.find((i: any) => i.name === input.name);
+          const inputDef = allInputDefs.find((i: any) => i.name === input.name);
           if (inputDef && inputDef.unit === 'currency') {
             val = window.Currency.convertToUSD(val, localCurrency);
           }
-          
+
           values[input.name] = val;
         });
+        values.advancedMode = advToggle && advToggle.checked ? 1 : 0;
 
         // 1. Fetch proper engine function from dictionary
         const calcFn = engineMap[slug];
@@ -280,6 +319,8 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
             const unit = el.dataset.unit;
             if (unit === 'percent') {
               el.textContent = (typeof val === 'number' && val > 0 ? '+' : '') + (typeof val === 'number' ? val.toFixed(1) : val) + '%';
+            } else if (unit === 'percentValue') {
+              el.textContent = (typeof val === 'number' ? val.toFixed(1) : val) + '%';
             } else if (unit === 'number') {
               el.textContent = typeof val === 'number' ? val.toLocaleString('en-US', { maximumFractionDigits: 1 }) : val;
             } else if (unit === 'text') {
@@ -330,6 +371,36 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
       if (currIn) {
         currIn.addEventListener('change', calculate);
       }
+
+      // Advanced mode: swap the single overhead input for itemized components
+      if (advToggle && advPanel) {
+        const replaced = (definition.advanced?.replaces || []) as string[];
+        advToggle.addEventListener('change', () => {
+          advPanel.hidden = !advToggle.checked;
+          replaced.forEach(name => {
+            const group = form.querySelector(`.input-group[data-input-name="${name}"]`) as HTMLElement | null;
+            if (group) group.hidden = advToggle.checked;
+          });
+          calculate();
+          trackEvent('advanced_mode_toggled', { tool: slug, enabled: String(advToggle.checked) });
+        });
+      }
+
+      // Preset selects fill their target input; manual edits reset the select
+      const presetSelects = Array.from(form.querySelectorAll('.preset-select')) as HTMLSelectElement[];
+      presetSelects.forEach(select => {
+        const target = document.getElementById(select.dataset.fills || '') as HTMLInputElement | null;
+        if (!target) return;
+        select.addEventListener('change', () => {
+          if (select.value !== '') {
+            target.value = select.value;
+            calculate();
+          }
+        });
+        target.addEventListener('input', () => {
+          if (select.value !== '' && target.value !== select.value) select.value = '';
+        });
+      });
 
       // Track related tool clicks
       const relatedLinks = Array.from(document.querySelectorAll('[data-analytics="related-tool-click"]'));

@@ -35,11 +35,74 @@
         {
             "name": "contractorOverheadPercent",
             "type": "number",
-            "label": "Self-Employment Overhead %",
+            "label": "Self-Employment Overhead % (excl. unpaid weeks)",
             "min": 0,
             "step": 1
         }
     ],
+    "advanced": {
+        "label": "Advanced: itemize the overhead instead of one percentage",
+        "replaces": ["contractorOverheadPercent"],
+        "inputs": [
+            {
+                "name": "extraPayrollTaxPercent",
+                "type": "number",
+                "label": "Extra Payroll / Self-Employment Tax (% of gross)",
+                "min": 0,
+                "step": 0.05,
+                "default": 7.65,
+                "placeholder": "e.g. 7.65 (US employer half)"
+            },
+            {
+                "name": "lostPensionMatchPercent",
+                "type": "number",
+                "label": "Lost Employer Retirement Match (% of gross)",
+                "min": 0,
+                "step": 0.5,
+                "default": 4,
+                "placeholder": "e.g. 4"
+            },
+            {
+                "name": "riskPremiumPercent",
+                "type": "number",
+                "label": "Risk Premium (% of gross)",
+                "min": 0,
+                "step": 0.5,
+                "default": 0,
+                "placeholder": "e.g. 3 for income volatility"
+            },
+            {
+                "name": "healthInsuranceDeltaAnnual",
+                "type": "number",
+                "unit": "currency",
+                "label": "Health Insurance Difference (annual)",
+                "min": 0,
+                "step": 100,
+                "default": 8000,
+                "placeholder": "extra cost vs employer plan"
+            },
+            {
+                "name": "adminSoftwareInsuranceAnnual",
+                "type": "number",
+                "unit": "currency",
+                "label": "Accounting, Software & Business Insurance (annual)",
+                "min": 0,
+                "step": 100,
+                "default": 3000,
+                "placeholder": "e.g. 3000"
+            },
+            {
+                "name": "otherOperatingAnnual",
+                "type": "number",
+                "unit": "currency",
+                "label": "Other Operating Costs (annual)",
+                "min": 0,
+                "step": 100,
+                "default": 0,
+                "placeholder": "equipment, coworking, travel"
+            }
+        ]
+    },
     "outputs": [
         {
             "name": "contractorGross",
@@ -50,6 +113,16 @@
             "name": "contractorNetEquivalent",
             "unit": "currency",
             "label": "Contractor True Equivalent"
+        },
+        {
+            "name": "breakEvenRate",
+            "unit": "currency",
+            "label": "Break-even Hourly Rate"
+        },
+        {
+            "name": "effectiveOverheadPercent",
+            "unit": "percentValue",
+            "label": "Effective Overhead %"
         },
         {
             "name": "difference",
@@ -63,8 +136,9 @@
         }
     ],
     "methodSummary": [
-        "Contract Gross = Rate × Hours × Weeks.",
-        "True Equivalent = Contract Gross minus the Self-Employment Overhead %.",
+        "Contract Gross = Rate × Hours × Weeks. Unpaid vacation, holidays and bench time are modeled only here, via Weeks/Year.",
+        "True Equivalent = Contract Gross × (1 - Overhead %) - fixed annual costs (advanced mode). Overhead covers only costs not already captured by fewer billable weeks.",
+        "Break-even Hourly Rate = the minimum rate at which the True Equivalent matches the Employee Salary.",
         "Difference = True Equivalent - Employee Salary."
     ],
     "assumptions": [
@@ -113,5 +187,5 @@
         "Assess overhead differences",
         "Compare true total compensation"
     ],
-    "richContent": "<h3>How much does a contractor make?</h3>\n<p style=\"margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6;\">Independent contractors generally earn a higher gross hourly rate than salaried employees, but their net take-home pay is often lower than it appears. To match the lifestyle of a $100k employee, a contractor typically needs to gross $130k to $150k annually. A $50/hour W-2 salary requires a $65 to $75/hour 1099 contract rate just to break even.</p>\n\n<h3>Employee Salary vs Contractor Hourly Rate</h3>\n<p style=\"margin-bottom: 1.5rem; line-height: 1.6;\">You cannot directly compare an employee salary to a contractor hourly rate. An employee is paid for 52 weeks regardless of holidays, sick days, or slow periods. A contractor is paid strictly for billable hours worked. Therefore, 2,000 standard working hours rarely equal 2,000 billable contract hours. You must discount your expected hours to account for admin work and unpaid time off.</p>\n\n<h3>Taxes and Benefits Differences</h3>\n<table class=\"base-table\" style=\"width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;\">\n  <thead>\n    <tr style=\"border-bottom: 2px solid var(--surface-border);\">\n      <th style=\"padding: 0.75rem 0.5rem;\">Factor</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Employee (W-2)</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Contractor (1099)</th>\n    </tr>\n  </thead>\n  <tbody style=\"font-size: 0.95rem; color: var(--text-secondary);\">\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Taxes (US)</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Employer pays half FICA</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">You pay the full 15.3% (the extra burden vs an employee is the 7.65% employer half)</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>PTO & Sick Leave</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Paid</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Unpaid (lost revenue)</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Insurance & Perks</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Subsidized by employer</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">100% out-of-pocket</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>What Overhead to Assume</h3>\n<p style=\"margin-bottom: 1.5rem; line-height: 1.6;\">When using this calculator, a documented default for <strong>Self-Employment Overhead is 20% to 30%</strong>: the employer half of payroll taxes (7.65% in the US - a default, not a universal figure, since thresholds and deductions shift the exact burden), the cost of acquiring your own health insurance (often 5-10% of gross), and missing 401(k) matches (3-5%). If you also purchase your own software licenses, equipment, and liability insurance, push the assumption toward 30%. <strong>Do not include unpaid vacation or holidays in overhead</strong> - reduce 'Weeks/Year' instead, otherwise the same cost is counted twice.</p>\n\n<h3>Break-Even Formula</h3>\n<div style=\"background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2rem;\">\n  <strong>Contractor True Equivalent</strong> = (Hourly Rate × Billable Hours/Week × Working Weeks/Year) × (1 - Overhead %)\n</div>\n<p style=\"margin-bottom: 2rem; line-height: 1.6;\">To find your break-even point, adjust the Hourly Rate input until the <strong>Contractor True Equivalent</strong> perfectly matches the <strong>Employee Base Salary</strong>. If your target client won't approve that break-even rate, you are effectively taking a pay cut to become a contractor.</p>\n\n<div class=\"glass-panel\" style=\"margin-top: 2rem;\">\n  <h3 style=\"margin-top: 0; margin-bottom: 1rem;\">Related Information</h3>\n  <ul style=\"list-style-type: none; margin: 0; padding: 0;\">\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/guides/contractor-vs-employee-pay/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Guide: Contractor vs Employee Pay</a>: A deeper dive into the math behind the freelance premium.</li>\n    <li style=\"margin-bottom: 0; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/freelance-rate-calculator/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Freelance Rate Calculator</a>: Calculate your exact target hourly rate based on living expenses.</li>\n  </ul>\n</div>"
+    "richContent": "<h3>How much does a contractor make?</h3>\n<p style=\"margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6;\">Independent contractors generally earn a higher gross hourly rate than salaried employees, but their net take-home pay is often lower than it appears. To match the lifestyle of a $100k employee, a contractor typically needs to gross $130k to $150k annually. A $50/hour W-2 salary requires a $65 to $75/hour 1099 contract rate just to break even.</p>\n\n<h3>Employee Salary vs Contractor Hourly Rate</h3>\n<p style=\"margin-bottom: 1.5rem; line-height: 1.6;\">You cannot directly compare an employee salary to a contractor hourly rate. An employee is paid for 52 weeks regardless of holidays, sick days, or slow periods. A contractor is paid strictly for billable hours worked. Therefore, 2,000 standard working hours rarely equal 2,000 billable contract hours. You must discount your expected hours to account for admin work and unpaid time off.</p>\n\n<h3>Taxes and Benefits Differences</h3>\n<table class=\"base-table\" style=\"width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;\">\n  <thead>\n    <tr style=\"border-bottom: 2px solid var(--surface-border);\">\n      <th style=\"padding: 0.75rem 0.5rem;\">Factor</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Employee (W-2)</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Contractor (1099)</th>\n    </tr>\n  </thead>\n  <tbody style=\"font-size: 0.95rem; color: var(--text-secondary);\">\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Taxes (US)</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Employer pays half FICA</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">You pay the full 15.3% (the extra burden vs an employee is the 7.65% employer half)</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>PTO & Sick Leave</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Paid</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Unpaid (lost revenue)</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Insurance & Perks</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Subsidized by employer</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">100% out-of-pocket</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>What Overhead to Assume</h3>\n<p style=\"margin-bottom: 1.5rem; line-height: 1.6;\">When using this calculator, a documented default for <strong>Self-Employment Overhead is 20% to 30%</strong>: the employer half of payroll taxes (7.65% in the US - a default, not a universal figure, since thresholds and deductions shift the exact burden), the cost of acquiring your own health insurance (often 5-10% of gross), and missing 401(k) matches (3-5%). If you also purchase your own software licenses, equipment, and liability insurance, push the assumption toward 30%. <strong>Do not include unpaid vacation or holidays in overhead</strong> - reduce 'Weeks/Year' instead, otherwise the same cost is counted twice.</p>\n\n<h3>Break-Even Formula</h3>\n<div style=\"background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2rem;\">\n  <strong>Contractor True Equivalent</strong> = (Hourly Rate × Billable Hours/Week × Working Weeks/Year) × (1 - Overhead %)\n</div>\n<p style=\"margin-bottom: 2rem; line-height: 1.6;\">The calculator reports this directly as the <strong>Break-even Hourly Rate</strong>: the minimum rate at which your True Equivalent matches the Employee Base Salary. If your target client won't approve that rate, you are effectively taking a pay cut to become a contractor. Use the advanced mode to itemize taxes, insurance, retirement, and business costs instead of a single percentage.</p>\n\n<div class=\"glass-panel\" style=\"margin-top: 2rem;\">\n  <h3 style=\"margin-top: 0; margin-bottom: 1rem;\">Related Information</h3>\n  <ul style=\"list-style-type: none; margin: 0; padding: 0;\">\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/guides/contractor-vs-employee-pay/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Guide: Contractor vs Employee Pay</a>: A deeper dive into the math behind the freelance premium.</li>\n    <li style=\"margin-bottom: 0; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/freelance-rate-calculator/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Freelance Rate Calculator</a>: Calculate your exact target hourly rate based on living expenses.</li>\n  </ul>\n</div>"
 }

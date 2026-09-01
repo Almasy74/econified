@@ -8,7 +8,7 @@
     "build": "tsx scripts/validate-definitions.ts && astro build && tsx scripts/split-sitemaps.ts && tsx scripts/sitemap-audit.ts",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "tsx --test tools/decision/*.test.ts"
+    "test": "tsx --test tools/decision/*.test.ts tools/engines/*.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.7",
