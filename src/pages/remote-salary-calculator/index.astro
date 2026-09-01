@@ -37,7 +37,6 @@ const breadcrumbSchema = {
   }]
 };
 
-const currentYear = new Date().getFullYear();
 ---
 
 <Layout title={metaTitle} description={metaDescription} canonicalUrl={canonicalUrl}>
@@ -51,9 +50,6 @@ const currentYear = new Date().getFullYear();
         <a href="/" style="color: inherit;">Home</a> &rsaquo; 
         <a href="/global-salary/" style="color: inherit;">Global Salary</a> &rsaquo; Remote
       </nav>
-      <span style="font-size: 0.85rem; color: var(--success-color, #22c55e); font-weight: 500;">
-        <span aria-hidden="true">&#10003;</span> Updated for {currentYear}
-      </span>
     </div>
     
     <div class="tool-header" style="margin-bottom: 1.5rem;">

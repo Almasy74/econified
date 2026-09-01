@@ -21,8 +21,9 @@ for (const tool of registry) {
   }
 }
 
-// Destination pages that are indexable (matches salary-in-[destination]/index.astro logic)
-const indexableDestinations = ['spain', 'portugal', 'uk', 'united kingdom'];
+// Destination pages that are indexable (matches salary-in-[destination]/index.astro logic).
+// Empty until the currency model applies real FX conversion.
+const indexableDestinations = [];
 
 // https://astro.build/config
 export default defineConfig({

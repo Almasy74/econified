@@ -108,22 +108,6 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
     </div>
     <p class="lead">{definition.description}</p>
 
-    <div class="capability-block" role="list">
-       <span class="badge" role="listitem"><strong>What this tool does:</strong> {definition.description}</span>
-       <span class="badge" role="listitem"><strong>Inputs:</strong> {definition.inputs.map((i:any)=>i.label).join(', ')}</span>
-       <span class="badge" role="listitem"><strong>Outputs:</strong> {definition.outputs.map((o:any)=>o.label).join(', ')}</span>
-       <span class="badge" role="listitem"><strong>Processing:</strong> Runs locally in your browser</span>
-       <span class="badge" role="listitem"><strong>Privacy:</strong> No inputs stored or sent</span>
-    </div>
-
-    <!-- Explicit AEO Use Cases -->
-    <div class="use-cases-block" style="margin-bottom: 2rem; padding: 1rem; background: rgba(30, 41, 59, 0.4); border-radius: 6px; border-left: 3px solid var(--accent-light);">
-      <h2 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 1rem; color: var(--text-primary);">When to use this tool:</h2>
-      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
-        {definition.useCases.map((useCase: string) => <li>{useCase}</li>)}
-      </ul>
-    </div>
-
     <!-- Calculator Interface -->
     <div class="glass-panel" id="calculator-app" aria-live="polite">
       <form id="calc-form" data-engine={tool.engine} data-fn={tool.slug} data-definition={JSON.stringify(definition)}>
@@ -170,6 +154,22 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
           </div>
         ))}
       </div>
+    </div>
+
+    <div class="capability-block" role="list" style="margin-top: 2rem;">
+       <span class="badge" role="listitem"><strong>What this tool does:</strong> {definition.description}</span>
+       <span class="badge" role="listitem"><strong>Inputs:</strong> {definition.inputs.map((i:any)=>i.label).join(', ')}</span>
+       <span class="badge" role="listitem"><strong>Outputs:</strong> {definition.outputs.map((o:any)=>o.label).join(', ')}</span>
+       <span class="badge" role="listitem"><strong>Processing:</strong> Runs locally in your browser</span>
+       <span class="badge" role="listitem"><strong>Privacy:</strong> No inputs stored or sent</span>
+    </div>
+
+    <!-- Explicit AEO Use Cases -->
+    <div class="use-cases-block" style="margin-bottom: 2rem; padding: 1rem; background: rgba(30, 41, 59, 0.4); border-radius: 6px; border-left: 3px solid var(--accent-light);">
+      <h2 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 1rem; color: var(--text-primary);">When to use this tool:</h2>
+      <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
+        {definition.useCases.map((useCase: string) => <li>{useCase}</li>)}
+      </ul>
     </div>
 
     <div class="content-section">

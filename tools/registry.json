@@ -115,7 +115,7 @@
       "contractorOverheadPercent": 30
     },
     "status": "active",
-    "updatedAt": "2026-02-24"
+    "updatedAt": "2026-09-01"
   },
   {
     "slug": "remote-pay-adjuster",
@@ -157,11 +157,11 @@
       "oneWayTimeMinutes": 30,
       "daysPerWeek": 5,
       "weeksPerYear": 48,
-      "costPerUnitDistance": 0.67,
+      "costPerUnitDistance": 0.76,
       "hourlyValue": 50
     },
     "status": "active",
-    "updatedAt": "2026-02-24"
+    "updatedAt": "2026-09-01"
   },
   {
     "slug": "salary-increase-calculator",
