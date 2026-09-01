@@ -26,6 +26,11 @@ const definitionSchema = z.object({
         replaces: z.array(z.string()),
         inputs: z.array(inputSchema).min(1)
     }).optional(),
+    resultCta: z.object({
+        label: z.string(),
+        href: z.string(),
+        note: z.string().optional()
+    }).optional(),
     outputs: z.array(z.object({
         name: z.string(),
         unit: z.string().optional(),

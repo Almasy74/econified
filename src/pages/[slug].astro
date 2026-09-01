@@ -188,6 +188,17 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
           </div>
         ))}
       </div>
+
+      {definition.resultCta && (
+        <div class="result-cta-block" style="margin-top: 1.5rem; text-align: center;">
+          <a id="result-cta" class="btn-primary" href={definition.resultCta.href} style="display: inline-block; text-decoration: none; padding: 0.85rem 1.5rem;">
+            {definition.resultCta.label}
+          </a>
+          {definition.resultCta.note && (
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem; margin-bottom: 0;">{definition.resultCta.note}</p>
+          )}
+        </div>
+      )}
     </div>
 
     <div class="capability-block" role="list" style="margin-top: 2rem;">
@@ -260,155 +271,7 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
   </main>
 
   <script>
-    import { engineMap } from '../utils/engineMap.ts';
-
-    // Simple tracking integration (Plausible)
-    function trackEvent(eventName: string, props = {}) {
-        if (typeof window !== 'undefined' && (window as any).plausible) {
-            (window as any).plausible(eventName, { props });
-        }
-    }
-
-    const form = document.getElementById('calc-form') as HTMLFormElement;
-    const definitionStr = form?.dataset.definition;
-    const definition = definitionStr ? JSON.parse(definitionStr) : null;
-    
-    if (form && definition) {
-      const inputs = Array.from(form.querySelectorAll('input[type="number"]')) as HTMLInputElement[];
-      const slug = form.dataset.fn || '';
-
-      const currIn = document.getElementById('currency-override') as HTMLSelectElement;
-      const advToggle = document.getElementById('advanced-toggle') as HTMLInputElement | null;
-      const advPanel = document.getElementById('advanced-inputs');
-      const allInputDefs = [...definition.inputs, ...(definition.advanced?.inputs || [])];
-      let interactionCount = 0;
-
-      function calculate() {
-        if (!window.Currency) return;
-
-        const localCurrency = currIn ? currIn.value : window.Currency.get();
-        const values: Record<string, number> = {};
-
-        inputs.forEach(input => {
-          let val = parseFloat(input.value) || 0;
-
-          // If input is currency, convert from LOCAL currency to USD for internal engine logic
-          const inputDef = allInputDefs.find((i: any) => i.name === input.name);
-          if (inputDef && inputDef.unit === 'currency') {
-            val = window.Currency.convertToUSD(val, localCurrency);
-          }
-
-          values[input.name] = val;
-        });
-        values.advancedMode = advToggle && advToggle.checked ? 1 : 0;
-
-        // 1. Fetch proper engine function from dictionary
-        const calcFn = engineMap[slug];
-        if (!calcFn) {
-            console.error(`Missing engine map for tool: ${slug}`);
-            return;
-        }
-
-        // 2. Compute results purely (always returns USD for currency outputs)
-        const results = calcFn(values);
-
-        // 3. Apply formatting & update DOM
-        Object.entries(results).forEach(([key, val]) => {
-          const el = document.getElementById(`out-${key}`);
-          if (el) {
-            const unit = el.dataset.unit;
-            if (unit === 'percent') {
-              el.textContent = (typeof val === 'number' && val > 0 ? '+' : '') + (typeof val === 'number' ? val.toFixed(1) : val) + '%';
-            } else if (unit === 'percentValue') {
-              el.textContent = (typeof val === 'number' ? val.toFixed(1) : val) + '%';
-            } else if (unit === 'number') {
-              el.textContent = typeof val === 'number' ? val.toLocaleString('en-US', { maximumFractionDigits: 1 }) : val;
-            } else if (unit === 'text') {
-              el.textContent = val as string;
-            } else {
-              // Default to currency - convert back from USD to LOCAL currency
-              const amount = typeof val === 'number' ? window.Currency.convertFromUSD(val, localCurrency) : 0;
-              el.textContent = window.Currency.format(amount, localCurrency);
-            }
-          }
-        });
-
-        interactionCount++;
-        // Track the first user-driven calculation per session/page-load to avoid spam
-        if(interactionCount === 2) { 
-           trackEvent('calculation_run', { tool: slug });
-        }
-      }
-
-      // SYNC Global to Local: If global changes, update local selector
-      window.addEventListener('currencyChanged', (e: any) => {
-          if (currIn) {
-              currIn.value = e.detail.currency;
-              calculate();
-          }
-      });
-
-      // Initial setup
-      function initSync() {
-          if (window.Currency) {
-              if (currIn) currIn.value = window.Currency.get();
-              calculate();
-          }
-      }
-
-      // Wait for currency engine to be ready
-      window.addEventListener('currencyReady', initSync);
-      
-      // Also try immediately (in case it's already loaded)
-      initSync();
-
-      trackEvent('tool_loaded', { tool: slug });
-
-      // Listen for changes
-      inputs.forEach(input => {
-        input.addEventListener('input', calculate);
-      });
-      if (currIn) {
-        currIn.addEventListener('change', calculate);
-      }
-
-      // Advanced mode: swap the single overhead input for itemized components
-      if (advToggle && advPanel) {
-        const replaced = (definition.advanced?.replaces || []) as string[];
-        advToggle.addEventListener('change', () => {
-          advPanel.hidden = !advToggle.checked;
-          replaced.forEach(name => {
-            const group = form.querySelector(`.input-group[data-input-name="${name}"]`) as HTMLElement | null;
-            if (group) group.hidden = advToggle.checked;
-          });
-          calculate();
-          trackEvent('advanced_mode_toggled', { tool: slug, enabled: String(advToggle.checked) });
-        });
-      }
-
-      // Preset selects fill their target input; manual edits reset the select
-      const presetSelects = Array.from(form.querySelectorAll('.preset-select')) as HTMLSelectElement[];
-      presetSelects.forEach(select => {
-        const target = document.getElementById(select.dataset.fills || '') as HTMLInputElement | null;
-        if (!target) return;
-        select.addEventListener('change', () => {
-          if (select.value !== '') {
-            target.value = select.value;
-            calculate();
-          }
-        });
-        target.addEventListener('input', () => {
-          if (select.value !== '' && target.value !== select.value) select.value = '';
-        });
-      });
-
-      // Track related tool clicks
-      const relatedLinks = Array.from(document.querySelectorAll('[data-analytics="related-tool-click"]'));
-      relatedLinks.forEach(link => {
-          link.addEventListener('click', () => {
-              trackEvent('related_tool_clicked', { source_tool: slug, target: link.getAttribute('href') });
-          });
-      });
-    }
+    import { initCalculator } from '../scripts/calculatorApp.ts';
+    initCalculator();
   </script>
 </Layout>

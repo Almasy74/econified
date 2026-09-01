@@ -1,0 +1,107 @@
+---
+// Chromeless embed variant of a calculator, for the B2B embed pilot.
+// Same definition, same engine, no site navigation. Noindexed: it duplicates
+// the canonical tool page.
+import '../../styles/global.css';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+export async function getStaticPaths() {
+  // Pilot scope: one calculator until the embed hypothesis is validated.
+  const EMBED_SLUGS = ['contractor-vs-employee'];
+
+  const registryData = await fs.readFile(path.resolve('tools/registry.json'), 'utf-8');
+  const registry = JSON.parse(registryData);
+
+  return Promise.all(
+    registry
+      .filter((entry: any) => entry.status === 'active' && EMBED_SLUGS.includes(entry.slug))
+      .map(async (entry: any) => {
+        const defData = await fs.readFile(path.resolve(`tools/definitions/${entry.slug}.json`), 'utf-8');
+        return { params: { slug: entry.slug }, props: { tool: entry, definition: JSON.parse(defData) } };
+      })
+  );
+}
+
+const { tool, definition } = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{definition.title} – Econified Embed</title>
+    <script data-domain="econified.com" src="https://plausible.io/js/script.js" defer></script>
+  </head>
+  <body style="padding: 1rem; background: var(--background, #0f172a);">
+    <div class="glass-panel" id="calculator-app" aria-live="polite">
+      <h1 style="font-size: 1.2rem; margin-top: 0; margin-bottom: 1rem;">{definition.title}</h1>
+      <form id="calc-form" data-engine={tool.engine} data-fn={tool.slug} data-definition={JSON.stringify(definition)}>
+        {definition.inputs.map((input: any) => (
+          <div class="input-group" data-input-name={input.name}>
+            <label for={input.name} id={`label-${input.name}`}>{input.label}</label>
+            <input
+              type="number"
+              id={input.name}
+              name={input.name}
+              value={tool.defaults[input.name] || ''}
+              required
+              aria-labelledby={`label-${input.name}`}
+              min={input.min !== undefined ? input.min : "0"}
+              max={input.max !== undefined ? input.max : undefined}
+              step={input.step !== undefined ? input.step : "any"}
+              placeholder={input.placeholder || `Enter ${input.label.toLowerCase()}`}
+            />
+          </div>
+        ))}
+        {definition.advanced && (
+          <>
+            <div class="input-group" style="margin-top: 0.5rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 600;">
+                <input type="checkbox" id="advanced-toggle" style="width: auto;" />
+                {definition.advanced.label}
+              </label>
+            </div>
+            <div id="advanced-inputs" hidden>
+              {definition.advanced.inputs.map((input: any) => (
+                <div class="input-group" data-input-name={input.name}>
+                  <label for={input.name} id={`label-${input.name}`}>{input.label}</label>
+                  <input
+                    type="number"
+                    id={input.name}
+                    name={input.name}
+                    value={input.default !== undefined ? input.default : (tool.defaults[input.name] || '')}
+                    aria-labelledby={`label-${input.name}`}
+                    min={input.min !== undefined ? input.min : "0"}
+                    max={input.max !== undefined ? input.max : undefined}
+                    step={input.step !== undefined ? input.step : "any"}
+                    placeholder={input.placeholder || `Enter ${input.label.toLowerCase()}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </form>
+
+      <div class="outputs" aria-atomic="true">
+        {definition.outputs.map((output: any) => (
+          <div class="result-card">
+            <div class="label" id={`label-out-${output.name}`}>{output.label}</div>
+            <div class="result-value" id={`out-${output.name}`} data-unit={output.unit} aria-labelledby={`label-out-${output.name}`}>-</div>
+          </div>
+        ))}
+      </div>
+
+      <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: right; margin-bottom: 0; margin-top: 1rem;">
+        Powered by <a href={`https://econified.com/${tool.slug}/?utm_source=embed`} target="_blank" rel="noopener" style="color: var(--primary-light);">Econified</a>
+      </p>
+    </div>
+
+    <script src="../../scripts/currency.ts"></script>
+    <script>
+      import { initCalculator } from '../../scripts/calculatorApp.ts';
+      initCalculator({ surface: 'embed' });
+    </script>
+  </body>
+</html>

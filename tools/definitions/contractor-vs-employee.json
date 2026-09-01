@@ -135,6 +135,11 @@
             "label": "Difference %"
         }
     ],
+    "resultCta": {
+        "label": "Get your detailed break-even rate and negotiation report – $19",
+        "href": "/pricing/?src=contractor-report&breakEven={breakEvenRate}",
+        "note": "One-time Decision Pass. Includes the itemized advanced mode and all Plus features for 60 days."
+    },
     "methodSummary": [
         "Contract Gross = Rate × Hours × Weeks. Unpaid vacation, holidays and bench time are modeled only here, via Weeks/Year.",
         "True Equivalent = Contract Gross × (1 - Overhead %) - fixed annual costs (advanced mode). Overhead covers only costs not already captured by fewer billable weeks.",

@@ -62,6 +62,11 @@
             "unit": "currency"
         }
     ],
+    "resultCta": {
+        "label": "Calculate the salary increase required to offset this commute →",
+        "href": "/remote-vs-office-calculator/?commuteCost={totalAnnualCost}",
+        "note": "Your annual commute cost is carried over automatically."
+    },
     "methodSummary": [
         "Multiply daily round-trip by working days per year for total distance and time.",
         "Calculate direct vehicle costs using the IRS standard rate or custom input.",

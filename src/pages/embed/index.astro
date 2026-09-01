@@ -1,0 +1,77 @@
+---
+// B2B interest test: a working embed demo plus a pilot CTA. No admin surface,
+// no branding options yet - those are built only if this page produces
+// conversations (stop criterion: 30 targeted outreaches -> 3 calls -> 1 pilot).
+import Layout from '../../layouts/Layout.astro';
+
+const embedSnippet = `<iframe
+  src="https://econified.com/embed/contractor-vs-employee/"
+  title="Contractor vs Employee Calculator"
+  style="width: 100%; min-height: 1400px; border: 0; border-radius: 8px;"
+  loading="lazy"></iframe>`;
+---
+<Layout
+  title="Embed Econified Calculators on Your Website"
+  description="Add a quality-assured contractor vs employee calculator to your recruiting, coaching, or accounting website. Free pilot for early partners."
+  canonicalUrl="https://econified.com/embed/"
+  noAds={true}
+>
+  <main class="container" style="max-width: 860px;">
+    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      <a href="/" style="color: inherit;">Home</a> &rsaquo; Embed
+    </nav>
+
+    <h1>Put Our Calculators on Your Website</h1>
+    <p class="lead" style="margin-bottom: 2rem;">
+      Recruiting agencies, career coaches, and accountants use calculators like this to start
+      conversations with contractors and candidates. Embed the same quality-assured,
+      methodology-documented calculator that runs on Econified &mdash; no signup required for your visitors,
+      all calculation happens in their browser.
+    </p>
+
+    <div class="glass-panel" style="margin-bottom: 2rem;">
+      <h2 style="margin-top: 0; font-size: 1.2rem;">Live Demo</h2>
+      <p style="font-size: 0.9rem; color: var(--text-secondary);">This is the actual embed, running in an iframe on this page:</p>
+      <iframe
+        src="/embed/contractor-vs-employee/"
+        title="Contractor vs Employee Calculator (embed demo)"
+        style="width: 100%; min-height: 1400px; border: 1px solid var(--surface-border); border-radius: 8px;"
+        loading="lazy"></iframe>
+    </div>
+
+    <div class="glass-panel" style="margin-bottom: 2rem;">
+      <h2 style="margin-top: 0; font-size: 1.2rem;">Use This Calculator on Your Website</h2>
+      <p style="font-size: 0.95rem; color: var(--text-secondary);">Copy this snippet into your page. The free embed keeps Econified styling and attribution:</p>
+      <pre style="background: rgba(15, 23, 42, 0.8); padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.85rem;"><code>{embedSnippet}</code></pre>
+      <button type="button" id="copy-embed" class="btn-secondary" style="margin-top: 0.5rem;">Copy snippet</button>
+    </div>
+
+    <div class="glass-panel">
+      <h2 style="margin-top: 0; font-size: 1.2rem;">Want Your Own Branding, Defaults, or More Calculators?</h2>
+      <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+        We are opening a <strong>free 30-day pilot</strong> for a small group of recruiting agencies,
+        career coaches, and accounting firms: your colors and logo, your default values, your
+        call-to-action &mdash; on any of our career and work-economics calculators.
+      </p>
+      <a
+        id="pilot-cta"
+        class="btn-primary"
+        href="mailto:info@econified.com?subject=Embed%20pilot%20request&body=Company%3A%0AWebsite%3A%0AWhich%20calculator(s)%3A%0A"
+        style="display: inline-block; text-decoration: none; padding: 0.85rem 1.5rem;"
+      >Request a 30-day pilot</a>
+    </div>
+  </main>
+
+  <script>
+    function track(event: string, props: Record<string, string> = {}) {
+      if ((window as any).plausible) (window as any).plausible(event, { props });
+    }
+    document.getElementById('pilot-cta')?.addEventListener('click', () => track('embed_pilot_requested', {}));
+    document.getElementById('copy-embed')?.addEventListener('click', async (e) => {
+      const code = document.querySelector('pre code')?.textContent || '';
+      try { await navigator.clipboard.writeText(code); } catch {}
+      (e.target as HTMLButtonElement).textContent = 'Copied!';
+      track('embed_snippet_copied', {});
+    });
+  </script>
+</Layout>

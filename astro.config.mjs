@@ -34,6 +34,8 @@ export default defineConfig({
             // Exclude private application routes (noindexed)
             if (page.includes('/account/')) return false;
             if (page.includes('/shared/')) return false;
+            // Exclude chromeless embed variants (noindexed duplicates); keep /embed/ landing
+            if (/\/embed\/.+/.test(page)) return false;
             // Exclude noindexed tool pages
             if (noindexPaths.some(p => page.endsWith(p))) return false;
             // Exclude noindexed destination pages
