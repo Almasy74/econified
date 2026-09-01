@@ -1,5 +1,5 @@
 {
-    "title": "Contractor vs Employee Salary Comparison",
+    "title": "Contractor vs Employee Pay Calculator",
     "description": "Compare a full-time salary against a specific hourly contract rate to see which actually pays more.",
     "inputs": [
         {
@@ -178,6 +178,22 @@
         {
             "q": "Does this tool work for international remote jobs?",
             "a": "Yes, as long as you factor the local self-employment compliance costs into the overhead percentage precisely."
+        },
+        {
+            "q": "How much more should a contractor make than an employee?",
+            "a": "At minimum about 30% more per hour just to break even on the employer share of payroll taxes and lost benefits. Realistically 50-100% more once you price in health insurance, retirement, and the weeks you cannot bill. The Break-even Hourly Rate output shows the exact floor for your own numbers."
+        },
+        {
+            "q": "Is contractor pay higher than employee pay?",
+            "a": "The headline rate usually is; the take-home often is not. A contractor's gross hourly rate typically runs 30-100% above the equivalent salaried rate, but after self-employment costs and unbilled weeks the net advantage can disappear. Compare the 'Contractor True Equivalent' output - not gross revenue - against the salary."
+        },
+        {
+            "q": "What is the difference between contract and direct hire salary?",
+            "a": "Direct hire means a permanent W-2 salary with benefits, employer-paid payroll taxes, and paid time off. A contract role pays a higher headline rate, but you carry those costs yourself. A $100,000 direct-hire salary works out to roughly $48/hour over 2,080 hours; a comparable contract rate for the same work is typically $65-75/hour or more."
+        },
+        {
+            "q": "How do I compare a salary to a contractor rate?",
+            "a": "Convert the salary to an effective hourly value (salary divided by 2,080 hours), then convert the contract rate to a true equivalent: rate times billable hours and weeks, minus the costs an employer would otherwise carry. This calculator does that conversion and reports the difference in dollars and percent."
         }
     ],
     "clusters": [

@@ -92,6 +92,7 @@
         "salary-basics",
         "compensation"
     ],
+    "nextDecision": "contractor-vs-employee",
     "useCases": [
         "Evaluate vacation policy value",
         "Compare job offers with different PTO",
