@@ -16,11 +16,11 @@ const tools = await Promise.all(registry
 }));
 ---
 
-<Layout title="Econified | Master Your Work Decisions" canonicalUrl="https://econified.com/">
+<Layout title="Econified | Commute, Contractor & Job Offer Calculators" description="Free calculators for commute costs, 1099 vs W-2 pay, PTO and job offers. Compare US salary and benefits with transparent assumptions and worked examples." canonicalUrl="https://econified.com/">
   <main class="container">
     <div style="text-align: center; margin-bottom: 4rem;">
       <h1>Make Data-Driven Career Decisions.</h1>
-      <p class="lead">Compare job offers, promotions, remote work and relocation with transparent numbers — free calculators, no account required.</p>
+      <p class="lead">Compare commute costs, contractor rates and job offers with free calculators. US-focused examples, adjustable assumptions, no account required.</p>
     </div>
 
     <!-- HERO FEATURE BLOCK for Entity Alignment -->
@@ -32,26 +32,26 @@ const tools = await Promise.all(registry
       
       <div class="hero-content">
         <div class="hero-badges">
-          <span class="hero-badge">🌍 Global Coverage</span>
+          <span class="hero-badge">🇺🇸 US Pay & Benefits</span>
           <span class="hero-badge">⚡ Real-Time Calculations</span>
           <span class="hero-badge">🔒 Privacy-First</span>
         </div>
         
-        <h2 class="hero-title">Global Salary<br/><span class="hero-title-accent">Intelligence</span></h2>
+        <h2 class="hero-title">Work Decisions.<br/><span class="hero-title-accent">Clear Numbers</span></h2>
         
         <p class="hero-description">
-          Compare salaries worldwide and discover your real purchasing power across countries. 
+          See what commuting costs, what contractor rate replaces your salary, and how benefits change a job offer.
         </p>
 
         <!-- Interactive stat cards -->
         <div class="hero-stats">
           <div class="hero-stat-card">
-            <span class="hero-stat-number">30</span><span class="hero-stat-suffix">+</span>
-            <span class="hero-stat-label">Countries</span>
+            <span class="hero-stat-number">4</span>
+            <span class="hero-stat-label">Starting Points</span>
           </div>
           <div class="hero-stat-card">
-            <span class="hero-stat-number">56</span>
-            <span class="hero-stat-label">Data Pages</span>
+            <span class="hero-stat-number">8</span>
+            <span class="hero-stat-label">Practical Guides</span>
           </div>
           <div class="hero-stat-card">
             <span class="hero-stat-number">24</span>
@@ -60,17 +60,25 @@ const tools = await Promise.all(registry
         </div>
 
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="/decisions/job-offer/" class="hero-cta">
-            <span>Analyze a Career Decision</span>
+          <a href="/commute-cost-calculator/" class="hero-cta">
+            <span>Calculate Your Commute Cost</span>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <a href="/global-salary/" class="hero-cta hero-cta-secondary">
-            <span>Try Global Salary Calculator</span>
+          <a href="/contractor-vs-employee/" class="hero-cta hero-cta-secondary">
+            <span>Compare 1099 vs W-2 Pay</span>
           </a>
         </div>
       </div>
     </div>
 
+<section aria-labelledby="popular-decisions" style="margin-bottom: 3rem;">
+<h2 id="popular-decisions">Four useful places to start</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1rem;">
+<div class="glass-panel"><h3><a href="/commute-cost-calculator/">What does my commute cost?</a></h3><p>Separate driving, parking and tolls from the value of your time.</p><a href="/guides/commute-true-cost/">See a worked commute example</a></div>
+<div class="glass-panel"><h3><a href="/contractor-vs-employee/">What 1099 rate matches my W-2 salary?</a></h3><p>Include billable weeks, replacement benefits and business expenses.</p><a href="/guides/contractor-markup-guide/">Understand the contractor premium</a></div>
+<div class="glass-panel"><h3><a href="/pto-value-calculator/">How much is my paid time off worth?</a></h3><p>Compare paid leave and pay per hour actually worked.</p><a href="/tools/job-offer-decisions/">Explore salary and benefit tools</a></div>
+<div class="glass-panel"><h3><a href="/job-offer-comparison/">Which job offer has more value?</a></h3><p>Compare salary, bonus, 401(k), equity and health benefits.</p><a href="/guides/compare-job-offers-correctly/">Read the offer comparison guide</a></div>
+</div></section>
     <style>
       .hero-feature {
         position: relative;

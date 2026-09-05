@@ -69,10 +69,16 @@ export function calculateCommuteCost(inputs: Record<string, number>) {
 
     const fuelCost = totalYearlyDistance * inputs.costPerUnitDistance;
     const implicitTimeCost = totalYearlyCommuteHours * inputs.hourlyValue;
-    const totalAnnualCost = fuelCost + implicitTimeCost;
+    const annualParkingAndTolls = (inputs.parkingAndTollsPerDay || 0) * yearlyWorkDays;
+    const annualCashCost = fuelCost + annualParkingAndTolls;
+    const totalAnnualCost = annualCashCost + implicitTimeCost;
 
     return {
         fuelCost,
+        annualParkingAndTolls,
+        annualCashCost,
+        monthlyCashCost: annualCashCost / 12,
+        totalYearlyCommuteHours,
         implicitTimeCost,
         totalAnnualCost
     };

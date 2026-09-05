@@ -1,102 +1,35 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="How Much More Should a Contractor Make? | Econified" description="The exact math behind the freelance premium. Learn why contractors need to charge 30-50% more and how to calculate your break-even rate." canonicalUrl="https://econified.com/guides/contractor-markup-guide/">
-  <main class="container" style="max-width: 780px;">
-    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
-      <a href="/" style="color: inherit;">Home</a> &rsaquo;
-      <a href="/guides/" style="color: inherit;">Guides</a> &rsaquo;
-      How Much More Should a Contractor Make?
-    </nav>
-
-    <article>
+<Layout title="How Much More Should a Contractor Make Than an Employee? | Econified" description="Calculate the 1099 rate needed to replace a W-2 salary. Worked examples include billable weeks, business costs, benefits and the correct break-even formula." canonicalUrl="https://econified.com/guides/contractor-markup-guide/">
+  <main class="container" style="max-width: 820px;">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a> &rsaquo; How Much More Should a Contractor Make Than an Employee?</nav>
+    <article class="content-section rich-content">
       <h1>How Much More Should a Contractor Make Than an Employee?</h1>
-      <p class="byline" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">By the <strong>Econified Editorial Team</strong> &middot; Last reviewed June 2026 &middot; Methodology-first, no sponsored placements</p>
-      <p class="lead" style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 2rem;">A contractor earning the same gross number as an employee is losing money. Here is the exact math behind the freelance premium and when it makes sense to go independent.</p>
+      <p>Updated <time datetime="2026-09-05">September 5, 2026</time> · US examples in USD</p>
 
-      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2.5rem;">
-        <strong style="font-size: 1.1rem;">Short answer:</strong> A contractor should charge <strong>30% to 50% more per hour</strong> than the equivalent employee hourly rate to cover self-employment taxes, health insurance, retirement, and unpaid time off.
-      </div>
-
-      <h2>Why "Same Pay" is Actually a Pay Cut</h2>
-      <p style="line-height: 1.7; margin-bottom: 1rem;">When an employer hires a salaried employee at $100,000, the true cost to the company is closer to $130,000–$140,000. The extra 30–40% covers:</p>
-      <ul style="line-height: 1.8; margin-bottom: 2rem; padding-left: 1.5rem;">
-        <li><strong>Employer-side payroll taxes</strong> — 7.65% FICA (Social Security + Medicare)</li>
-        <li><strong>Health insurance</strong> — average employer contribution is $6,500–$16,000/year for family coverage</li>
-        <li><strong>Retirement matching</strong> — typically 3–6% of salary</li>
-        <li><strong>Paid time off</strong> — 15–25 days of paid vacation, sick days, and holidays</li>
-        <li><strong>Workers' compensation, disability, and liability insurance</strong></li>
-      </ul>
-      <p style="line-height: 1.7; margin-bottom: 2rem;">A contractor receiving the same $100k must pay <em>all</em> of these out of pocket. After self-employment tax alone (15.3%), that $100k shrinks to $84,700 before any other deductions.</p>
-
-      <h2>The Break-Even Formula</h2>
-      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 1.5rem;">
-        <strong>Minimum Contractor Rate</strong> = Employee Salary ÷ Billable Hours × (1 + Overhead Factor)
-      </div>
-      <p style="line-height: 1.7; margin-bottom: 1rem;">Let's work through a real example:</p>
-      <table class="base-table" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;">
-        <thead>
-          <tr style="border-bottom: 2px solid var(--surface-border);">
-            <th style="padding: 0.75rem 0.5rem;">Variable</th>
-            <th style="padding: 0.75rem 0.5rem;">Employee</th>
-            <th style="padding: 0.75rem 0.5rem;">Contractor</th>
-          </tr>
-        </thead>
-        <tbody style="font-size: 0.95rem; color: var(--text-secondary);">
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Stated Annual Pay</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$100,000</td>
-            <td style="padding: 0.75rem 0.5rem;">$100,000 gross revenue</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Self-Employment Tax</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$0 (employer pays half)</td>
-            <td style="padding: 0.75rem 0.5rem;">−$15,300</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Health Insurance</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$0 (employer subsidized)</td>
-            <td style="padding: 0.75rem 0.5rem;">−$8,000</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Retirement (no match)</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">+$5,000 match</td>
-            <td style="padding: 0.75rem 0.5rem;">$0</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>PTO Value (25 days)</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">+$9,600 (paid)</td>
-            <td style="padding: 0.75rem 0.5rem;">−$9,600 (lost revenue)</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Effective Value</strong></td>
-            <td style="padding: 0.75rem 0.5rem;"><strong>~$114,600</strong></td>
-            <td style="padding: 0.75rem 0.5rem;"><strong>~$67,100</strong></td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="line-height: 1.7; margin-bottom: 2rem;">The contractor needs to gross roughly <strong>$143,000–$150,000</strong> to reach the same effective compensation as the $100k employee. That is a 43–50% premium.</p>
-
-      <h2>When the Premium is Worth Paying</h2>
-      <p style="line-height: 1.7; margin-bottom: 1rem;">Contracting makes financial sense when:</p>
-      <ul style="line-height: 1.8; margin-bottom: 2rem; padding-left: 1.5rem;">
-        <li>Your contract rate exceeds the break-even premium by at least 15%</li>
-        <li>You can maintain 80%+ utilization (most months fully booked)</li>
-        <li>You have a financial buffer of at least 6 months of expenses</li>
-        <li>You can deduct meaningful business expenses (home office, travel, equipment)</li>
-      </ul>
-
-      <h2>When It Is Not Worth It</h2>
-      <p style="line-height: 1.7; margin-bottom: 2rem;">If the contract rate is less than 25% above the equivalent employee rate, you are taking on all the risk of self-employment for essentially the same take-home pay. The stability, unemployment insurance eligibility, and employer-subsidized benefits of a W-2 role make it the better financial choice.</p>
-
-      <div class="glass-panel" style="margin-top: 3rem;">
-        <h2 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem;">Calculate Your Own Numbers</h2>
-        <ul style="list-style-type: none; margin: 0; padding: 0;">
-          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/contractor-vs-employee/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Contractor vs Employee Calculator</a> — plug in your exact numbers</li>
-          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/freelance-rate-calculator/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Freelance Rate Calculator</a> — find your minimum sustainable rate</li>
-          <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/freelance-risk-calculator/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Freelance Risk Calculator</a> — stress-test your savings runway</li>
-        </ul>
-      </div>
+<p class="lead">The contractor premium depends on costs and the hours you can actually bill. A salary divided by 2,080 hours is a starting comparison, but it does not replace benefits, business expenses or the revenue lost during time off.</p>
+<p class="quick-answer"><strong>Worked example:</strong> Replacing a $100,000 W-2 salary with 40 billable hours a week, 46 billable weeks and 25% of revenue reserved for additional costs requires $72.46 per hour. That is about 51% above $100,000 divided by 2,080 scheduled employee hours. It is an example, not a universal market premium.</p>
+<p><a class="btn-primary" href="/contractor-vs-employee/">Calculate your break-even contractor rate</a></p>
+<h2>Use the same definition of overhead as the calculator</h2>
+<p>Here, overhead is a percentage deducted from contractor revenue. It excludes unpaid vacation, holidays and assignment gaps, which reduce billable weeks instead. With that definition, the formula is:</p>
+<p class="quick-answer"><strong>Break-even hourly rate = salary target ÷ (billable hours per week × billable weeks × (1 − overhead percentage ÷ 100)).</strong></p>
+<p>For the example: $100,000 ÷ (40 × 46 × 0.75) = $72.46 per hour. Multiplying the salary target by 1.25 is not equivalent to reserving 25% of revenue. At this break-even rate, annual revenue is approximately $133,333; deducting $33,333 leaves the $100,000 salary equivalent before personal income tax.</p>
+<h2>How unpaid weeks change the rate</h2>
+<p>These examples keep the salary target at $100,000, weekly billable hours at 40 and revenue overhead at an illustrative 25%.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Billable weeks</th><th scope="col">Annual billable hours</th><th scope="col">Break-even rate</th></tr></thead><tbody><tr><td>48</td><td>1,920</td><td>$69.44/hour</td></tr><tr><td>46</td><td>1,840</td><td>$72.46/hour</td></tr><tr><td>44</td><td>1,760</td><td>$75.76/hour</td></tr></tbody></table></div>
+<p>Reduce billable hours too if proposals, administration or business development take time each week. Forty working hours do not necessarily mean forty billable hours. Avoid counting the same gap once as fewer billable weeks and again as a percentage cost.</p>
+<h2>List the costs your employer currently absorbs</h2>
+<ul><li>Additional payroll-tax burden under independent contracting.</li><li>The extra cost of replacing your employer health plan.</li><li>Lost employer retirement contributions, allowing for vesting.</li><li>Accounting, business insurance, equipment and software.</li><li>A separately chosen margin for uncertainty.</li></ul>
+<p>Use actual quotes and benefit statements where possible. A single overhead percentage is a planning shortcut. Advanced mode in the calculator separates percentage costs from annual dollar amounts. Its formula becomes (salary target + fixed annual costs) ÷ (billable hours × billable weeks × (1 − percentage costs)).</p>
+<h2>Understand what the US tax assumptions do and do not mean</h2>
+<p>The <a href="https://www.irs.gov/taxtopics/tc554">IRS self-employment tax guidance</a> explains Social Security and Medicare obligations. Do not simply deduct a headline self-employment tax percentage from revenue and compare it with an employee’s pretax salary: employees also pay payroll taxes, and the calculation bases, limits and deductions differ.</p>
+<p>The calculator’s extra payroll-tax input is a planning proxy for the additional burden, not a complete federal or state tax calculation. The retirement percentage is also applied to contractor revenue in this model; an employee’s actual 401(k) match may instead be based on salary and contribution rules.</p>
+<h2>Compare a real offered rate with the minimum</h2>
+<p>A $75/hour contract at 40 hours for 46 weeks produces $138,000 in revenue. After the example’s 25% overhead, the salary equivalent is $103,500. That is only $3,500 above the employee’s $100,000 salary. Reducing billable weeks to 44 produces $99,000 after overhead. This sensitivity matters when an assignment is short or renewal is uncertain.</p>
+<p>A contract worker may also be employed by an agency on W-2 payroll. This model is for independent contracting, not every temporary role. See the <a href="https://www.irs.gov/businesses/small-businesses-self-employed/independent-contractor-self-employed-or-employee">IRS worker-classification guidance</a>; classification is not something a pay calculator decides.</p>
+<h2>Plan beyond the headline rate</h2>
+<p>Use the <a href="/freelance-risk-calculator/">freelance risk calculator</a> for savings runway and read the <a href="/guides/freelance-risk-pricing/">risk-pricing guide</a>. The <a href="/pto-value-calculator/">PTO calculator</a> shows the salary value of paid leave without adding it to salary again. For two employee offers, use the <a href="/job-offer-comparison/">job offer comparison</a>.</p>
     </article>
   </main>
 </Layout>

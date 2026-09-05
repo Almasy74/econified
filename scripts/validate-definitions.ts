@@ -20,6 +20,10 @@ const inputSchema = z.object({
 const definitionSchema = z.object({
     title: z.string().min(5),
     description: z.string().min(10),
+    quickAnswer: z.string().min(20).optional(),
+    resultNote: z.string().min(20).optional(),
+    relatedGuides: z.array(z.object({ href: z.string().regex(/^\/guides\/.+\/$/), label: z.string().min(5) })).optional(),
+    sources: z.array(z.object({ href: z.string().url(), label: z.string().min(5) })).optional(),
     inputs: z.array(inputSchema).min(1),
     advanced: z.object({
         label: z.string(),
@@ -34,6 +38,7 @@ const definitionSchema = z.object({
     outputs: z.array(z.object({
         name: z.string(),
         unit: z.string().optional(),
+        precision: z.number().int().min(0).max(4).optional(),
         label: z.string()
     })).min(1),
     methodSummary: z.array(z.string()).min(1),

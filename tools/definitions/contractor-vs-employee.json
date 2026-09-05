@@ -1,12 +1,12 @@
 {
-    "title": "Contractor vs Employee Pay Calculator",
-    "description": "Compare a full-time salary against a specific hourly contract rate to see which actually pays more.",
+    "title": "Contractor vs Employee Calculator: 1099 vs W-2",
+    "description": "Compare a 1099 hourly rate with a W-2 salary. Calculate your break-even contractor rate after unbillable weeks, benefits and business costs.",
     "inputs": [
         {
             "name": "employeeSalary",
             "type": "number",
             "unit": "currency",
-            "label": "Employee Base Salary",
+            "label": "W-2 Employee Annual Salary",
             "min": 0,
             "step": 1
         },
@@ -14,7 +14,7 @@
             "name": "contractorHourlyRate",
             "type": "number",
             "unit": "currency",
-            "label": "Contractor Hourly Rate",
+            "label": "1099 Contractor Hourly Rate",
             "min": 0,
             "step": 1
         },
@@ -30,19 +30,23 @@
             "type": "number",
             "label": "Contractor Weeks/Year",
             "min": 0,
-            "step": 1
+            "step": 1,
+            "max": 52
         },
         {
             "name": "contractorOverheadPercent",
             "type": "number",
             "label": "Self-Employment Overhead % (excl. unpaid weeks)",
             "min": 0,
-            "step": 1
+            "step": 1,
+            "max": 99
         }
     ],
     "advanced": {
         "label": "Advanced: itemize the overhead instead of one percentage",
-        "replaces": ["contractorOverheadPercent"],
+        "replaces": [
+            "contractorOverheadPercent"
+        ],
         "inputs": [
             {
                 "name": "extraPayrollTaxPercent",
@@ -117,7 +121,8 @@
         {
             "name": "breakEvenRate",
             "unit": "currency",
-            "label": "Break-even Hourly Rate"
+            "label": "Break-even Hourly Rate",
+            "precision": 2
         },
         {
             "name": "effectiveOverheadPercent",
@@ -148,52 +153,48 @@
     ],
     "assumptions": [
         "The overhead percentage covers additional contractor costs excluding unpaid vacation, holidays, and non-billable weeks (those are captured by 'Weeks/Year'): the employer share of payroll taxes, health insurance, missed retirement matching, and business expenses.",
-        "Calculates comparative gross equivalence. Exact net tax outcomes may slightly differ."
+        "Compares salary equivalents before personal income tax. Payroll tax thresholds, deductions, state taxes and worker classification require separate evaluation."
     ],
     "insights": [
-        "The most common mistake contractors make is setting their overhead percent to 0. A documented baseline is 20-30% for the costs not already covered by fewer billable weeks: employer-share payroll taxes, health insurance, retirement match, and business expenses.",
-        "If the 'Difference %' is less than +15%, the stability of the employee role might make it more valuable than the contract."
+        "Model unpaid vacation, holidays and gaps between assignments through fewer billable weeks, not again in overhead.",
+        "A higher contract rate can still leave a lower salary equivalent. Check the break-even rate and test a less favorable number of billable weeks."
     ],
     "faqs": [
         {
-            "q": "What should I enter for Self-Employment Overhead?",
-            "a": "Usually 20-30%. Enter only costs not already covered by your reduced Weeks/Year: the employer half of US payroll taxes (7.65% is a documented default for the extra burden versus an employee; the exact figure varies with income thresholds and deductions), health insurance premiums, skipped retirement matching, and business costs such as software, insurance, and accounting. Do not include vacation, holidays, or other unpaid weeks here - those belong in 'Weeks/Year'."
-        },
-        {
-            "q": "Why is 'Contractor True Equivalent' lower than 'Gross Revenue'?",
-            "a": "Because Gross Revenue is business cash flow, not your salary. The True Equivalent backs out the business costs your employer normally pays."
-        },
-        {
-            "q": "Do I need to account for software or hardware expenses?",
-            "a": "Yes. If you must buy your own laptop and software licenses as a contractor, mentally raise the overhead percentage to compensate."
-        },
-        {
-            "q": "Why is standard salaried PTO omitted from the employee side?",
-            "a": "Because the employee receives the full salary regardless of taking the 4 weeks PTO. The contractor loses billable hours when taking PTO, which is handled via 'Weeks/Year'."
-        },
-        {
-            "q": "If the difference is negative, should I avoid contracting?",
-            "a": "Mathematically yes. A negative difference means you are taking on all the business risk of contracting while effectively taking a pay cut."
-        },
-        {
-            "q": "Does this tool work for international remote jobs?",
-            "a": "Yes, as long as you factor the local self-employment compliance costs into the overhead percentage precisely."
-        },
-        {
             "q": "How much more should a contractor make than an employee?",
-            "a": "At minimum about 30% more per hour just to break even on the employer share of payroll taxes and lost benefits. Realistically 50-100% more once you price in health insurance, retirement, and the weeks you cannot bill. The Break-even Hourly Rate output shows the exact floor for your own numbers."
+            "a": "There is no universal premium. With 1,840 billable hours and 25% revenue overhead, replacing a $100,000 salary needs $72.46 per hour. That is about 51% above the salary divided by 2,080 scheduled employee hours."
         },
         {
-            "q": "Is contractor pay higher than employee pay?",
-            "a": "The headline rate usually is; the take-home often is not. A contractor's gross hourly rate typically runs 30-100% above the equivalent salaried rate, but after self-employment costs and unbilled weeks the net advantage can disappear. Compare the 'Contractor True Equivalent' output - not gross revenue - against the salary."
+            "q": "How do I compare 1099 pay with a W-2 salary?",
+            "a": "Enter the W-2 annual salary, contractor rate, billable hours and billable weeks. Then include additional contractor costs. Compare the resulting salary equivalent and break-even rate; gross contract revenue alone is not comparable."
         },
         {
-            "q": "What is the difference between contract and direct hire salary?",
-            "a": "Direct hire means a permanent W-2 salary with benefits, employer-paid payroll taxes, and paid time off. A contract role pays a higher headline rate, but you carry those costs yourself. A $100,000 direct-hire salary works out to roughly $48/hour over 2,080 hours; a comparable contract rate for the same work is typically $65-75/hour or more."
+            "q": "What belongs in overhead?",
+            "a": "Use additional payroll-tax burden, replacement health coverage, lost retirement contributions and business expenses. Exclude unpaid vacation and holidays from overhead: those reduce billable weeks instead."
         },
         {
-            "q": "How do I compare a salary to a contractor rate?",
-            "a": "Convert the salary to an effective hourly value (salary divided by 2,080 hours), then convert the contract rate to a true equivalent: rate times billable hours and weeks, minus the costs an employer would otherwise carry. This calculator does that conversion and reports the difference in dollars and percent."
+            "q": "Is the overhead percentage a tax rate?",
+            "a": "No. It is your combined estimate of additional costs as a share of contractor revenue. The advanced mode separates percentage assumptions from annual dollar costs. Neither mode is an exact self-employment tax calculation."
+        },
+        {
+            "q": "Why does the advanced mode mention 7.65%?",
+            "a": "It is a starting proxy for the employer portion of US Social Security and Medicare taxes, not an exact extra tax bill. Actual self-employment tax uses a different earnings base, thresholds and deductions. Replace the assumption when you have a more accurate estimate."
+        },
+        {
+            "q": "How do I account for unpaid vacation and holidays?",
+            "a": "Reduce billable weeks. For example, six weeks in total for vacation, holidays and assignment gaps leaves 46 billable weeks. If you also have weekly administrative time, reduce billable hours per week."
+        },
+        {
+            "q": "Is a contractor role always a 1099 job?",
+            "a": "No. A staffing agency may employ a contract worker on W-2 payroll. This calculator models independent contracting; adapt the costs to your actual arrangement, and assess legal classification separately."
+        },
+        {
+            "q": "Is a negative difference a reason to reject the contract?",
+            "a": "It means the model gives a lower financial equivalent than the employee salary under your assumptions. Flexibility, experience and other personal priorities may still matter. Test rate and utilization before deciding."
+        },
+        {
+            "q": "Can I use this outside the United States?",
+            "a": "The arithmetic works in a consistent currency, but the examples and payroll terminology are US-oriented. Replace all tax and benefit assumptions with those that apply locally."
         }
     ],
     "clusters": [
@@ -208,5 +209,31 @@
         "Assess overhead differences",
         "Compare true total compensation"
     ],
-    "richContent": "<h3>How much does a contractor make?</h3>\n<p style=\"margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6;\">Independent contractors generally earn a higher gross hourly rate than salaried employees, but their net take-home pay is often lower than it appears. To match the lifestyle of a $100k employee, a contractor typically needs to gross $130k to $150k annually. A $50/hour W-2 salary requires a $65 to $75/hour 1099 contract rate just to break even.</p>\n\n<h3>Employee Salary vs Contractor Hourly Rate</h3>\n<p style=\"margin-bottom: 1.5rem; line-height: 1.6;\">You cannot directly compare an employee salary to a contractor hourly rate. An employee is paid for 52 weeks regardless of holidays, sick days, or slow periods. A contractor is paid strictly for billable hours worked. Therefore, 2,000 standard working hours rarely equal 2,000 billable contract hours. You must discount your expected hours to account for admin work and unpaid time off.</p>\n\n<h3>Taxes and Benefits Differences</h3>\n<table class=\"base-table\" style=\"width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;\">\n  <thead>\n    <tr style=\"border-bottom: 2px solid var(--surface-border);\">\n      <th style=\"padding: 0.75rem 0.5rem;\">Factor</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Employee (W-2)</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Contractor (1099)</th>\n    </tr>\n  </thead>\n  <tbody style=\"font-size: 0.95rem; color: var(--text-secondary);\">\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Taxes (US)</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Employer pays half FICA</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">You pay the full 15.3% (the extra burden vs an employee is the 7.65% employer half)</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>PTO & Sick Leave</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Paid</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Unpaid (lost revenue)</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Insurance & Perks</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Subsidized by employer</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">100% out-of-pocket</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>What Overhead to Assume</h3>\n<p style=\"margin-bottom: 1.5rem; line-height: 1.6;\">When using this calculator, a documented default for <strong>Self-Employment Overhead is 20% to 30%</strong>: the employer half of payroll taxes (7.65% in the US - a default, not a universal figure, since thresholds and deductions shift the exact burden), the cost of acquiring your own health insurance (often 5-10% of gross), and missing 401(k) matches (3-5%). If you also purchase your own software licenses, equipment, and liability insurance, push the assumption toward 30%. <strong>Do not include unpaid vacation or holidays in overhead</strong> - reduce 'Weeks/Year' instead, otherwise the same cost is counted twice.</p>\n\n<h3>Break-Even Formula</h3>\n<div style=\"background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2rem;\">\n  <strong>Contractor True Equivalent</strong> = (Hourly Rate × Billable Hours/Week × Working Weeks/Year) × (1 - Overhead %)\n</div>\n<p style=\"margin-bottom: 2rem; line-height: 1.6;\">The calculator reports this directly as the <strong>Break-even Hourly Rate</strong>: the minimum rate at which your True Equivalent matches the Employee Base Salary. If your target client won't approve that rate, you are effectively taking a pay cut to become a contractor. Use the advanced mode to itemize taxes, insurance, retirement, and business costs instead of a single percentage.</p>\n\n<div class=\"glass-panel\" style=\"margin-top: 2rem;\">\n  <h3 style=\"margin-top: 0; margin-bottom: 1rem;\">Related Information</h3>\n  <ul style=\"list-style-type: none; margin: 0; padding: 0;\">\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/guides/contractor-vs-employee-pay/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Guide: Contractor vs Employee Pay</a>: A deeper dive into the math behind the freelance premium.</li>\n    <li style=\"margin-bottom: 0; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/freelance-rate-calculator/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Freelance Rate Calculator</a>: Calculate your exact target hourly rate based on living expenses.</li>\n  </ul>\n</div>"
+    "richContent": "<h2>What contractor rate replaces a $100,000 salary?</h2><p>The examples below use 40 billable hours per week and an illustrative 25% revenue overhead, excluding unpaid weeks. They use the same formula as the calculator: salary ÷ (billable hours × billable weeks × (1 − overhead)).</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Billable weeks</th><th scope=\"col\">Annual billable hours</th><th scope=\"col\">Break-even rate</th></tr></thead><tbody><tr><td>48</td><td>1,920</td><td>$69.44/hour</td></tr><tr><td>46</td><td>1,840</td><td>$72.46/hour</td></tr><tr><td>44</td><td>1,760</td><td>$75.76/hour</td></tr></tbody></table></div><h2>Compare a $75/hour contract with a $100,000 job</h2><p>At 40 hours for 46 weeks, revenue is $138,000. Subtracting 25% leaves a $103,500 salary equivalent before personal income tax. That is $3,500 above the employee salary, not a $38,000 pay increase.</p><h2>Build your own cost estimate</h2><p>Ask for the employee health-plan contribution and 401(k) match, estimate your replacement costs, and list accounting, insurance and software expenses. Advanced mode applies percentage costs to contractor revenue and adds fixed annual costs separately. A retirement match entered as a percentage of contractor revenue is a modeling approximation, not the employer plan formula.</p><p>Use the <a href=\"/pto-value-calculator/\">PTO value calculator</a> to understand paid leave, and the <a href=\"/freelance-risk-calculator/\">freelance risk calculator</a> to stress-test your savings runway.</p>",
+    "quickAnswer": "With a $100,000 salary target, 40 billable hours a week, 46 billable weeks and 25% overhead, the break-even contractor rate is $72.46 per hour. Your own costs can change that substantially.",
+    "resultNote": "The contractor equivalent is before personal income tax. This comparison does not calculate a tax return or decide whether a role legally qualifies as independent contracting.",
+    "relatedGuides": [
+        {
+            "href": "/guides/contractor-markup-guide/",
+            "label": "How much more should a contractor charge?"
+        },
+        {
+            "href": "/guides/freelance-risk-pricing/",
+            "label": "Plan for freelance income risk"
+        },
+        {
+            "href": "/guides/contractor-vs-employee-pay/",
+            "label": "Compare contracting with employment"
+        }
+    ],
+    "sources": [
+        {
+            "href": "https://www.irs.gov/taxtopics/tc554",
+            "label": "IRS: self-employment tax"
+        },
+        {
+            "href": "https://www.irs.gov/businesses/small-businesses-self-employed/independent-contractor-self-employed-or-employee",
+            "label": "IRS: independent contractor or employee"
+        }
+    ]
 }

@@ -1,10 +1,10 @@
 {
-    "title": "Commute Cost Calculator: True Annual Impact",
-    "description": "Calculate the real cost of your commute including fuel, time value, vehicle wear, and opportunity cost. Most commuters underestimate by 50% or more.",
+    "title": "Commute Cost Calculator: Driving, Parking & Time",
+    "description": "Calculate monthly and annual commuting costs, including mileage, parking, tolls and time. Compare driving to work with a hybrid or remote schedule.",
     "inputs": [
         {
             "name": "oneWayDistance",
-            "label": "One-way Distance (miles/km)",
+            "label": "One-way Distance (miles; or km with a per-km cost)",
             "type": "number",
             "placeholder": "e.g. 15"
         },
@@ -18,92 +18,126 @@
             "name": "daysPerWeek",
             "label": "Days Commuting per Week",
             "type": "number",
-            "placeholder": "e.g. 5"
+            "placeholder": "e.g. 5",
+            "max": 7
         },
         {
             "name": "weeksPerYear",
             "label": "Weeks per Year",
             "type": "number",
-            "placeholder": "e.g. 48"
+            "placeholder": "e.g. 48",
+            "max": 52
         },
         {
             "name": "costPerUnitDistance",
-            "label": "Fuel/Wear Cost (per unit)",
+            "label": "Vehicle Cost per Mile (or per km)",
             "type": "number",
             "placeholder": "e.g. 0.76",
             "presets": [
-                { "label": "IRS standard mileage rate, Jul-Dec 2026 ($0.76/mile)", "value": 0.76 },
-                { "label": "IRS standard mileage rate, Jan-Jun 2026 ($0.725/mile)", "value": 0.725 },
-                { "label": "IRS 2026 full-year average ($0.7425/mile)", "value": 0.7425 }
+                {
+                    "label": "IRS standard mileage rate, Jul-Dec 2026 ($0.76/mile)",
+                    "value": 0.76
+                },
+                {
+                    "label": "IRS standard mileage rate, Jan-Jun 2026 ($0.725/mile)",
+                    "value": 0.725
+                }
             ],
-            "presetLabel": "Use a reference rate (or enter your own cost below)"
+            "presetLabel": "Use a reference rate (or enter your own cost below)",
+            "unit": "currency"
+        },
+        {
+            "name": "parkingAndTollsPerDay",
+            "label": "Parking and Tolls per Commute Day (round trip)",
+            "type": "number",
+            "unit": "currency",
+            "min": 0,
+            "default": 0,
+            "step": 0.5
         },
         {
             "name": "hourlyValue",
-            "label": "Your Hourly Time Value ($)",
+            "label": "Value of One Hour of Your Time",
             "type": "number",
-            "placeholder": "e.g. 50"
+            "placeholder": "e.g. 50",
+            "unit": "currency"
         }
     ],
     "outputs": [
         {
-            "name": "fuelCost",
-            "label": "Annual Vehicle/Fuel Cost",
+            "name": "annualCashCost",
+            "label": "Annual Vehicle, Parking & Toll Cost",
             "unit": "currency"
         },
         {
+            "name": "monthlyCashCost",
+            "label": "Monthly Vehicle, Parking & Toll Cost",
+            "unit": "currency"
+        },
+        {
+            "name": "totalYearlyCommuteHours",
+            "label": "Annual Hours Commuting",
+            "unit": "number"
+        },
+        {
             "name": "implicitTimeCost",
-            "label": "Annual Time Value Lost",
+            "label": "Annual Value of Commute Time",
             "unit": "currency"
         },
         {
             "name": "totalAnnualCost",
-            "label": "Total Annual Commute Impact",
+            "label": "Annual Cost Including Time Value",
             "unit": "currency"
         }
     ],
     "resultCta": {
-        "label": "Calculate the salary increase required to offset this commute →",
-        "href": "/remote-vs-office-calculator/?commuteCost={totalAnnualCost}",
-        "note": "Your annual commute cost is carried over automatically."
+        "label": "Compare office, hybrid and remote schedules",
+        "href": "/commute-vs-hybrid-vs-remote/",
+        "note": "Use vehicle costs and time separately in the schedule comparison to avoid counting time twice."
     },
     "methodSummary": [
-        "Multiply daily round-trip by working days per year for total distance and time.",
-        "Calculate direct vehicle costs using the IRS standard rate or custom input.",
-        "Multiply total commute hours by your subjective hourly time value."
+        "Annual commute days = days per week × weeks per year.",
+        "Annual vehicle cost = one-way distance × 2 × annual commute days × cost per mile (or km).",
+        "Parking and tolls = daily round-trip parking and tolls × annual commute days.",
+        "Annual time value = one-way minutes × 2 ÷ 60 × annual commute days × hourly time value."
     ],
     "assumptions": [
-        "Commute time and distance are consistent.",
-        "Vehicle costs include fuel, maintenance, and depreciation. The IRS standard mileage rate is a documented proxy for these costs, not an official measure of personal commuting cost."
+        "Enter miles with a per-mile rate, or kilometers with a per-kilometer rate; do not mix them. US IRS presets are in USD per mile.",
+        "Vehicle costs include fuel, maintenance and depreciation when your chosen per-mile rate includes them. Do not add those costs again.",
+        "The schedule is constant. Use your actual commuting weeks after leave and holidays; do not assume 52 weeks if you take time off."
     ],
     "insights": [
-        "A 30-minute commute (one way) costs roughly 240 hours per year.",
-        "Choosing a remote job with the same salary is effectively a significant 'raise' in time value."
+        "At 30 minutes each way, five days a week and 48 weeks a year, you spend 240 hours commuting.",
+        "Reducing office days from five to three cuts modeled mileage, parking, tolls and commute hours by 40%; fixed vehicle ownership costs may remain."
     ],
     "faqs": [
         {
-            "q": "What is the IRS standard mileage rate?",
-            "a": "For 2026, the IRS standard business mileage rate is 72.5 cents per mile (January-June) and 76 cents per mile (July-December), per the official IRS schedule at irs.gov. Note that this is a tax rate for business driving, not an official measure of what personal commuting costs - we use it as a documented proxy for fuel, insurance, maintenance, and depreciation. Enter your own per-mile cost if you know it."
+            "q": "How do I calculate my monthly commute cost?",
+            "a": "Multiply round-trip distance by cost per mile, add daily parking and tolls, then multiply by commute days per week and weeks per year. Divide by 12. This is an annualized monthly average."
         },
         {
-            "q": "How should I value my time?",
-            "a": "A common method is to use your hourly wage, or half of it if you find the commute relaxing (unlikely!)."
+            "q": "Does this calculate gas costs or total vehicle costs?",
+            "a": "It uses the per-mile or per-kilometer amount you enter. For gas only, divide price per gallon by miles per gallon. For a broader estimate, include maintenance and depreciation in that rate. Do not count gas twice."
         },
         {
-            "q": "Does this include tolls?",
-            "a": "You should add tolls into your 'Fuel/Wear Cost' per unit or adjust the result manually."
+            "q": "Can I use the IRS mileage rate for commuting?",
+            "a": "You can use it as a reference for vehicle cost, but it is a business mileage rate, not a commuting deduction. The 2026 rate is 72.5 cents per mile for January–June and 76 cents per mile for July–December. Choose the period you are modeling or enter a mileage-weighted rate."
         },
         {
-            "q": "Can I save money by moving closer?",
-            "a": "Usually, yes, but often rent increases. Use this tool to see if the rent hike is offset by commute savings."
+            "q": "How do I include parking and tolls?",
+            "a": "Enter the total you pay for a full commute day in Parking and Tolls. For a fixed monthly parking pass, convert its annual cost to a daily amount using your annual commute days; a fixed pass may not get cheaper with fewer office days."
         },
         {
-            "q": "How do I calculate public transport costs?",
-            "a": "You can set the distance cost to your monthly transit pass divided by annual mileage, or simply focus on the 'Time Value' loss."
+            "q": "What is my commute time worth?",
+            "a": "Enter the amount you would personally pay to recover an hour. Try zero, half your hourly pay, and your hourly pay to see the range. This is subjective value, not guaranteed additional income."
         },
         {
-            "q": "Does commuting impact health?",
-            "a": "Several studies show that long commutes increase stress and reduce sleep. This tool helps put a financial figure on that personal cost."
+            "q": "Can I compare a hybrid schedule?",
+            "a": "Change days commuting per week to two or three and compare with five. The linked office, hybrid and remote calculator compares all three schedules together."
+        },
+        {
+            "q": "Can I use this for public transportation?",
+            "a": "This tool is designed for distance-based driving costs. Use the office, hybrid and remote calculator for a daily transit cost; spread the annual price of a fixed pass across the days you actually commute."
         }
     ],
     "useCases": [
@@ -115,5 +149,27 @@
         "career-decisions",
         "compensation-comparison"
     ],
-    "richContent": "<h3>Commute Cost Scenarios</h3>\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; margin-top: 1rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Hybrid vs Fully Remote</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Commuting 2 days a week (hybrid) instead of 5 saves 60% of your travel time and vehicle costs. However, you still need a vehicle and a transit pass. Use the calculator to see if the remaining 2 days still cost you enough 'time value' to justify a small pay cut for a fully remote position.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Moving Closer to Work</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">If moving closer to the office cuts your commute from 45 minutes to 15 minutes, you save 5 hours per week (240 hours/year). If your time is worth $50/hr, that's $12,000 of implicit value plus fuel savings. This often financially justifies paying slightly higher rent closer to the city center.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">When Higher Rent is Cheaper</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Many people move to the suburbs to save $400/month on rent, but then spend $600/month on gas, tolls, wear-and-tear, and lost time. This tool mathematically proves when the 'cheap' apartment actually costs you more in total commute impact.</p>\n  </div>\n</div>\n\n<h3>The Hidden Costs of the Office</h3>\n<p style=\"line-height: 1.6; margin-bottom: 2rem;\">The IRS standard mileage rate (76 cents per mile for July-December 2026, per irs.gov) is a proxy for fuel, maintenance, insurance, and depreciation. If you drive 30 miles round-trip per day, that is roughly $23 per day or about $5,500 per year in vehicle costs alone. When you add the value of your uncompensated time spent in traffic, a $100k onsite job might offer a lower quality of life than an $85k fully remote job. Use this calculator before accepting any mandatory Return-To-Office (RTO) mandates.</p>"
+    "richContent": "<h2>How much does a 30-mile round trip cost?</h2><p>This example uses 15 miles and 30 minutes each way, 48 commuting weeks, a chosen vehicle cost of $0.50 per mile, $5 daily parking and tolls, and time valued at $25 per hour. The vehicle rate is an illustrative assumption, not a national average.</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Schedule</th><th scope=\"col\">Vehicle + parking / year</th><th scope=\"col\">Hours / year</th><th scope=\"col\">Cost including time</th></tr></thead><tbody><tr><td>5 office days / week</td><td>$4,800</td><td>240</td><td>$10,800</td></tr><tr><td>3 office days / week</td><td>$2,880</td><td>144</td><td>$6,480</td></tr><tr><td>2 office days / week</td><td>$1,920</td><td>96</td><td>$4,320</td></tr></tbody></table></div><h2>Is the commute worth the higher salary?</h2><p>Compare the additional take-home pay with the additional cash costs first. Then decide whether the remaining gain compensates you for the travel time. A $10,000 gross raise is not $10,000 of spendable income, and $6,000 of time value is not a cash expense.</p><p>Use the <a href=\"/job-offer-comparison/\">job offer comparison calculator</a> for salary and benefits, then the <a href=\"/commute-vs-hybrid-vs-remote/\">office, hybrid and remote calculator</a> for working patterns.</p>",
+    "quickAnswer": "A 15-mile, 30-minute one-way drive, five days a week for 48 weeks, adds up to 7,200 miles and 240 hours a year. Vehicle costs and the value of your time are shown separately.",
+    "resultNote": "Time value is an opportunity cost, not a bill or extra salary. A per-mile vehicle estimate may include fixed costs you would still pay when working remotely. Ordinary commuting is generally not tax-deductible.",
+    "relatedGuides": [
+        {
+            "href": "/guides/commute-true-cost/",
+            "label": "How to calculate the true cost of commuting"
+        },
+        {
+            "href": "/guides/remote-work-economics-breakdown/",
+            "label": "Compare the costs of remote and office work"
+        }
+    ],
+    "sources": [
+        {
+            "href": "https://www.irs.gov/tax-professionals/standard-mileage-rates",
+            "label": "IRS: standard mileage rates and effective dates"
+        },
+        {
+            "href": "https://www.irs.gov/publications/p463",
+            "label": "IRS Publication 463: transportation and commuting expenses"
+        }
+    ]
 }

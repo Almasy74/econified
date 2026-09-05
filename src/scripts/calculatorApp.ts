@@ -59,6 +59,14 @@ export function initCalculator(context: Record<string, string> = {}) {
         });
         values.advancedMode = advToggle && advToggle.checked ? 1 : 0;
 
+        if (slug === 'pto-value-calculator' && (values.ptoDays + values.holidays >= 260 || values.hoursPerDay <= 0)) {
+            definition.outputs.forEach((output: any) => {
+                const el = document.getElementById(`out-${output.name}`);
+                if (el) el.textContent = 'Check leave days and hours';
+            });
+            return;
+        }
+
         const calcFn = engineMap[slug];
         if (!calcFn) {
             console.error(`Missing engine map for tool: ${slug}`);
@@ -81,7 +89,10 @@ export function initCalculator(context: Record<string, string> = {}) {
                     el.textContent = val as string;
                 } else {
                     const amount = typeof val === 'number' ? window.Currency.convertFromUSD(val, localCurrency) : 0;
-                    el.textContent = window.Currency.format(amount, localCurrency);
+                    const precision = definition.outputs.find((o: any) => o.name === key)?.precision;
+                    el.textContent = precision !== undefined
+                        ? new Intl.NumberFormat(undefined, { style: 'currency', currency: localCurrency, minimumFractionDigits: precision, maximumFractionDigits: precision }).format(amount)
+                        : window.Currency.format(amount, localCurrency);
                 }
             }
         });
@@ -143,7 +154,11 @@ export function initCalculator(context: Record<string, string> = {}) {
         if (!target) return;
         select.addEventListener('change', () => {
             if (select.value !== '') {
-                target.value = select.value;
+                const inputDef = allInputDefs.find((i: any) => i.name === target.name);
+                const currency = currIn ? currIn.value : window.Currency.get();
+                target.value = String(inputDef?.unit === 'currency'
+                    ? window.Currency.convertFromUSD(Number(select.value), currency)
+                    : Number(select.value));
                 calculate();
             }
         });
@@ -155,7 +170,8 @@ export function initCalculator(context: Record<string, string> = {}) {
     // Interest-test signal: how many act on the offer shown with their result
     if (resultCta) {
         resultCta.addEventListener('click', () => {
-            trackEvent('result_cta_clicked', { tool: slug, target: resultCta.getAttribute('href') || '', ...context });
+            // Do not send output-bearing query parameters to analytics.
+            trackEvent('result_cta_clicked', { tool: slug, target: new URL(resultCta.href).pathname, ...context });
         });
     }
 

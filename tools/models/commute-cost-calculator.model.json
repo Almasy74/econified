@@ -5,12 +5,16 @@
         "totalYearlyCommuteHours = (oneWayTimeMinutes * 2 / 60) * daysPerWeek * weeksPerYear",
         "fuelCost = totalYearlyDistance * costPerUnitDistance",
         "implicitTimeCost = totalYearlyCommuteHours * hourlyValue",
-        "totalAnnualCost = fuelCost + implicitTimeCost"
+        "annualParkingAndTolls = parkingAndTollsPerDay * daysPerWeek * weeksPerYear",
+        "annualCashCost = fuelCost + annualParkingAndTolls",
+        "monthlyCashCost = annualCashCost / 12",
+        "totalAnnualCost = annualCashCost + implicitTimeCost"
     ],
     "elements": {
         "costPerUnitDistance": "Per-mile (or per-km) vehicle cost: fuel, maintenance, insurance, depreciation. The IRS standard business mileage rate is offered as a documented PROXY - it is a tax rate for business driving, not an official measure of personal commuting cost. Users can always enter their own figure.",
         "hourlyValue": "The user's subjective value of an hour of personal time. Not a market rate; the calculator makes the assumption explicit.",
-        "weeksPerYear": "Commuting weeks, typically 46-48 after vacation and holidays."
+        "weeksPerYear": "Commuting weeks, typically 46-48 after vacation and holidays.",
+        "parkingAndTollsPerDay": "Total round-trip parking and tolls per commute day, excluding vehicle mileage costs."
     },
     "constraints": [
         "totalAnnualCost must be non-decreasing in costPerUnitDistance, distance, time, days, and weeks.",
@@ -37,8 +41,13 @@
             "value": 0.7425,
             "validFrom": "2026-01-01",
             "validTo": "2026-12-31"
+        },
+        {
+            "name": "Illustrative vehicle-cost assumption for the worked comparison; not an observed average or IRS rate",
+            "kind": "example-assumption",
+            "value": 0.5
         }
     ],
-    "reviewedAt": "2026-09-01",
-    "reviewedBy": "Trond Ausland"
+    "reviewedAt": "2026-09-05",
+    "reviewedBy": "Implementation and source review assisted by Codex"
 }

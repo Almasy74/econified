@@ -1,105 +1,33 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="How Much Is Your Commute Really Costing You? | Econified" description="Calculate the true annual cost of commuting including fuel, time, wear, and opportunity cost. Most people underestimate by 50% or more." canonicalUrl="https://econified.com/guides/commute-true-cost/">
-  <main class="container" style="max-width: 780px;">
-    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
-      <a href="/" style="color: inherit;">Home</a> &rsaquo;
-      <a href="/guides/" style="color: inherit;">Guides</a> &rsaquo;
-      How Much Is Your Commute Costing You?
-    </nav>
+<Layout title="How Much Does Your Commute Cost? | Econified" description="Calculate driving, parking, tolls and time separately. Worked US examples compare five office days with hybrid schedules and explain the mileage assumptions." canonicalUrl="https://econified.com/guides/commute-true-cost/">
+  <main class="container" style="max-width: 820px;">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a> &rsaquo; How Much Does Your Commute Cost?</nav>
+    <article class="content-section rich-content">
+      <h1>How Much Does Your Commute Cost?</h1>
+      <p>Updated <time datetime="2026-09-05">September 5, 2026</time> · US examples in USD</p>
 
-    <article>
-      <h1>How Much Is Your Commute Really Costing You?</h1>
-      <p class="byline" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">By the <strong>Econified Editorial Team</strong> &middot; Last reviewed June 2026 &middot; Methodology-first, no sponsored placements</p>
-      <p class="lead" style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 2rem;">Most people only count the gas. The real cost includes time, wear on your car, parking, tolls, and the salary equivalent of hours spent driving. Here is how to calculate all of it.</p>
-
-      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2.5rem;">
-        <strong style="font-size: 1.1rem;">Short answer:</strong> A typical 30-minute one-way commute costs <strong>$8,000 to $15,000 per year</strong> when you include fuel, vehicle depreciation, time value, and incidentals. A 60-minute commute can exceed $20,000.
-      </div>
-
-      <h2>The Visible Costs</h2>
-      <p style="line-height: 1.7; margin-bottom: 1rem;">These are the expenses most people think about:</p>
-      <table class="base-table" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;">
-        <thead>
-          <tr style="border-bottom: 2px solid var(--surface-border);">
-            <th style="padding: 0.75rem 0.5rem;">Expense</th>
-            <th style="padding: 0.75rem 0.5rem;">30-min commute</th>
-            <th style="padding: 0.75rem 0.5rem;">60-min commute</th>
-          </tr>
-        </thead>
-        <tbody style="font-size: 0.95rem; color: var(--text-secondary);">
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Fuel / Transit Pass</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$1,500–$2,500</td>
-            <td style="padding: 0.75rem 0.5rem;">$3,000–$5,000</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Parking / Tolls</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$500–$2,000</td>
-            <td style="padding: 0.75rem 0.5rem;">$1,000–$3,500</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Vehicle Depreciation & Maintenance</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$1,500–$3,000</td>
-            <td style="padding: 0.75rem 0.5rem;">$3,000–$6,000</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>The Hidden Cost: Your Time</h2>
-      <p style="line-height: 1.7; margin-bottom: 1rem;">This is where most people massively undercount. A 30-minute one-way commute means:</p>
-      <ul style="line-height: 1.8; margin-bottom: 1rem; padding-left: 1.5rem;">
-        <li><strong>1 hour per day</strong> spent commuting</li>
-        <li><strong>240 hours per year</strong> (based on 48 work weeks)</li>
-        <li><strong>6 full work weeks</strong> of your life gone</li>
-      </ul>
-      <p style="line-height: 1.7; margin-bottom: 2rem;">If you value your personal time at even $25/hour (conservative for most salaried professionals), that adds <strong>$6,000 per year</strong> to the cost of a 30-minute commute. At $50/hour, it doubles to $12,000. For a 60-minute commute, these numbers double again.</p>
-
-      <h2>The Full Picture</h2>
-      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2rem;">
-        <strong>Total Annual Commute Cost</strong> = Direct Costs (fuel + parking + depreciation) + Time Cost (hours × hourly value) + Incidentals (food, coffee, clothing)
-      </div>
-
-      <h2>Three Scenarios Compared</h2>
-      <table class="base-table" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;">
-        <thead>
-          <tr style="border-bottom: 2px solid var(--surface-border);">
-            <th style="padding: 0.75rem 0.5rem;">Scenario</th>
-            <th style="padding: 0.75rem 0.5rem;">Annual Cost</th>
-          </tr>
-        </thead>
-        <tbody style="font-size: 0.95rem; color: var(--text-secondary);">
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>15-min bike/walk</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$1,500–$3,000 (mostly time value)</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>30-min drive</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$8,000–$14,000</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>60-min drive</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">$16,000–$25,000+</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>What This Means for Job Decisions</h2>
-      <p style="line-height: 1.7; margin-bottom: 1rem;">When comparing two job offers:</p>
-      <ul style="line-height: 1.8; margin-bottom: 2rem; padding-left: 1.5rem;">
-        <li>A remote job paying $10k less than an office job with a 30-min commute is likely the better financial deal</li>
-        <li>Moving 15 minutes closer to the office can be equivalent to a $4,000–$7,000 raise</li>
-        <li>A hybrid schedule (3 office, 2 remote) saves 40% of the commute cost compared to full-time office</li>
-      </ul>
-
-      <div class="glass-panel" style="margin-top: 3rem;">
-        <h2 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem;">Calculate Your Own Commute Cost</h2>
-        <ul style="list-style-type: none; margin: 0; padding: 0;">
-          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/commute-cost-calculator/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Commute Cost Calculator</a> — see your exact annual cost</li>
-          <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/remote-vs-office-calculator/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Remote vs Office Calculator</a> — compare the total financial impact of remote work</li>
-        </ul>
-      </div>
+<p class="lead">A commute has two different costs: the money you spend and the time you give up. Calculate both before deciding whether a higher-paying office job or a cheaper home farther away makes sense.</p>
+<p class="quick-answer"><strong>Worked example:</strong> Driving 15 miles and 30 minutes each way, five days a week for 48 weeks, means 7,200 miles and 240 hours a year. At a chosen vehicle cost of $0.50 per mile plus $5 daily parking and tolls, that is $4,800 of annual vehicle and travel costs. Valuing time at $25 per hour adds $6,000 of personal time value.</p>
+<p><a class="btn-primary" href="/commute-cost-calculator/">Calculate your own commute cost</a></p>
+<h2>1. Start with the days you actually travel</h2>
+<p>Multiply office days per week by commuting weeks per year. Five days for 48 weeks gives 240 days. Three days for 48 weeks gives 144. Exclude vacation, paid holidays and other days you do not travel, without deducting the same day twice. If your schedule varies, use the annual number of commute days to find a representative weekly average.</p>
+<h2>2. Estimate vehicle costs consistently</h2>
+<p>Round-trip distance × annual commute days × vehicle cost per mile gives your annual vehicle estimate. Gas alone is only one component: divide price per gallon by your vehicle’s miles per gallon if that is the cost you want to model. A broader rate can include maintenance, tires and depreciation. If you use such a rate, do not add gas or depreciation again.</p>
+<p>The <a href="https://www.irs.gov/tax-professionals/standard-mileage-rates">IRS business mileage rate</a> is a documented reference, not a measurement of your personal car costs. Its 2026 rates are $0.725 per mile for January–June and $0.76 per mile for July–December. Match the rate to the period, or weight each rate by the miles driven during that period. An arithmetic half-year average is only appropriate when mileage is equal in both halves.</p>
+<p>Ordinary travel between home and a regular workplace is generally personal commuting, not deductible business mileage. See <a href="https://www.irs.gov/publications/p463">IRS Publication 463</a>. The calculator estimates costs; it does not determine a tax deduction.</p>
+<h2>3. Add parking and tolls</h2>
+<p>Enter the cost for the whole commute day, including both directions. For a monthly pass, multiply the price by the months you pay, then divide by annual commute days if you need a daily input. A fixed parking pass may cost the same whether you travel two days or five, so do not assume every cost falls proportionally with office attendance.</p>
+<h2>4. Put a separate value on time</h2>
+<p>Round-trip minutes ÷ 60 × annual commute days gives yearly hours. Multiply those hours by your own hourly time value. Test several values, including zero, to see whether your decision depends on that assumption. Time saved might mean more rest, family time or flexibility; it is not automatically extra income.</p>
+<h2>Five office days versus a hybrid schedule</h2>
+<p>These are illustrative calculations using the assumptions above, not national averages.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Per week</th><th scope="col">Travel cost/year</th><th scope="col">Hours/year</th><th scope="col">Including time value</th></tr></thead><tbody><tr><td>5 office days</td><td>$4,800</td><td>240</td><td>$10,800</td></tr><tr><td>3 office days</td><td>$2,880</td><td>144</td><td>$6,480</td></tr><tr><td>2 office days</td><td>$1,920</td><td>96</td><td>$4,320</td></tr></tbody></table></div>
+<p>Moving from five to three office days saves $1,920 in modeled annual travel costs and 96 hours. Whether that justifies a pay change depends on take-home pay and the value you place on those hours. Some vehicle ownership costs remain even if you drive less.</p>
+<h2>Is a higher salary worth a longer commute?</h2>
+<p>Compare the additional after-tax pay with the additional cash costs first. Then consider the time separately. Do not subtract a cash expense from gross salary and call the result take-home pay. Also check parking subsidies, transit benefits and work-from-home expenses in both offers.</p>
+<p>Start with the <a href="/job-offer-comparison/">salary and benefits comparison</a>, then use the <a href="/commute-vs-hybrid-vs-remote/">office, hybrid and remote calculator</a>. Our <a href="/guides/remote-work-economics-breakdown/">remote-work economics guide</a> gives more context. For paid time away from work, compare the offers in the <a href="/pto-value-calculator/">PTO value calculator</a>.</p>
     </article>
   </main>
 </Layout>

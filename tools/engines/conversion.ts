@@ -43,17 +43,20 @@ export function calculatePTOValue(inputs: Record<string, number>) {
   const holidays = inputs.holidays;
   const hoursPerDay = inputs.hoursPerDay;
 
-  const totalPaidDays = ptoDays + holidays;
+  const totalPaidDays = Math.min(260, Math.max(0, ptoDays) + Math.max(0, holidays));
   const workDaysPerYear = 260; // Standard work days in a year (5 days * 52 weeks)
 
   const valuePerDay = annualSalary / workDaysPerYear;
   const totalPTOValue = totalPaidDays * valuePerDay;
-  const realSalary = annualSalary + totalPTOValue;
+  // Paid leave is already part of salary. Compare the pay per hour actually
+  // worked instead of adding the same compensation a second time.
+  const workingHours = (workDaysPerYear - totalPaidDays) * hoursPerDay;
+  const effectiveHourlyRate = workingHours > 0 ? annualSalary / workingHours : 0;
 
   return {
     valuePerDay,
     totalPTOValue,
-    realSalary
+    effectiveHourlyRate
   };
 }
 

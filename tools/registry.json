@@ -115,7 +115,7 @@
       "contractorOverheadPercent": 30
     },
     "status": "active",
-    "updatedAt": "2026-09-01"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "remote-pay-adjuster",
@@ -158,10 +158,11 @@
       "daysPerWeek": 5,
       "weeksPerYear": 48,
       "costPerUnitDistance": 0.76,
-      "hourlyValue": 50
+      "hourlyValue": 50,
+      "parkingAndTollsPerDay": 0
     },
     "status": "active",
-    "updatedAt": "2026-09-01"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "salary-increase-calculator",
@@ -191,7 +192,7 @@
       "hoursPerDay": 8
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "job-offer-comparison",
@@ -215,7 +216,7 @@
       "healthBenefitsB": 0
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "burnout-cost-calculator",

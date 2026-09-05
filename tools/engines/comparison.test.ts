@@ -10,6 +10,20 @@ const simpleBase = {
     contractorOverheadPercent: 30
 };
 
+test('commute example separates vehicle and parking costs from time', () => {
+    const base = { oneWayDistance: 15, oneWayTimeMinutes: 30, daysPerWeek: 5,
+        weeksPerYear: 48, costPerUnitDistance: 0.5, hourlyValue: 25, parkingAndTollsPerDay: 5 };
+    const full = calculateCommuteCost(base);
+    assert.equal(full.annualCashCost, 4800);
+    assert.equal(full.monthlyCashCost, 400);
+    assert.equal(full.totalYearlyCommuteHours, 240);
+    assert.equal(full.totalAnnualCost, 10800);
+    const hybrid = calculateCommuteCost({ ...base, daysPerWeek: 3 });
+    assert.equal(hybrid.annualCashCost, 2880);
+    assert.equal(hybrid.totalAnnualCost, 6480);
+    assert.equal(calculateCommuteCost({ ...base, daysPerWeek: 0 }).totalAnnualCost, 0);
+});
+
 test('contractor simple: known scenario', () => {
     const r = calculateContractorVsEmployee({ ...simpleBase });
     assert.equal(r.contractorGross, 75 * 40 * 46); // 138,000

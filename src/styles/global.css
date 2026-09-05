@@ -170,6 +170,17 @@ header {
   gap: 1rem;
 }
 
+.quick-answer, .result-note {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  line-height: 1.7;
+}
+.rich-content table { width: 100%; border-collapse: collapse; }
+.rich-content th, .rich-content td { padding: 0.65rem; text-align: left; border-bottom: 1px solid var(--surface-border); }
+.rich-content .table-scroll { overflow-x: auto; }
+.content-section li { margin-bottom: 0.65rem; }
+
 @media (max-width: 640px) {
   .nav-container {
     padding: 1rem 1rem;

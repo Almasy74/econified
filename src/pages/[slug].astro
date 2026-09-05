@@ -45,7 +45,7 @@ const { tool, definition, nextDecisionData, upstreamDecisionData } = Astro.props
 
 // Generate Meta Tags
 const metaTitle = `${definition.title} – Econified`;
-const metaDescription = `${definition.description} Configurable calculation to estimate your ${definition.outputs[0]?.label.toLowerCase() || 'result'}.`;
+const metaDescription = definition.description;
 
 // Generate JSON-LD Schema
 const schemaData = {
@@ -107,6 +107,7 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
       </div>
     </div>
     <p class="lead">{definition.description}</p>
+    {definition.quickAnswer && <p class="quick-answer"><strong>Quick answer: </strong>{definition.quickAnswer} <a href="#calculator-app">Use your own numbers below.</a></p>}
 
     <!-- Calculator Interface -->
     <div class="glass-panel" id="calculator-app" aria-live="polite">
@@ -140,7 +141,7 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
               type="number"
               id={input.name}
               name={input.name}
-              value={tool.defaults[input.name] || ''}
+              value={tool.defaults[input.name] ?? input.default ?? ''}
               required
               aria-labelledby={`label-${input.name}`}
               min={input.min !== undefined ? input.min : "0"}
@@ -188,6 +189,7 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
           </div>
         ))}
       </div>
+      {definition.resultNote && <p class="result-note">{definition.resultNote}</p>}
 
       {definition.resultCta && (
         <div class="result-cta-block" style="margin-top: 1.5rem; text-align: center;">
@@ -248,6 +250,19 @@ const canonicalUrl = `https://econified.com/${tool.slug}/`;
       )}
     </div>
 
+    {definition.relatedGuides?.length > 0 && (
+      <nav class="glass-panel" aria-label="Guides for this calculation">
+        <h2>Understand the numbers</h2>
+        <ul>{definition.relatedGuides.map((guide: any) => <li><a href={guide.href}>{guide.label}</a></li>)}</ul>
+      </nav>
+    )}
+    {definition.sources?.length > 0 && (
+      <section class="content-section" aria-label="Sources and scope">
+        <h2>Sources and scope</h2>
+        <p>Examples use US dollars and US workplace terminology. Change the inputs to match your benefits and costs. These are comparison models, not tax-return or payroll calculations.</p>
+        <ul>{definition.sources.map((source: any) => <li><a href={source.href}>{source.label}</a></li>)}</ul>
+      </section>
+    )}
     <!-- The Decision Graph -->
     {(nextDecisionData || upstreamDecisionData) && (
       <nav class="decision-graph" aria-label="Decision Pathway" style="margin-top: 4rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; border-top: 1px solid var(--surface-border); padding-top: 2rem;">

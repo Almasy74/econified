@@ -40,17 +40,14 @@ ${urls.join('\n')}
         console.log(`✅ Generated sitemap-corridors.xml (${corridorUrls.length} URLs)`);
 
         // Update the sitemap index
+        const nonEmptySitemaps = [
+            ['sitemap-core.xml', coreUrls],
+            ['sitemap-destinations.xml', destinationUrls],
+            ['sitemap-corridors.xml', corridorUrls]
+        ].filter(([, urls]) => urls.length > 0);
         const sitemapIndexXml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>https://econified.com/sitemap-core.xml</loc>
-  </sitemap>
-  <sitemap>
-    <loc>https://econified.com/sitemap-destinations.xml</loc>
-  </sitemap>
-  <sitemap>
-    <loc>https://econified.com/sitemap-corridors.xml</loc>
-  </sitemap>
+${nonEmptySitemaps.map(([name]) => `  <sitemap><loc>https://econified.com/${name}</loc></sitemap>`).join('\n')}
 </sitemapindex>`;
 
         await fs.writeFile(path.resolve('dist/sitemap-index.xml'), sitemapIndexXml);
