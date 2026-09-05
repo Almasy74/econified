@@ -2,6 +2,8 @@
 
 ## Evidence and limits
 
+Owner follow-up: the operating sole proprietorship is Ausland Teknologi, and the owner receives email at info@econified.com. About, Contact and the footer now identify the operator. This resolves the earlier request for operator and mailbox confirmation; no personal biography or qualifications have been supplied.
+
 The owner's AdSense screenshot confirms “Low value content.” Ownership is verified. Google does not identify a specific failing page in that screenshot. These changes address independently observed content and calculation problems; they do not prove what triggered the rejection or guarantee approval.
 
 Google's [site-not-ready guidance](https://support.google.com/adsense/answer/12176698?hl=en) calls for valuable content, usable navigation and policy compliance before requesting review. Its [eligibility guidance](https://support.google.com/adsense/answer/9724?hl=en) does not establish a universal word-count or traffic threshold. The older June readiness assessment was overconfident and has been superseded.
