@@ -7,7 +7,7 @@
             "type": "number",
             "unit": "currency",
             "label": "Base Salary Offer",
-            "min": 0,
+            "min": 1,
             "step": 1
         },
         {
@@ -21,7 +21,7 @@
             "name": "homeIndex",
             "type": "number",
             "label": "Company HQ City Index (e.g., 100)",
-            "min": 0,
+            "min": 1,
             "step": 1
         }
     ],
@@ -47,12 +47,13 @@
         "Adjusted Pay = Base Salary Offer × Ratio"
     ],
     "assumptions": [
-        "You must input your own local indices (such as from Numbeo or government metrics).",
-        "Relies on the baseline assumption that an index of 100 represents the average baseline comparison."
+        "Both indices use the same source, period and basket.",
+        "Only the ratio matters; the common baseline need not be 100.",
+        "No automatic location data or tax model is supplied."
     ],
     "insights": [
-        "A $100k offer from a company based in San Francisco (Index ~130) equates to roughly $70k in purchasing power if you live in a mid-tier Midwest city (Index ~90).",
-        "Many remote companies use exact index formulas to localize your pay. Understanding this math lets you negotiate effectively before accepting."
+        "A 90 / 125 index ratio scales a $120,000 scenario to $86,400 in the same currency.",
+        "Employer pay bands and your household spending can differ from a cost-of-living ratio."
     ],
     "faqs": [
         {
@@ -91,5 +92,13 @@
         "Negotiate remote baseline",
         "Compare regional cost of living"
     ],
-    "richContent": "<h3>How Companies Adjust Remote Salaries — and How to Negotiate</h3>\n<p style=\"line-height: 1.7; margin-bottom: 1rem;\">Most large companies that hire remotely use cost-of-living indices to adjust pay based on where you live. A software engineer hired at a San Francisco benchmark of $150,000 might be offered $105,000 for the same role in Austin, Texas — a 30% haircut based on the cost-of-living differential. Whether this is fair depends on your perspective, but understanding the math gives you leverage in the negotiation.</p>\n<p style=\"line-height: 1.7; margin-bottom: 1.5rem;\">The remote pay adjuster uses the same index-based formula most employers apply. Enter the salary offer, your local city's cost-of-living index, and the company headquarters' index to see what the offer actually buys in your market.</p>\n\n<h3>The Three Remote Pay Models</h3>\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Location-Based Pay</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Salary is adjusted based on where you live. Used by Google, GitLab, and most Fortune 500 companies. Your pay decreases if you move to a cheaper city but increases if you move somewhere more expensive. Typically uses Numbeo or proprietary index data.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">National or Regional Bands</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">The country or region is divided into 2-4 pay tiers (e.g., Tier 1: NYC/SF, Tier 2: Denver/Austin, Tier 3: everywhere else). Less granular but more predictable. Moving within a tier has no pay impact.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Location-Independent Pay</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Everyone in the same role earns the same regardless of location. Used by Basecamp, Automattic, and some startups. Employees in low-cost areas benefit significantly, while those in expensive cities may earn below local market rate.</p>\n  </div>\n</div>\n\n<h3>Negotiation Strategy</h3>\n<p style=\"line-height: 1.7; margin-bottom: 0;\">If a company uses index-based pay, ask which data source they reference (Numbeo, ERI, Mercer). Index scores can differ by 10-15 points between sources, which translates to thousands of dollars in salary. If you can show that their chosen index understates your local costs — for example, by pointing to a more recent dataset — you have a data-backed case for a higher adjustment. Run the calculator with different index values to see the range of outcomes before entering the negotiation.</p>"
+    "richContent": "<h3>What an index ratio can tell you</h3><p>At a base salary of $120,000, a home index of 125 and destination index of 90 give $120,000 × 90 / 125 = $86,400. That is an illustrative spending-equivalent amount under the assumed basket, before tax and household differences.</p><p>It does not establish what an employer should pay. Ask for the actual role, level and location band when negotiating. Housing, dependents and savings goals can make your own budget differ substantially from an index.</p><p><a href=\"/geo-arbitrage-calculator/\">Compare a relocation budget</a> using actual salary offers and spending, then test different assumptions.</p>",
+    "quickAnswer": "This is a purchasing-power scenario using indices you supply. It does not predict an employer pay band or local market salary.",
+    "resultNote": "Use indices from the same source, period and spending basket. The output stays in the selected currency; it is not a destination-currency salary.",
+    "relatedGuides": [
+        {
+            "href": "/guides/remote-work-economics-breakdown/",
+            "label": "Compare remote-work cash savings and time"
+        }
+    ]
 }

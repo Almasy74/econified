@@ -14,7 +14,7 @@
         {
             "name": "overheadPercent",
             "type": "number",
-            "label": "Overhead & Benefits Buffer (%)",
+            "label": "Overhead Markup on Target Income (%)",
             "min": 0,
             "max": 100,
             "step": 1,
@@ -65,34 +65,33 @@
         "Day rate assumes a standard 8-hour billable day."
     ],
     "insights": [
-        "Many overestimate billability. 60-70% utilization is often more realistic than 90% when accounting for sales and admin.",
-        "Add a strict buffer for pensions, health insurance, and sick days (often 20-35%).",
-        "Shorter contracts and higher risk require a considerably higher base rate to cover the 'bench time'."
+        "A $100,000 target with 30% markup requires $130,000 revenue; at 25 hours × 46 weeks that is $113.04/hour.",
+        "Reducing billable hours raises the required rate even when the annual budget stays unchanged."
     ],
     "faqs": [
         {
-            "q": "What is the difference between billable and non-billable hours?",
-            "a": "Billable hours are what you actually charge the client for. Non-billable hours include sales, invoicing, meetings, and administration that you must do but cannot invoice."
+            "q": "What are billable hours?",
+            "a": "Time you expect clients to pay for, excluding unpaid sales and administration."
         },
         {
-            "q": "Why shouldn't I assume 52 weeks worked per year?",
-            "a": "Because you will need to take vacations, observe public holidays, and take sick days. 46-48 weeks is a much safer planning metric for freelancers."
+            "q": "How many weeks should I use?",
+            "a": "Your expected paid working weeks after unpaid leave and contract gaps."
         },
         {
-            "q": "What must be included in the overhead percentage?",
-            "a": "You must include self-employment taxes, healthcare premiums, retirement contributions, software licenses, and liability insurance that an employer would typically cover."
+            "q": "What belongs in overhead?",
+            "a": "Costs not already included in your income target. Express their annual total as a percentage of that target."
         },
         {
-            "q": "How do I compare this required rate to a permanent job offer?",
-            "a": "Add the value of the employer's benefits (pension match, bonuses, paid time off) to the base salary offer before comparing it against your required freelance revenue."
+            "q": "How do I compare with employment?",
+            "a": "Use the contractor comparison. Keep benefits on one side of the comparison only, and do not add PTO to annual salary."
         },
         {
-            "q": "Why shouldn't I just take my old hourly salary wage and charge that?",
-            "a": "Because your employer covers non-billable time, taxes, software, healthcare, and assumes the financial risk of no-work periods. You must charge a premium to absorb these costs."
+            "q": "Is 30% a recommended markup?",
+            "a": "No. It is an editable example. Use your own costs."
         },
         {
-            "q": "Is it better to charge hourly or by project?",
-            "a": "This tool helps establish your baseline value per hour. You can use this minimum baseline to accurately price flat-fee projects by estimating the total hours it will take."
+            "q": "Can I price a fixed-fee project?",
+            "a": "Multiply by estimated billable hours, then check scope and payment terms. The estimate does not guarantee profitability."
         }
     ],
     "clusters": [
@@ -106,5 +105,13 @@
         "Account for unpaid time",
         "Calculate safety buffer"
     ],
-    "richContent": "<h3>Short Answer: What should my freelance rate be?</h3>\n<p style=\"margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6;\"><strong>Take your target annual income, add 25-35% for overhead, then divide by your realistic billable hours (not 2,000 — more like 1,000-1,200).</strong> If you want to take home $100k, you likely need to charge $85-$115/hour depending on your utilization rate.</p>\n\n<h3>The Freelance Rate Formula</h3>\n<div style=\"background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2rem;\">\n  <strong>Minimum Rate</strong> = (Target Income + Overhead Buffer) ÷ (Billable Hours/Week × Weeks Worked)\n</div>\n\n<h3>What Goes Into Overhead?</h3>\n<table class=\"base-table\" style=\"width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;\">\n  <thead>\n    <tr style=\"border-bottom: 2px solid var(--surface-border);\">\n      <th style=\"padding: 0.75rem 0.5rem;\">Expense</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Typical Range</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">% of Gross</th>\n    </tr>\n  </thead>\n  <tbody style=\"font-size: 0.95rem; color: var(--text-secondary);\">\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Self-Employment Tax</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">$10k-$20k/year</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">~15%</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Health Insurance</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">$6k-$18k/year</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">5-10%</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Retirement (401k equiv)</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">$5k-$15k/year</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">3-8%</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Software & Tools</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">$1k-$5k/year</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">1-3%</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>Common Mistakes</h3>\n<ol style=\"margin-left: 1.5rem; margin-bottom: 2rem; line-height: 1.7;\">\n  <li style=\"margin-bottom: 0.75rem;\"><strong>Assuming 40 billable hours/week:</strong> After meetings, invoicing, sales, and admin, most freelancers bill 20-30 hours per week. Price accordingly.</li>\n  <li style=\"margin-bottom: 0.75rem;\"><strong>Setting overhead to 0%:</strong> This means you are paying for your own health insurance and taxes out of what you think is \"profit.\" Always add 25-35%.</li>\n  <li><strong>Matching your old W-2 hourly rate:</strong> Your employer was paying an additional 30-50% on top of your salary for benefits, taxes, and overhead. Match the total cost, not just the paycheck.</li>\n</ol>\n\n<div class=\"glass-panel\" style=\"margin-top: 2rem;\">\n  <h3 style=\"margin-top: 0; margin-bottom: 1rem;\">Related Tools & Guides</h3>\n  <ul style=\"list-style-type: none; margin: 0; padding: 0;\">\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/contractor-vs-employee/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Contractor vs Employee</a>: See if your calculated rate actually beats a salaried job.</li>\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/freelance-risk-calculator/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Freelance Risk Calculator</a>: Check if your savings runway supports going freelance.</li>\n    <li style=\"margin-bottom: 0; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/guides/freelance-risk-pricing/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Guide: How to price freelance risk correctly</a></li>\n  </ul>\n</div>"
+    "richContent": "<h3>Worked example: an annual budget</h3><p>A $100,000 income target plus $30,000 of estimated overhead requires $130,000 revenue. At 1,150 billable hours, the rate is $113.04/hour and an eight-hour day is $904.35. The overhead must cover only items excluded from the target; personal taxes and replacement benefits need a consistent budget treatment.</p><h3>Markup is different from a deduction</h3><p>Adding 30% to $100,000 yields $130,000. Losing 30% of revenue and retaining $100,000 requires $142,857.14. The <a href=\"/contractor-vs-employee/\">contractor comparison</a> uses the second interpretation. Do not enter the same percentage in both tools and expect identical results.</p><p>Use <a href=\"/guides/freelance-risk-pricing/\">billable hours and payment gaps</a> to check your assumptions, then <a href=\"/freelance-risk-calculator/\">check cash runway</a> before relying on future invoices.</p>",
+    "quickAnswer": "Add your estimated overhead to the annual income target, then divide by billable hours. The overhead percentage is a markup on the target, not a deduction from revenue.",
+    "resultNote": "This is a revenue target, not take-home pay. Include each expense once; unpaid time belongs in billable hours and weeks, not a second overhead allowance.",
+    "relatedGuides": [
+        {
+            "href": "/guides/freelance-risk-pricing/",
+            "label": "Billable hours, markup and payment gaps"
+        }
+    ]
 }

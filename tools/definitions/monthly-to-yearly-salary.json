@@ -72,5 +72,11 @@
         "Project annual income",
         "Compare yearly contracts",
         "Plan long-term budgets"
+    ],
+    "relatedGuides": [
+        {
+            "href": "/guides/total-compensation-equation/",
+            "label": "Separate salary, benefits and paid time"
+        }
     ]
 }

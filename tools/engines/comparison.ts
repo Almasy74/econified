@@ -179,16 +179,18 @@ export function calculatePromotionValue(inputs: Record<string, number>) {
 export function calculateRemoteVsOffice(inputs: Record<string, number>) {
     const remoteDays = inputs.remoteDays;
     const annualCommuteCost = inputs.commuteCost;
-    const officeDays = 5 - remoteDays;
-
-    const foodCost = inputs.foodCoffeeCost * officeDays * 48;
-    const rentSavings = inputs.rentDifference * 12;
-    const timeValue = inputs.timeSavedHours * officeDays * 48 * 25;
-
-    const realSalaryAdjustment = annualCommuteCost + foodCost + rentSavings + timeValue;
+    const remoteFraction = remoteDays / 5;
+    const foodCost = inputs.foodCoffeeCost * remoteDays * 48;
+    const rentSavings = remoteDays > 0 ? inputs.rentDifference * 12 : 0;
+    const timeValue = inputs.timeSavedHours * remoteDays * 48 * (inputs.hourlyValue ?? 25);
+    const annualCashSavings = annualCommuteCost * remoteFraction + foodCost + rentSavings
+        - (remoteDays > 0 ? (inputs.homeOfficeAnnualCost || 0) : 0);
+    const realSalaryAdjustment = annualCashSavings + timeValue;
     const remoteEquivalentRaise = inputs.baseSalary > 0 ? (realSalaryAdjustment / inputs.baseSalary) * 100 : 0;
 
     return {
+        annualCashSavings,
+        timeValue,
         realSalaryAdjustment,
         remoteEquivalentRaise
     };
@@ -204,7 +206,7 @@ export function calculateQuitDate(inputs: Record<string, number>) {
         sideIncome = 0
     } = inputs;
 
-    const monthlyNetSalary = (annualSalary / 12) * 0.75; // Rough estimate after tax
+    const monthlyNetSalary = (annualSalary / 12) * (1 - (inputs.effectiveTaxPercent ?? 25) / 100);
     const monthlySavingsFromSalary = monthlyNetSalary * (savingsRate / 100);
     const totalMonthlySavings = monthlySavingsFromSalary + sideIncome;
 
@@ -215,7 +217,10 @@ export function calculateQuitDate(inputs: Record<string, number>) {
 
     function monthsToTarget(target: number) {
         if (currentSavings >= target) return 0;
-        if (totalMonthlySavings <= 0) return Infinity;
+        if (totalMonthlySavings <= 0) {
+            return r > 0 && currentSavings > 0
+                ? Math.log(target / currentSavings) / Math.log(1 + r) : Infinity;
+        }
         if (r === 0) return (target - currentSavings) / totalMonthlySavings;
 
         const n = Math.log((target * r + totalMonthlySavings) / (currentSavings * r + totalMonthlySavings)) / Math.log(1 + r);
@@ -358,11 +363,13 @@ export function calculateLayoffSurvival(inputs: Record<string, number>) {
 
     const totalMonthlyBurn = monthlyExpenses + debtPayments;
     const initialBuffer = savings + severance;
-    const benefitDuration = 6;
-    const totalBenefits = unemploymentBenefits * benefitDuration;
-
-    const totalFinancialRunway = initialBuffer + totalBenefits;
-    const survivalMonths = totalFinancialRunway / totalMonthlyBurn;
+    const benefitDuration = inputs.benefitDurationMonths ?? 6;
+    const burnDuringBenefits = totalMonthlyBurn - unemploymentBenefits;
+    // Future benefits cannot pay bills after cash has already run out.
+    const survivalMonths = totalMonthlyBurn <= 0 ? Infinity
+        : burnDuringBenefits > 0 && initialBuffer / burnDuringBenefits < benefitDuration
+            ? initialBuffer / burnDuringBenefits
+            : benefitDuration + (initialBuffer - burnDuringBenefits * benefitDuration) / totalMonthlyBurn;
 
     let riskLevel = "Low";
     if (survivalMonths < 3) riskLevel = "Critical";

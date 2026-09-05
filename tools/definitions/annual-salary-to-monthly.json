@@ -72,5 +72,11 @@
         "Budget monthly expenses",
         "Compare payroll structures",
         "Evaluate expected income"
+    ],
+    "relatedGuides": [
+        {
+            "href": "/guides/total-compensation-equation/",
+            "label": "Separate salary, benefits and paid time"
+        }
     ]
 }

@@ -20,17 +20,22 @@ import Layout from '../layouts/Layout.astro';
         the "Start over" button or by clearing browser data.
       </p>
       <p>
-        <strong>Optional cloud workspace:</strong> if you create an account and explicitly press Save, your email
-        address and the decision case you saved (titles, scenario numbers, and assumptions you entered) are stored so
-        you can continue on another device. Nothing is stored unless you press Save. Account data is hosted on
-        Supabase in the European Union (Stockholm region) and protected by per-user access rules. From your account
+        <strong>Optional cloud workspace:</strong> creating an account stores account information such as your email.
+        When you explicitly press Save, the decision case (titles, scenario numbers and assumptions) is also stored
+        so you can continue on another device. Account data is hosted on Supabase and protected by per-user access rules. From your account
         page you can export all stored data as JSON or permanently delete your account and all associated data at
         any time.
       </p>
 
+      <h2>Optional Sharing</h2>
+      <p>If you create a share link, a copy of the report is stored and can be read by anyone with that link. Review its contents before sharing. You can revoke a share link from the workspace.</p>
+
+      <h2>Currency Service</h2>
+      <p>The browser requests exchange rates from open.er-api.com. This request does not include your calculator inputs, but the service receives normal connection information such as your IP address. Currency preferences and cached rates are stored locally.</p>
+
       <h2>Information We Do Not Collect</h2>
       <p>
-        We do not collect financial data entered into calculators, and analytics events never include salaries,
+        Standalone calculator inputs are not saved to our servers. Decision cases you explicitly save to an account are stored as described above. Analytics events do not include salaries,
         amounts, employer names, or the contents of decision cases.
       </p>
 

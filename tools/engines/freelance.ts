@@ -16,7 +16,7 @@ export function calculateFreelanceRisk(inputs: Record<string, number>) {
     const monthlyBurn = inputs.monthlyBurnRate;
     const savings = inputs.savingsBuffer;
 
-    const runwayMonths = monthlyBurn > 0 ? savings / monthlyBurn : 99;
+    const runwayMonths = monthlyBurn > 0 ? savings / monthlyBurn : Infinity;
 
     // Risk score 0-10 based on runway and gap probability
     // 6 months runway is "safe" (score 3), < 3 months is "risky" (score 7+)
@@ -27,8 +27,8 @@ export function calculateFreelanceRisk(inputs: Record<string, number>) {
     const annualBurn = monthlyBurn * 12;
     const gapMultiplier = 1 + (inputs.gapProbability / 100);
     const minSafeAnnualRevenue = annualBurn * gapMultiplier;
-    const billableHours = 1000; // conservative baseline
-    const minimumSafeRate = minSafeAnnualRevenue / billableHours;
+    const billableHours = inputs.billableHoursPerYear ?? 1000;
+    const minimumSafeRate = billableHours > 0 ? minSafeAnnualRevenue / billableHours : Infinity;
 
     return {
         runwayMonths,

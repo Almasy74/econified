@@ -31,6 +31,8 @@ export default defineConfig({
     trailingSlash: 'always', // Strictly enforce trailing slash for canonical URLs
     integrations: [sitemap({
         filter: (page) => {
+            // Withdrawn international tools and redirects are not search landing pages.
+            if (['/global-salary/', '/salary-calculator/', '/remote-salary-calculator/'].some(p => page.endsWith(p))) return false;
             // Exclude private application routes (noindexed)
             if (page.includes('/account/')) return false;
             if (page.includes('/shared/')) return false;

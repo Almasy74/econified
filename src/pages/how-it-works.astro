@@ -1,82 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-
-<Layout title="How Econified Tools Work | Methodology & Transparency" description="Understand the logic behind Econified calculators, from local processing to adjustable assumptions." noAds={true}>
-  <main class="container">
-    <div class="glass-panel content-section">
-      <h1>How Econified Tools Work</h1>
-
-      <p>
-        Every Econified calculator is built to be transparent, adjustable, and private. This page explains the methodology behind the tools, where the data comes from, and how you can get the most accurate results for your situation.
-      </p>
-
-      <h2>Local Processing: Your Data Never Leaves Your Browser</h2>
-      <p>
-        All calculations run entirely in your web browser using JavaScript. When you enter a salary, adjust working hours, or compare two job offers, those numbers are processed on your device and never transmitted to any server. There are no accounts, no cookies tracking your inputs, and no database storing your financial information.
-      </p>
-      <p>
-        This architecture means your results are instant — there is no network delay — and your privacy is guaranteed by design, not by policy.
-      </p>
-
-      <h2>How Calculations Work: A Walkthrough</h2>
-      <p>
-        Consider a simple example: converting a $75,000 annual salary to an hourly rate. The basic formula is:
-      </p>
-      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.25rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 1.5rem; font-family: monospace;">
-        Hourly Rate = Annual Salary / (Hours per Week × Weeks per Year)
-      </div>
-      <p>
-        At the default 40 hours per week and 52 weeks per year, this gives $75,000 / 2,080 = <strong>$36.06/hour</strong>. But what if you only work 48 paid weeks because you have 4 weeks of unpaid leave? Now the calculation is $75,000 / 1,920 = <strong>$39.06/hour</strong> — an 8% difference from the same annual salary.
-      </p>
-      <p>
-        This is why Econified makes assumptions adjustable. The default values represent common standards (40 hours, 52 weeks), but you can change them to match your actual working pattern. The tool shows both the formula and the assumptions so you can verify the logic yourself.
-      </p>
-
-      <h2>Adjustable Assumptions</h2>
-      <p>
-        Career economics calculations depend on variables that differ by country, industry, and individual circumstance:
-      </p>
-      <ul>
-        <li><strong>Working hours per week:</strong> The standard is 40, but actual hours vary from 35 (common in France and Scandinavia) to 50+ (common in finance and consulting).</li>
-        <li><strong>Paid weeks per year:</strong> Ranges from 48 (4 weeks unpaid leave) to 52 (all weeks paid), depending on your contract and country.</li>
-        <li><strong>Billable utilization:</strong> Freelancers typically bill 60-80% of their working hours. The rest goes to admin, marketing, and business development.</li>
-        <li><strong>Tax and benefit rates:</strong> Self-employment tax, employer pension contributions, and health insurance costs vary significantly by jurisdiction.</li>
-      </ul>
-      <p>
-        Each tool documents which assumptions it uses and provides controls to adjust them. When in doubt, the tool pages include FAQ sections that explain why specific defaults were chosen.
-      </p>
-
-      <h2>Cost-of-Living Data</h2>
-      <p>
-        Tools that compare salaries across cities and countries use cost-of-living indices sourced from publicly available databases including Numbeo and government statistical agencies. These indices express the relative cost of goods, services, housing, and transportation in one location compared to a baseline.
-      </p>
-      <p>
-        Cost-of-living data is inherently approximate — it reflects averages across a population and may not match your personal spending pattern. The tools are designed to give you a reasonable estimate, not a precise prediction. For major relocation decisions, we recommend supplementing these calculations with local research on housing, taxes, and healthcare costs specific to your situation.
-      </p>
-
-      <h2>Currency Support</h2>
-      <p>
-        Econified supports multiple currencies through the currency selector in the navigation bar. When you switch currencies, all monetary inputs and outputs are displayed in your selected currency. The underlying calculations use the same formulas regardless of currency — the tools convert display values but do not apply exchange rates, since the goal is to model your local financial situation rather than convert between economies.
-      </p>
-
-      <h2>Intended Use and Limitations</h2>
-      <p>
-        Econified tools are designed for educational and informational exploration. They help you understand the mathematical relationships behind career decisions and model different scenarios. They are not a substitute for professional financial, tax, or legal advice.
-      </p>
-      <p>
-        All results are estimates based on the inputs and assumptions you provide. Real-world outcomes will depend on factors these tools cannot capture, including tax law changes, market conditions, and personal circumstances. For decisions with significant financial impact, consult a qualified professional.
-      </p>
-    </div>
-  </main>
-</Layout>
-
-<style>
-  .content-section ul {
-    margin-bottom: 2rem;
-    color: var(--text-secondary);
-  }
-  .content-section li {
-    margin-bottom: 0.5rem;
-  }
-</style>
+<Layout title="Econified Methodology & Corrections" description="Check formulas, example assumptions, currency handling and documented corrections to Econified tools." noAds={true}>
+<main class="container" style="max-width:780px;"><article class="glass-panel">
+<h1>Methodology and corrections</h1>
+<p>Econified calculates scenarios from inputs you supply. It does not predict job offers, establish tax liabilities or certify that a career decision is safe.</p>
+<h2>Reproduce the arithmetic</h2><p>For example, $75,000 divided by 40 hours × 52 weeks is $36.06 per hour. Holding annual pay fixed and reducing work to 48 weeks gives $39.06 per hour. This measures a different schedule; it does not imply that unpaid leave leaves annual earnings unchanged.</p>
+<h2>Read each result in its own units</h2><ul><li>Gross salary is before deductions.</li><li>Cash savings are avoided expenses; they are not gross wages.</li><li>Benefits can have value without being immediately spendable.</li><li>Time value reflects your preference, not cash income.</li><li>Cost-of-living ratios compare a specified basket. They are not local salary or exchange-rate estimates.</li></ul>
+<h2>Sources and examples</h2><p>Examples on this site use stated assumptions. Defaults are editable scenarios, not verified averages. Links to official sources support specific US tax and benefits explanations. Your employer documents and the applicable rules determine your situation.</p>
+<h2>Currency handling</h2><p>The currency service requests USD-based exchange rates from open.er-api.com and caches them for 24 hours. If the request fails, approximate fallback rates may be used. These are display conveniences, not transaction quotes or a tax conversion service. Guide examples remain in their stated currency. Keep all monetary inputs in a comparison in one currency.</p>
+<h2>Local calculation and optional saving</h2><p>Calculator arithmetic runs locally. Decision cases can be kept in browser storage, or explicitly saved to an optional account. See the <a href="/privacy/">privacy policy</a> before using cloud storage or sharing a case.</p>
+<h2>Corrections made September 5, 2026</h2><ul><li>Paid leave is included in salary and is no longer added to it as extra compensation.</li><li>Remote-work savings now scale with remote days. Cash and personal time value are separate.</li><li>Layoff runway now respects benefit duration and cash running out before future payments.</li><li>The meeting tool no longer labels an arbitrary percentage as cost per decision.</li><li>The freelance tool no longer presents an arbitrary risk score as a validated measure.</li><li>Country salary estimates were withdrawn pending traceable location data and a verified currency model.</li></ul>
+<p>Found a discrepancy? <a href="/contact/">Send an anonymized example</a> with the page and expected result.</p>
+</article></main></Layout>

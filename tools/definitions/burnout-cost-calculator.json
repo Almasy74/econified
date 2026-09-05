@@ -1,6 +1,6 @@
 {
-    "title": "Burnout Cost Calculator",
-    "description": "Quantify the financial cost of overworking and see your 'true' hourly rate when working beyond your optimal hours.",
+    "title": "Extra Work Hours & Effective Pay Calculator",
+    "description": "See how extra working hours change salary per hour. Compare actual hours with a reference schedule.",
     "inputs": [
         {
             "name": "salary",
@@ -25,57 +25,57 @@
     "outputs": [
         {
             "name": "unpaidLaborValue",
-            "unit": "currency",
-            "label": "Unpaid Labor Value/Year"
+            "label": "Extra Hours at Reference Pay Rate",
+            "unit": "currency"
         },
         {
             "name": "effectiveHourlyRate",
-            "unit": "currency",
-            "label": "Effective Hourly Rate"
+            "label": "Effective Hourly Pay",
+            "unit": "currency"
         },
         {
             "name": "hiddenUnpaidLabor",
-            "unit": "number",
-            "label": "Hidden Unpaid Hours/Year"
+            "label": "Annual Hours Above Reference",
+            "unit": "number"
         }
     ],
     "methodSummary": [
-        "Effective Hourly Rate = Salary / (Actual Hours × 52).",
-        "Unpaid Labor = (Actual Hours - Optimal Hours) × (Salary / Optimal Hours) × 52.",
-        "Hidden Hours = Extra hours worked per year that aren't reflected in the target hourly rate."
+        "Effective hourly rate = annual salary / (actual weekly hours × 52).",
+        "Extra hours = max(0, actual weekly hours − reference weekly hours) × 52.",
+        "Reference value of extra hours = extra hours × annual salary / (reference weekly hours × 52)."
     ],
     "assumptions": [
-        "Assumes your salary is negotiated based on the 'optimal' hours.",
-        "Does not account for health costs, though these are real 'hidden' costs of burnout."
+        "Salary stays fixed and the schedule repeats for 52 weeks.",
+        "No health, productivity or legal entitlement model is used."
     ],
     "insights": [
-        "Working 50 hours on a 40-hour contract effectively reduces your hourly pay by 20%.",
-        "The 'unpaid labor' value is the amount you are gifting your employer every year."
+        "At fixed pay, increasing from 40 to 50 hours reduces pay per hour by 20%.",
+        "The reference value of extra hours is an opportunity-cost illustration, not additional wages owed."
     ],
     "faqs": [
         {
-            "q": "What if I enjoy my work?",
-            "a": "Enjoyment doesn't change the math of your time's value. This tool helps you see the trade-off clearly."
+            "q": "Does this diagnose burnout?",
+            "a": "No. It measures hours and salary only."
         },
         {
-            "q": "How can I use this to negotiate?",
-            "a": "Show the 'Unpaid Labor Value' during performance reviews to justify a raise or a reduction in workload."
+            "q": "Is the extra-hours value unpaid wages?",
+            "a": "No. Overtime entitlement depends on the job and applicable rules."
         },
         {
-            "q": "What is a 'hidden unpaid hour'?",
-            "a": "It's an hour worked that you effectively aren't being paid for based on your contractual 'optimal' rate."
+            "q": "What is the reference schedule?",
+            "a": "The weekly hours you want to compare with actual hours."
         },
         {
-            "q": "Does this apply to freelancers?",
-            "a": "Yes. If you quote for 40 hours but work 60, your effective rate drops just like a salaried employee."
+            "q": "Are holidays included?",
+            "a": "The model uses 52 repeated weeks. Use a representative average for a yearly comparison."
         },
         {
-            "q": "Should I include commute time?",
-            "a": "We recommend using our separate Commute Cost Calculator for that, but you can add commute hours here for a total 'life cost' analysis."
+            "q": "Can I include commuting?",
+            "a": "Use the commute calculator to keep travel time separate from working hours."
         },
         {
-            "q": "Is 'Burnout' always about hours?",
-            "a": "No, but hours are the most measurable factor. Stress and lack of autonomy also contribute heavily to burnout."
+            "q": "Can freelancers use it?",
+            "a": "Use annual income and all hours worked for an effective-rate comparison; track business expenses separately."
         }
     ],
     "clusters": [
@@ -87,5 +87,12 @@
         "Calculate true hourly value",
         "Decision support for scaling back"
     ],
-    "richContent": "<h3>The Financial Reality of Working More Than You Are Paid For</h3>\n<p style=\"line-height: 1.7; margin-bottom: 1rem;\">Working extra hours feels productive, but it carries a measurable financial cost. If you earn $90,000 on a 40-hour contract and consistently work 50-hour weeks, your effective hourly rate drops from $43.27 to $34.62 — a 20% pay cut you gave yourself. Over a year, those 10 extra weekly hours represent $17,308 in unpaid labor at your contracted rate.</p>\n<p style=\"line-height: 1.7; margin-bottom: 1.5rem;\">This is not just an abstract number. It is the dollar value of time you could spend on a side project, skill development, rest, or family. The burnout cost calculator quantifies this trade-off so you can make an informed decision about how you spend your working hours.</p>\n\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">The Overtime Discount Effect</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Every hour beyond your contracted week dilutes your effective pay. At 45 hours on a 40-hour contract, you lose 11%. At 55 hours, you lose 27%. The relationship is not linear — each additional hour costs you more than the last because the denominator keeps growing.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Hidden Health and Productivity Costs</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Research consistently shows that productivity per hour declines sharply after 50 hours per week. Beyond 55 hours, total output often decreases compared to a 40-hour week. The hours you log beyond the threshold may actually produce negative value when errors and rework are factored in.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Using the Numbers in a Review</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">The unpaid labor value from this calculator is a concrete number you can bring to a performance review. Framing overtime as a dollar amount — not just hours — shifts the conversation from \"working hard\" to \"uncompensated contribution\" and strengthens a case for a raise or workload reduction.</p>\n  </div>\n</div>"
+    "richContent": "<h3>Worked example: fixed salary, longer weeks</h3><p>A $90,000 salary over 40 hours × 52 weeks is $43.27/hour. Over 50 hours × 52 weeks it is $34.62/hour. The extra 520 hours have a reference value of $22,500 at the original hourly rate. Your annual salary remains $90,000.</p><p>Use these figures to discuss workload and priorities. They do not quantify health effects, establish an overtime claim or imply that every extra hour could be sold at the reference rate.</p>",
+    "resultNote": "This is time-and-pay arithmetic, not a burnout assessment or a calculation of legally owed overtime.",
+    "relatedGuides": [
+        {
+            "href": "/guides/total-compensation-equation/",
+            "label": "Separate salary, benefits and paid time"
+        }
+    ]
 }

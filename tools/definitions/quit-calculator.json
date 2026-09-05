@@ -1,6 +1,6 @@
 {
     "title": "When Can I Quit? Calculator",
-    "description": "Calculate when you can realistically quit your job based on savings, expenses, and investment returns.",
+    "description": "Explore the time to a savings target using an adjustable savings rate and return assumption. A planning scenario, not a safe-to-quit date.",
     "inputs": [
         {
             "name": "currentSavings",
@@ -49,6 +49,14 @@
             "label": "Monthly Side Income",
             "min": 0,
             "step": 10
+        },
+        {
+            "name": "effectiveTaxPercent",
+            "type": "number",
+            "label": "Estimated Effective Tax and Deduction Rate (%)",
+            "default": 25,
+            "min": 0,
+            "max": 100
         }
     ],
     "outputs": [
@@ -77,43 +85,43 @@
         }
     ],
     "methodSummary": [
-        "Safety Fund = Monthly Expenses × 6.",
-        "Independence Target = Monthly Expenses × 12 × 25 (The 4% Rule).",
-        "Time calculation uses compound interest formula solving for months at the given expected return."
+        "Monthly contribution = annual salary / 12 × (1 − effective deduction rate / 100) × savings rate / 100 + monthly side income saved.",
+        "Targets = monthly expenses × 6 and monthly expenses × 12 × 25.",
+        "Savings compound monthly at entered annual return / 12, with contributions at month end."
     ],
     "assumptions": [
-        "Assumes your expenses remain constant over time.",
-        "Expected return is compounded monthly.",
-        "Net salary is estimated at 75% of gross for savings calculations."
+        "The deduction percentage is your estimate, not a tax calculation.",
+        "All entered side income is saved after expenses and taxes.",
+        "Return and spending stay constant. Use zero return to inspect a cash-only scenario."
     ],
     "insights": [
-        "Every $100 you cut from your monthly expenses reduces your required 'Financial Independence' target by $30,000.",
-        "A 6-month buffer is often the 'minimum viable' runway to test a new career path or business idea."
+        "At zero return, $10,000 savings and $1,000 monthly contributions reach an $18,000 target in eight months.",
+        "Lower spending reduces the target, but this calculator only changes contributions when you change the savings inputs."
     ],
     "faqs": [
         {
-            "q": "What is the 25x rule?",
-            "a": "It suggests that once you have 25 times your annual expenses saved, you can potentially live off the returns indefinitely (The 4% Rule)."
+            "q": "Is this a safe-to-quit date?",
+            "a": "No. It projects an arithmetic milestone, not employment prospects or personal safety."
         },
         {
-            "q": "Why a 6-month safety buffer?",
-            "a": "6 months provides most professionals enough time to find a comparable job if a new venture fails, reducing the risk of 'quitting'."
+            "q": "Is return guaranteed?",
+            "a": "No. Use zero and alternative assumptions to see sensitivity."
         },
         {
-            "q": "Should I include side income?",
-            "a": "Yes, recurring side income directly reduces the amount you need to save from your main salary to reach your goal."
+            "q": "Why 25 times annual spending?",
+            "a": "It is an illustrative long-term target, not a promise of sustainable withdrawals."
         },
         {
-            "q": "How accurate is the timeline?",
-            "a": "It is a mathematical projection. Real-world inflation and market volatility will impact the actual date."
+            "q": "How is tax handled?",
+            "a": "Your entered deduction percentage reduces gross salary before applying the savings rate."
         },
         {
-            "q": "What if my expenses change after I quit?",
-            "a": "Enter the amount you expect to spend *after* quitting to get a more accurate 'Safe Quit' target."
+            "q": "Does side income continue after quitting?",
+            "a": "This model uses it while accumulating savings. Current runway assumes no ongoing income."
         },
         {
-            "q": "Is investment return guaranteed?",
-            "a": "No, returns fluctuate. Use a conservative number (like 4-5%) for more realistic long-term planning."
+            "q": "What if my budget changes?",
+            "a": "Use expected expenses and update contribution assumptions separately."
         }
     ],
     "clusters": [
@@ -125,5 +133,19 @@
         "FIRE journey tracking",
         "Assessing monthly savings impact"
     ],
-    "richContent": "<h3>The Math Behind Quitting: When Is It Financially Safe to Leave?</h3>\n<p style=\"line-height: 1.7; margin-bottom: 1rem;\">Quitting a job is one of the highest-stakes financial decisions most people make, yet most do it based on emotion rather than math. The quit calculator answers a simple question: given your current savings rate, expenses, and investment returns, how many months until you have enough financial cushion to leave safely?</p>\n<p style=\"line-height: 1.7; margin-bottom: 1.5rem;\">The tool calculates two milestones. The first is your <strong>safety buffer</strong> — six months of expenses, enough to job-search without panic. The second is your <strong>financial independence number</strong> — 25 times your annual expenses, the point at which investment returns can theoretically cover your costs indefinitely (the 4% rule).</p>\n\n<h3>Why Expenses Matter More Than Income</h3>\n<p style=\"line-height: 1.7; margin-bottom: 1rem;\">The most powerful lever in this calculation is not your salary — it is your spending. Every $100 you cut from monthly expenses does three things simultaneously: it increases your monthly savings rate, it reduces the size of your required safety buffer, and it lowers your financial independence target by $30,000. A person earning $80,000 who spends $3,000 per month reaches financial safety far faster than someone earning $150,000 who spends $8,000 per month.</p>\n\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">The 6-Month Safety Buffer</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Six months of expenses is the minimum viable runway for most career transitions. It gives you time to job-search without accepting the first offer out of desperation, test a business idea, or retrain for a new field. Below this threshold, quitting is a gamble rather than a calculated risk.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Side Income as an Accelerator</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Even modest side income dramatically accelerates your timeline. $500 per month in freelance or project work effectively increases your savings rate and provides proof of concept for an independent career. Enter it in the calculator to see how it shifts your safety milestone forward.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">The Opportunity Cost of Staying</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">This calculator shows when you <em>can</em> quit, but the decision also involves the cost of staying. If your current role is limiting career growth, causing burnout, or below market rate, every month you delay the switch has its own price. Use the <a href=\"/burnout-cost-calculator/\">Burnout Cost Calculator</a> to quantify that side of the equation.</p>\n  </div>\n</div>"
+    "richContent": "<h3>A cash-only example</h3><p>With $10,000 already saved and monthly expenses of $3,000, the six-month reserve is $18,000. Saving $1,000 each month at zero return takes eight months to close the $8,000 gap. A $500 unexpected bill increases that gap; a delayed paycheck can change the timing.</p><h3>Keep the two targets separate</h3><p>A short career break and long-term retirement have different requirements. The 25× spending output is a scenario for accumulation, not a withdrawal simulation. It does not model investment losses, sequence of returns, future taxes or changing family costs.</p><p>Use the <a href=\"/guides/should-you-quit-financial-checklist/\">transition checklist</a> to check insurance and one-time expenses. If a job loss has already happened, the <a href=\"/layoff-survival-calculator/\">layoff calculator</a> separates benefit timing from available savings.</p>",
+    "quickAnswer": "A savings milestone is not permission to quit. Model an expense reserve, then test lower returns, higher expenses and delayed income.",
+    "resultNote": "The six-month and 25× targets are illustrative. Constant returns omit volatility, fees, inflation and withdrawal risk; reaching 25× spending does not guarantee lifelong income.",
+    "sources": [
+        {
+            "href": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+            "label": "CFPB: emergency funds depend on your circumstances"
+        }
+    ],
+    "relatedGuides": [
+        {
+            "href": "/guides/should-you-quit-financial-checklist/",
+            "label": "Check expenses before a career break"
+        }
+    ]
 }

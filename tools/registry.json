@@ -70,7 +70,7 @@
       "weeksPerYear": 46
     },
     "status": "active",
-    "updatedAt": "2026-02-24"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "annual-salary-to-monthly",
@@ -130,7 +130,7 @@
       "homeIndex": 125
     },
     "status": "active",
-    "updatedAt": "2026-02-24"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "biweekly-to-annual-pay",
@@ -231,7 +231,7 @@
       "optimalHours": 40
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "promotion-value-calculator",
@@ -248,7 +248,7 @@
       "commuteIncrease": 500
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "remote-vs-office-calculator",
@@ -266,7 +266,7 @@
       "timeSavedHours": 1.5
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "freelance-risk-calculator",
@@ -281,7 +281,7 @@
       "gapProbability": 20
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "quit-calculator",
@@ -299,7 +299,7 @@
       "sideIncome": 0
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "layoff-survival-calculator",
@@ -316,7 +316,7 @@
       "debtPayments": 500
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "meeting-cost-calculator",
@@ -332,7 +332,7 @@
       "frequencyPerWeek": 1
     },
     "status": "active",
-    "updatedAt": "2026-02-26"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "salary-raise-vs-inflation",
@@ -366,7 +366,7 @@
       "relocationCost": 8000
     },
     "status": "active",
-    "updatedAt": "2026-06-30"
+    "updatedAt": "2026-09-05"
   },
   {
     "slug": "commute-vs-hybrid-vs-remote",

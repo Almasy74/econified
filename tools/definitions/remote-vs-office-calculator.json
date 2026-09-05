@@ -20,7 +20,7 @@
             "name": "commuteCost",
             "type": "number",
             "unit": "currency",
-            "label": "Total Annual Commute Cost (if in office)",
+            "label": "Annual Avoidable Commute Cash Cost (5 office days/week)",
             "min": 0
         },
         {
@@ -34,7 +34,7 @@
             "name": "foodCoffeeCost",
             "type": "number",
             "unit": "currency",
-            "label": "Daily Office Food/Coffee Cost",
+            "label": "Extra Food/Coffee Spending per Office Day",
             "min": 0
         },
         {
@@ -42,57 +42,85 @@
             "type": "number",
             "label": "Daily Commute Time (Hours)",
             "min": 0
+        },
+        {
+            "name": "hourlyValue",
+            "type": "number",
+            "label": "Personal Value per Saved Hour",
+            "default": 25,
+            "min": 0,
+            "unit": "currency"
+        },
+        {
+            "name": "homeOfficeAnnualCost",
+            "type": "number",
+            "label": "Additional Annual Home Office Costs",
+            "default": 0,
+            "min": 0,
+            "unit": "currency"
         }
     ],
     "outputs": [
         {
+            "name": "annualCashSavings",
+            "label": "Annual Cash Savings",
+            "unit": "currency"
+        },
+        {
+            "name": "timeValue",
+            "label": "Personal Value of Saved Time",
+            "unit": "currency"
+        },
+        {
             "name": "realSalaryAdjustment",
-            "unit": "currency",
-            "label": "Total Annual Value Gain"
+            "label": "Cash Savings + Personal Time Value",
+            "unit": "currency"
         },
         {
             "name": "remoteEquivalentRaise",
-            "unit": "percent",
-            "label": "Remote Equivalent Raise %"
+            "label": "Combined Value / Gross Salary",
+            "unit": "percent"
         }
     ],
     "methodSummary": [
-        "Calculates savings on commute, food, and rent when working remotely.",
-        "Valuates saved commute time at a baseline rate to show 'lifestyle' value.",
-        "Remote Equivalent Raise = Total Annual Gain / Base Salary."
+        "Avoided commuting = five-day annual commute cash cost × remote days / 5.",
+        "Food savings = extra office food spending × remote days × 48 weeks.",
+        "Cash savings = avoided commuting + food savings + annual rent savings − additional home office costs.",
+        "Time value = daily round-trip hours × remote days × 48 × your hourly value."
     ],
     "assumptions": [
-        "Calculates value based on 48 work weeks per year.",
-        "Time saved is valued at a conservative baseline rate of $25/hr."
+        "A five-day work week and 48 commuting weeks per year.",
+        "Include only vehicle costs you can actually avoid. A car payment may continue even on remote days.",
+        "Rent savings and home office costs are full scenario amounts, applied when remote days exceed zero. Enter zero rent savings unless you actually move."
     ],
     "insights": [
-        "A fully remote role can be equivalent to a 15-20% raise when commute and food costs are high.",
-        "The time saved from a 1-hour round-trip commute equals roughly 240 hours per year—equivalent to 6 extra weeks of life."
+        "With three remote days, 60% of the five-day commuting cash cost is avoided.",
+        "A lower gross salary needs an after-tax comparison; do not equate personal time value with spendable income."
     ],
     "faqs": [
         {
-            "q": "Why is time valued at $25?",
-            "a": "It's a conservative baseline to represent that your time has value. You can mentally adjust if your personal time-value is higher."
+            "q": "Does this support hybrid work?",
+            "a": "Yes. Remote days scale commuting, food savings and saved time."
         },
         {
-            "q": "How to calculate food savings?",
-            "a": "Estimate what you spend on lunches and coffee at the office vs. eating at home. Often this is $10-$20 per day."
+            "q": "What food amount should I enter?",
+            "a": "Enter office spending minus what the same food would cost at home."
         },
         {
-            "q": "What about home office expenses?",
-            "a": "Increased electricity or heating costs are usually minimal compared to commute savings, but you can subtract them from 'Total Savings' mentally."
+            "q": "Are fixed car costs saved?",
+            "a": "Only include them if the change actually eliminates the expense."
         },
         {
-            "q": "Does this tool work for hybrid roles?",
-            "a": "Yes. Simply adjust the 'Remote Days per Week' to match your schedule (e.g., 3 remote, 2 office)."
+            "q": "How is rent treated?",
+            "a": "Enter the monthly saving for your actual planned home. It is not scaled by remote days."
         },
         {
-            "q": "How does rent factor in?",
-            "a": "If being remote allows you to move to a lower cost-of-living area, enter your monthly rent saving to see its massive impact."
+            "q": "Is saved time income?",
+            "a": "No. It is a personal valuation shown separately from cash."
         },
         {
-            "q": "Is 'time saved' really worth money?",
-            "a": "Technically no, unless you use it for side-work, but 'lifestyle value' is a critical metric for long-term career happiness."
+            "q": "What about home office equipment?",
+            "a": "Include the annual amount you expect to spend, plus additional utilities, less reimbursements."
         }
     ],
     "clusters": [
@@ -104,5 +132,13 @@
         "Calculate relocation benefits",
         "Negotiate remote work terms"
     ],
-    "richContent": "<h3>Short Answer: Is remote work worth a pay cut?</h3>\n<p style=\"margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6;\"><strong>Usually, yes.</strong> A fully remote role is often equivalent to a 10-20% raise when you factor in commute costs, food, clothing, and the monetary value of your reclaimed time. Use this calculator to see the exact number for your situation.</p>\n\n<h3>Remote vs Office: Key Differences</h3>\n<table class=\"base-table\" style=\"width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;\">\n  <thead>\n    <tr style=\"border-bottom: 2px solid var(--surface-border);\">\n      <th style=\"padding: 0.75rem 0.5rem;\">Factor</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Office (5 days)</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Fully Remote</th>\n    </tr>\n  </thead>\n  <tbody style=\"font-size: 0.95rem; color: var(--text-secondary);\">\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Commute</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">$3,000-$8,000/year + 240 hours lost</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">$0</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Food & Coffee</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">$2,000-$4,000/year</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Minimal (home cooking)</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Location flexibility</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Must live near office</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Can relocate to cheaper area</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>Common Mistakes</h3>\n<ol style=\"margin-left: 1.5rem; margin-bottom: 2rem; line-height: 1.7;\">\n  <li style=\"margin-bottom: 0.75rem;\"><strong>Ignoring time value:</strong> A 1-hour daily commute costs you 240 hours per year. That is 6 full work weeks. Even at a conservative $25/hour, that is $6,000 of uncompensated labor.</li>\n  <li style=\"margin-bottom: 0.75rem;\"><strong>Forgetting wardrobe and dry cleaning:</strong> Office attire, shoes, and maintenance easily add $1,000-$2,000 annually.</li>\n  <li><strong>Not factoring rent arbitrage:</strong> Moving from a city center to a suburb or smaller town while keeping a remote salary can save $500-$1,500/month in rent alone.</li>\n</ol>\n\n<div class=\"glass-panel\" style=\"margin-top: 2rem;\">\n  <h3 style=\"margin-top: 0; margin-bottom: 1rem;\">Related Tools & Guides</h3>\n  <ul style=\"list-style-type: none; margin: 0; padding: 0;\">\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/commute-cost-calculator/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Commute Cost Calculator</a>: Calculate your exact annual commute impact.</li>\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/job-offer-comparison/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Job Offer Comparison</a>: Compare a remote offer against an office offer.</li>\n    <li style=\"margin-bottom: 0; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/guides/commute-true-cost/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Guide: How much is your commute really costing you?</a></li>\n  </ul>\n</div>"
+    "richContent": "<h3>Worked example: three remote days</h3><p>Suppose five office days cost $3,000 a year in avoidable travel, office meals cost $15 more per day, and there are 48 work weeks. Three remote days save $1,800 in travel and $2,160 in meals. With no rent change and $600 of added home costs, cash savings are $3,360. Saving 1.5 hours on each remote day recovers 216 hours; at a personal $25/hour, that adds $5,400 of time value. The combined $8,760 is not an $8,760 increase in take-home pay.</p><p>Run the example again with zero time value before considering a pay cut. Then compare actual benefits and estimated after-tax salaries using your offer documents.</p>",
+    "quickAnswer": "Remote work saves money only when avoided costs exceed added costs. Compare cash savings separately from the personal value of your saved commute time.",
+    "resultNote": "Cash savings are spending reductions, not a gross salary raise. Time value is subjective and cannot pay bills. Taxes, benefit differences and moving costs are excluded.",
+    "relatedGuides": [
+        {
+            "href": "/guides/remote-work-economics-breakdown/",
+            "label": "Remote work: a cash and time comparison"
+        }
+    ]
 }

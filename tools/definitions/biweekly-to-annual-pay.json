@@ -36,7 +36,7 @@
     "faqs": [
         {
             "q": "How many biweekly pay periods are in a year?",
-            "a": "There are exactly 26 biweekly pay periods in a standard calendar year."
+            "a": "The calculator assumes 26 payments. Some payroll calendars have 27 pay dates; check your employer calendar."
         },
         {
             "q": "Is biweekly the same as twice a month?",
@@ -67,5 +67,11 @@
     "clusters": [
         "compensation-conversion"
     ],
-    "noindex": true
+    "noindex": true,
+    "relatedGuides": [
+        {
+            "href": "/guides/total-compensation-equation/",
+            "label": "Separate salary, benefits and paid time"
+        }
+    ]
 }

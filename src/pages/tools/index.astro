@@ -24,13 +24,13 @@ allTools.sort((a: any, b: any) => a.title.localeCompare(b.title));
     </nav>
     <div style="text-align: left; margin-bottom: 2rem;">
       <h1>Career Decision Tools</h1>
-      <p class="lead">Select a category below to explore our interactive calculators and comparison engines. Every tool runs locally in your browser to guarantee your privacy.</p>
+      <p class="lead">Select a category below to explore our interactive calculators and comparison engines. Calculations run locally; optional cloud storage is explained in the privacy policy.</p>
     </div>
 
     <div class="glass-panel" style="margin-bottom: 3rem; line-height: 1.7;">
       <h2 style="margin-top: 0;">Making Career Decisions With Numbers, Not Gut Feelings</h2>
       <p>Most career decisions come down to money, but the math is rarely straightforward. A job offer with a higher base salary can be worth less than one with better benefits. A freelance rate that looks generous can leave you worse off than employment after taxes and downtime. A shorter commute can be worth more than a raise.</p>
-      <p>Econified's tools are designed to reveal these hidden trade-offs. Each calculator isolates one piece of the career economics puzzle and lets you adjust assumptions to match your real situation. No accounts, no data collection — every calculation runs entirely in your browser.</p>
+      <p>Econified's tools are designed to reveal these hidden trade-offs. Each calculator isolates one piece of the career economics puzzle and lets you adjust assumptions to match your real situation. Calculations run in your browser without an account. Optional accounts can store decision cases you explicitly save; see our privacy policy.</p>
 
       <h3>Which Category Should You Start With?</h3>
       <p>Your starting point depends on the decision you are facing right now:</p>
@@ -47,7 +47,7 @@ allTools.sort((a: any, b: any) => a.title.localeCompare(b.title));
     </div>
 
     <h2 style="margin-bottom: 1.5rem;">Explore by Category</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr)); gap: 1.5rem;">
       
       <!-- Salary Conversion -->
       <a href="/tools/salary-conversion/" class="glass-panel" style="display: block; text-decoration: none;">
@@ -77,7 +77,7 @@ allTools.sort((a: any, b: any) => a.title.localeCompare(b.title));
 
     <h2 style="margin-top: 3.5rem; margin-bottom: 0.5rem;">All Calculators (A–Z)</h2>
     <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Every Econified calculator in one place. {allTools.length} free tools, all running locally in your browser.</p>
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0.75rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 0.75rem;">
       {allTools.map((tool: any) => (
         <a href={`/${tool.slug}/`} class="glass-panel" style="display: block; text-decoration: none; padding: 1rem 1.25rem;">
           <strong style="color: var(--accent-light); display: block; margin-bottom: 0.2rem;">{tool.title}</strong>

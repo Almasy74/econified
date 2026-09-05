@@ -84,5 +84,11 @@
         "Calculate hourly worth",
         "Compare contractor rates",
         "Evaluate overtime value"
+    ],
+    "relatedGuides": [
+        {
+            "href": "/guides/total-compensation-equation/",
+            "label": "Separate salary, benefits and paid time"
+        }
     ]
 }

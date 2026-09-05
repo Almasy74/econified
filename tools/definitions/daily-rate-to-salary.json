@@ -55,7 +55,7 @@
         },
         {
             "q": "Should I charge a higher daily rate than my current salary division?",
-            "a": "Yes. Daily rate contractors should typically charge a 30-50% premium over their salaried daily equivalent to absorb the risk of downtime and lack of benefits."
+            "a": "A contractor rate must support actual expenses and unpaid time. Estimate billable days and replacement benefits rather than applying a universal premium."
         },
         {
             "q": "How do I account for public holidays?",
@@ -86,5 +86,11 @@
         "Compare short-term contracts",
         "Calculate annual equivalents"
     ],
-    "noindex": true
+    "noindex": true,
+    "relatedGuides": [
+        {
+            "href": "/guides/total-compensation-equation/",
+            "label": "Separate salary, benefits and paid time"
+        }
+    ]
 }

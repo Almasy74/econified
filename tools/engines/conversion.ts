@@ -75,7 +75,6 @@ export function calculateMeetingCost(inputs: Record<string, number>) {
 
   return {
     costPerMeeting: Math.round(costPerMeeting * 100) / 100,
-    annualMeetingCost: Math.round(annualCost * 100) / 100,
-    costPerDecision: Math.round((costPerMeeting * 1.2) * 100) / 100
+    annualMeetingCost: Math.round(annualCost * 100) / 100
   };
 }

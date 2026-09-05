@@ -14,7 +14,7 @@
             "name": "monthlyExpenses",
             "type": "number",
             "unit": "currency",
-            "label": "Basic Monthly Expenses",
+            "label": "Monthly Expenses Excluding Debt Payments",
             "min": 0,
             "step": 10
         },
@@ -41,70 +41,71 @@
             "label": "Monthly Debt/Loans",
             "min": 0,
             "step": 10
+        },
+        {
+            "name": "benefitDurationMonths",
+            "type": "number",
+            "label": "Confirmed Benefit Duration (Months)",
+            "default": 6,
+            "min": 0,
+            "max": 60
         }
     ],
     "outputs": [
         {
             "name": "survivalMonths",
-            "type": "number",
-            "unit": "number",
-            "label": "Survival Runway (Months)"
-        },
-        {
-            "name": "riskLevel",
-            "type": "text",
-            "unit": "text",
-            "label": "Current Risk Level"
+            "label": "Estimated Cash Runway (Months)",
+            "unit": "number"
         },
         {
             "name": "monthlyBurn",
-            "unit": "currency",
-            "label": "Total Monthly Burn"
+            "label": "Total Monthly Spending",
+            "unit": "currency"
         },
         {
             "name": "recommendedEmergencyFund",
-            "unit": "currency",
-            "label": "Recommended 6-Mo Fund"
+            "label": "Illustrative Six-Month Reserve",
+            "unit": "currency"
         }
     ],
     "methodSummary": [
-        "Total Monthly Burn = Basic Expenses + Debt Payments.",
-        "Total Buffer = Savings + Severance + (Unemployment × 6).",
-        "Runway = Total Buffer / Monthly Burn."
+        "Monthly spending = expenses + debt payments, counted once.",
+        "During benefit payments, savings fall by spending minus monthly benefits.",
+        "If savings run out before benefits end, runway stops there. Otherwise, remaining cash funds spending after benefits end."
     ],
     "assumptions": [
-        "Unemployment benefits are assumed to last for 6 months.",
-        "Assumes no further reductions in expenses during the layoff period.",
-        "Assumes immediate availability of liquid savings."
+        "Savings and net severance are available now.",
+        "Benefits begin immediately and last for the entered duration; use zero if uncertain.",
+        "Spending is constant. The model is a monthly approximation, not a daily payment schedule."
     ],
     "insights": [
-        "High-interest debt is the biggest threat to your survival runway during a layoff.",
-        "The first 30 days are critical for 'trimming the fat' from your monthly expenses to extend your buffer."
+        "Future benefit payments cannot cover a cash shortfall today.",
+        "Try a no-benefits scenario and include new insurance costs in spending."
     ],
     "faqs": [
         {
-            "q": "What is a safe risk level?",
-            "a": "A 'Low' risk level corresponds to having 12+ months of runway. 'Critical' is anything under 3 months."
+            "q": "What amount belongs in savings?",
+            "a": "Cash available for bills after setting aside taxes and committed payments."
         },
         {
-            "q": "Should I use severance net or gross?",
-            "a": "Always use net (after-tax) severance, as that is the actual cash available to pay your bills."
+            "q": "Should severance be net?",
+            "a": "Yes. Use the amount available after withholding and any restrictions."
         },
         {
-            "q": "How do debt payments affect runway?",
-            "a": "Debts are fixed costs. Unlike food or subscriptions, they are harder to reduce, making them high-impact on your survival."
+            "q": "Are benefits guaranteed?",
+            "a": "No. Check eligibility, amounts and dates with the responsible agency."
         },
         {
-            "q": "Why assume 6 months of benefits?",
-            "a": "6 months is the standard duration in many jurisdictions. If yours differs, adjust the monthly amount to match your total expected benefit."
+            "q": "Why show six months?",
+            "a": "It is a comparison scenario. The appropriate reserve depends on your obligations and uncertainty."
         },
         {
-            "q": "Should I pay off debt during a layoff threat?",
-            "a": "Liquid cash is usually more valuable than debt reduction during a layoff, as it provides flexibility for essential survival costs."
+            "q": "What if payments are delayed?",
+            "a": "This calculator does not model a waiting period. Check the first months separately and run a zero-benefits case."
         },
         {
-            "q": "What if I find a job sooner?",
-            "a": "The calculator represents your 'worst-case' runway. Finding a job sooner shifts your status back to 'Career Choice' vs 'Survival'."
+            "q": "Where do debt payments go?",
+            "a": "Enter them in the debt field and exclude them from basic expenses to avoid counting twice."
         }
     ],
     "clusters": [
@@ -116,5 +117,19 @@
         "Layoff preparation",
         "Emergency fund goal setting"
     ],
-    "richContent": "<h3>How to Calculate Your Financial Runway Before a Layoff Hits</h3>\n<p style=\"line-height: 1.7; margin-bottom: 1rem;\">The difference between a stressful layoff and a manageable career transition is almost always the size of your financial buffer. Knowing your exact runway — in months, not feelings — transforms an emotional crisis into a math problem with a deadline and a plan.</p>\n<p style=\"line-height: 1.7; margin-bottom: 1.5rem;\">The layoff survival calculator combines your liquid savings, expected severance, unemployment benefits, and monthly burn rate into a single number: how many months you can cover your essential expenses without any income. This is your planning horizon for job searching, retraining, or launching something new.</p>\n\n<h3>Runway Benchmarks by Risk Level</h3>\n<table class=\"base-table\" style=\"width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;\">\n  <thead>\n    <tr style=\"border-bottom: 2px solid var(--surface-border);\">\n      <th style=\"padding: 0.75rem 0.5rem;\">Runway</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">Risk Level</th>\n      <th style=\"padding: 0.75rem 0.5rem;\">What It Means</th>\n    </tr>\n  </thead>\n  <tbody style=\"font-size: 0.95rem; color: var(--text-secondary);\">\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>12+ months</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Low</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">You can be selective about your next role. Time to explore career pivots or entrepreneurship.</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>6–12 months</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Moderate</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Comfortable for a focused job search. Most professionals find new roles within this window.</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>3–6 months</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">High</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Manageable but tight. Start cutting non-essential expenses immediately and prioritize quick job applications.</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid var(--surface-border);\">\n      <td style=\"padding: 0.75rem 0.5rem; color: var(--text-primary);\"><strong>Under 3 months</strong></td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Critical</td>\n      <td style=\"padding: 0.75rem 0.5rem;\">Accept the first reasonable offer. Negotiate severance aggressively if you have not been laid off yet.</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>The First 30 Days Matter Most</h3>\n<p style=\"line-height: 1.7; margin-bottom: 1rem;\">Your burn rate is not fixed. In the first month after a layoff, most people can reduce monthly expenses by 15-25% by pausing subscriptions, switching to cheaper insurance, reducing dining out, and deferring non-essential purchases. Every $500 you cut from your monthly burn extends your runway by roughly one additional month on a typical emergency fund.</p>\n<p style=\"line-height: 1.7; margin-bottom: 0;\">Run this calculator twice: once with your current expenses, and once with a trimmed budget. The difference between those two runway numbers is your \"effort bonus\" — the extra months you buy yourself through disciplined spending.</p>"
+    "richContent": "<h3>Why payment timing changes runway</h3><p>With $1,000 in savings, $3,000 monthly spending and $1,000 monthly benefits, cash falls by $2,000 a month. It runs out after about half a month even if benefits were approved for six months. Adding all six future payments to savings would incorrectly report 2.3 months.</p><p>With $12,000 in savings and the same spending and benefits, the savings cover the $2,000 monthly shortfall for six months. Compare both examples with your own payment calendar. A monthly average can miss a rent bill due before a benefit payment.</p><h3>Build the spending estimate</h3><p>Include housing, food, utilities, insurance, transport and required debt payments. Keep tax reserves and one-time bills separate. The <a href=\"/guides/should-you-quit-financial-checklist/\">career transition checklist</a> explains how to stress-test the budget.</p>",
+    "quickAnswer": "Runway depends on when benefits arrive as well as their total amount. Enter available cash, monthly spending, and the duration of confirmed benefits.",
+    "resultNote": "Assumes benefits start immediately and arrive evenly. Payment delays, unexpected bills and benefit eligibility are not modeled. Six months is an example reserve, not a guarantee of safety.",
+    "sources": [
+        {
+            "href": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+            "label": "CFPB: emergency funds depend on your circumstances"
+        }
+    ],
+    "relatedGuides": [
+        {
+            "href": "/guides/should-you-quit-financial-checklist/",
+            "label": "Build a career transition budget"
+        }
+    ]
 }

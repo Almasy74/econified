@@ -42,17 +42,12 @@
             "name": "annualMeetingCost",
             "unit": "currency",
             "label": "Total Annual Cost"
-        },
-        {
-            "name": "costPerDecision",
-            "unit": "currency",
-            "label": "Cost per Decision"
         }
     ],
     "methodSummary": [
-        "Hourly Rate = Annual Salary / 2080 standard work hours.",
-        "Meeting Cost = Participants × Hourly Rate × Duration.",
-        "Cost per Decision adds a 20% overhead for context-switching and preparation time."
+        "Hourly salary allocation = average annual salary / 2,080.",
+        "Cost per meeting = participants × hourly allocation × duration in minutes / 60.",
+        "Annual allocation = cost per meeting × weekly frequency × 52."
     ],
     "assumptions": [
         "Based on 2080 working hours per year (40 hours/week).",
@@ -60,33 +55,33 @@
         "Average salary is used for anonymity and speed."
     ],
     "insights": [
-        "A 60-minute meeting with 10 senior managers can easily cost the company over $1,500 in direct payroll.",
-        "Reducing participant count by just 2 people can save thousands of dollars annually on recurring meetings."
+        "Eight participants at $90,000 for one hour each week allocate $18,000 of salary over 52 weeks.",
+        "Reducing that example to 30 minutes halves the allocation to $9,000; it does not automatically reduce payroll."
     ],
     "faqs": [
         {
-            "q": "What is 'Cost per Decision'?",
-            "a": "It accounts for the 'context switching' cost—the time employees spend preparing for and refocusing after a meeting."
+            "q": "Why divide by 2,080?",
+            "a": "The model uses 40 paid hours × 52 weeks. It is a simple salary allocation assumption."
         },
         {
-            "q": "Do remote meetings cost less?",
-            "a": "Payroll cost is the same. However, remote meetings avoid infrastructure costs (office space, catering) and travel time."
+            "q": "Does cancelling a meeting save cash?",
+            "a": "Not necessarily. Salaries usually continue; the time becomes available for other work."
         },
         {
-            "q": "Why use average salary?",
-            "a": "It is a respectful way to estimate organizational cost without requiring sensitive individual payroll data."
+            "q": "Is preparation included?",
+            "a": "No. Add preparation minutes to duration only if they apply to every participant."
         },
         {
-            "q": "How can I lower meeting costs?",
-            "a": "Set clear agendas, limit participants to essential contributors, or try asynchronous communication (Email/Slack)."
+            "q": "What about different salaries?",
+            "a": "Use the arithmetic mean of the participants' salaries."
         },
         {
-            "q": "Is the cost of the room included?",
-            "a": "This calculator focuses solely on the time-value of participants, which is usually the largest component of meeting costs."
+            "q": "Does it measure decisions?",
+            "a": "No. The calculator has no information about meeting outcomes."
         },
         {
-            "q": "Does this include preparation time?",
-            "a": "The 'Cost per Decision' output adds a 20% buffer to reflect preparation and post-meeting follow-up."
+            "q": "Are employer benefits included?",
+            "a": "No. This is salary-only allocation."
         }
     ],
     "clusters": [
@@ -98,5 +93,13 @@
         "Meeting audit",
         "Team productivity planning"
     ],
-    "richContent": "<h3>Putting a Dollar Sign on Your Meeting Culture</h3>\n<p style=\"line-height: 1.7; margin-bottom: 1rem;\">Meetings are the largest untracked expense in most organizations. A weekly one-hour meeting with 8 people earning an average of $90,000 costs the company $18,000 per year in direct payroll alone. Add preparation time and post-meeting context switching, and the real cost approaches $22,000. If that meeting does not produce decisions or actions worth that amount, it is a net loss.</p>\n<p style=\"line-height: 1.7; margin-bottom: 1.5rem;\">The meeting cost calculator converts participant time into dollars so you can evaluate whether each recurring meeting justifies its expense. This is not about eliminating meetings — it is about making them worth what they cost.</p>\n\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">The Participant Multiplier</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Every additional person in a meeting multiplies the cost linearly but often adds diminishing value. A 10-person meeting costs 2.5x more than a 4-person meeting, but rarely produces 2.5x more decisions. Audit your recurring meetings: could anyone be replaced by a follow-up email?</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Context Switching Tax</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">A 30-minute meeting does not cost 30 minutes. Employees need 5-15 minutes to prepare and 10-25 minutes to regain focus on deep work afterward. A mid-afternoon meeting effectively fragments two hours of productive time into unusable segments.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">Making the Business Case</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Use the annual cost output to build a case for meeting reform. \"This weekly standup costs us $9,400 per year\" is more persuasive than \"we have too many meetings.\" Propose alternatives: async updates, shorter time slots, or smaller invite lists with written summaries for others.</p>\n  </div>\n</div>"
+    "richContent": "<h3>Compare a recurring meeting with an alternative</h3><p>Eight participants earning an average $90,000 allocate $346.15 to a one-hour meeting. Over 52 weekly meetings that is $18,000. A 30-minute version allocates $9,000 annually. These are worked examples, not survey estimates.</p><p>Before changing the meeting, record its purpose, required participants and expected outcome. A costly meeting may be worthwhile if it prevents rework or resolves a decision. Compare time and outcomes together; this calculator cannot judge the value delivered.</p><h3>What the estimate omits</h3><p>Preparation and follow-up vary by person. Add those hours separately instead of applying an unexplained percentage. Paid holidays and cancelled meetings reduce the annual count below the 52-week assumption.</p>",
+    "quickAnswer": "This calculator allocates salary to meeting time. It does not measure meeting value, productivity, or the number of decisions made.",
+    "resultNote": "Salary allocation is not automatically recoverable cash. Benefits, payroll taxes, preparation, room costs and follow-up are excluded.",
+    "relatedGuides": [
+        {
+            "href": "/guides/compare-job-offers-correctly/",
+            "label": "Understand salary and time trade-offs"
+        }
+    ]
 }

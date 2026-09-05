@@ -1,6 +1,6 @@
 {
-    "title": "Freelance Risk Calculator: Can You Afford to Go Independent?",
-    "description": "Stress-test your freelance finances. Calculate your burn rate, savings runway, and the probability of a revenue gap before you quit your job.",
+    "title": "Freelance Runway & Revenue Buffer Calculator",
+    "description": "Estimate cash runway and an hourly revenue target using your own spending, contingency and billable hours.",
     "inputs": [
         {
             "name": "monthlyBurnRate",
@@ -19,65 +19,68 @@
         {
             "name": "gapProbability",
             "type": "number",
-            "label": "Probability of Gap between Contracts (%)",
+            "label": "Additional Revenue Contingency (%)",
             "min": 0,
             "max": 100
+        },
+        {
+            "name": "billableHoursPerYear",
+            "type": "number",
+            "label": "Expected Annual Billable Hours",
+            "default": 1000,
+            "min": 1
         }
     ],
     "outputs": [
         {
             "name": "runwayMonths",
-            "unit": "number",
-            "label": "Runway (Months)"
-        },
-        {
-            "name": "riskScore",
-            "unit": "number",
-            "label": "Risk Score (0-10)"
+            "label": "Cash Runway (Months)",
+            "unit": "number"
         },
         {
             "name": "minimumSafeRate",
-            "unit": "currency",
-            "label": "Minimum Safe Hourly Rate"
+            "label": "Hourly Revenue Target",
+            "unit": "currency"
         }
     ],
     "methodSummary": [
-        "Runway = Savings / Monthly Burn Rate.",
-        "Risk Score = Combination of runway depth and gap probability.",
-        "Min Safe Rate = Rate needed to cover annual burn + expected gap vacancy."
+        "Runway = available savings / monthly spending.",
+        "Annual target = monthly spending × 12 × (1 + contingency / 100).",
+        "Hourly target = annual target / expected annual billable hours."
     ],
     "assumptions": [
-        "Assumes 1,000 billable hours per year for safest rate estimation.",
-        "Gap probability represents estimated time between contracts without pay."
+        "Contingency is an extra budget allowance, not the probability of losing a contract.",
+        "Billable hours exclude admin, unpaid leave and gaps. Do not count the same lost hours twice.",
+        "No revenue is assumed during the runway calculation."
     ],
     "insights": [
-        "A 'Risk Score' above 7 typically indicates you need more savings or a significantly higher rate to offset the volatility.",
-        "Runway is your most important metric; aim for at least 6 months before going full-time freelance."
+        "At $4,000 spending and $24,000 savings, a no-revenue runway is six months.",
+        "A 20% contingency raises a $48,000 annual spending target to $57,600; over 1,000 billable hours that is $57.60/hour."
     ],
     "faqs": [
         {
-            "q": "What is a 'safe' runway?",
-            "a": "6 months is the golden standard. It gives you enough time to find a new contract even in a slow market."
+            "q": "What is the contingency?",
+            "a": "An amount you choose to add to your annual budget for uncertainty."
         },
         {
-            "q": "How to calculate 'Tax-Adjusted' savings?",
-            "a": "Only count money that is truly yours to spend. Subtract what you owe the tax office before entering your buffer here."
+            "q": "How many hours should I enter?",
+            "a": "Hours you expect clients to pay for, after leave, sales, admin and gaps."
         },
         {
-            "q": "What is a gap probability?",
-            "a": "Estimate how likely it is you will face a 1-2 month gap between projects. Senior niches usually have lower probabilities."
+            "q": "Is six months safe?",
+            "a": "No universal number guarantees safety. Consider dependents, fixed bills and alternative income."
         },
         {
-            "q": "How is the risk score calculated?",
-            "a": "It values long-term liquidity (runway) against short-term volatility (gap probability)."
+            "q": "What savings count?",
+            "a": "Liquid funds remaining after taxes and committed payments."
         },
         {
-            "q": "Why 1,000 billable hours?",
-            "a": "Standard full-time is 2,000 hours. A 1,000-hour baseline accounts for vacation, sick days, and time spent finding new clients."
+            "q": "Does the rate include taxes?",
+            "a": "Only to the extent you include tax reserves in the entered budget."
         },
         {
-            "q": "Can I survive with a high risk score?",
-            "a": "Yes, if you have a high risk tolerance or can quickly return to salaried employment if needed."
+            "q": "What happened to the risk score?",
+            "a": "The previous score was an arbitrary formula. It has been removed because it did not estimate a validated probability."
         }
     ],
     "clusters": [
@@ -89,5 +92,19 @@
         "Set emergency fund goals",
         "Price risk into contract rates"
     ],
-    "richContent": "<h3>Understanding Freelance Risk</h3>\n<p style=\"margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6;\">Going freelance isn't just about setting an hourly rate—it's about managing cash flow and surviving the inevitable gaps between contracts. Unlike a salaried employee who gets paid every two weeks regardless of company performance, a freelancer must stockpile capital to survive 'bench time' while hunting for the next gig.</p>\n\n<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;\">\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">The 6-Month Rule</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">The golden rule of freelance risk management is maintaining a 6-month cash runway based on your baseline monthly burn rate. If the market cools down, this gives you half a year to secure a new client before facing financial distress.</p>\n  </div>\n  <div class=\"glass-panel\" style=\"padding: 1.5rem;\">\n    <h4 style=\"margin-top: 0; color: var(--accent-light);\">The 1,000 Hour Standard</h4>\n    <p style=\"font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0;\">Never price your freelance rate assuming 2,000 billable hours per year. You will spend hundreds of hours doing admin, accounting, sales, and taking unpaid vacation. Price your services so that you can survive on just 1,000 billable hours annually.</p>\n  </div>\n</div>\n\n<div class=\"glass-panel\" style=\"margin-top: 2rem;\">\n  <h3 style=\"margin-top: 0; margin-bottom: 1rem;\">Complete Your Freelance Strategy</h3>\n  <ul style=\"list-style-type: none; margin: 0; padding: 0;\">\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/freelance-rate-calculator/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Freelance Rate Calculator</a>: Calculate exactly how much you need to charge per hour.</li>\n    <li style=\"margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/contractor-vs-employee/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Contractor vs Employee</a>: See if your target rate is mathematically better than a salaried job.</li>\n    <li style=\"margin-bottom: 0; padding-left: 1.5rem; position: relative;\"><span aria-hidden=\"true\" style=\"position: absolute; left: 0;\">&rarr;</span> <a href=\"/quit-calculator/\" style=\"color: var(--primary-light); text-decoration: none; font-weight: 500;\">Quit Calculator</a>: See how long your savings will last if you quit to start your freelance career today.</li>\n  </ul>\n</div>"
+    "richContent": "<h3>Separate cash reserves from pricing</h3><p>A high hourly rate does not solve a bill due before the client pays. First estimate cash runway with no revenue. Then calculate how much revenue your paid hours must support.</p><p>For example, $4,000 monthly spending with a 20% contingency gives $57,600 annual revenue. At 1,200 billable hours the target is $48/hour; at 800 hours it is $72/hour. These figures cover only the budget entered, not an additional salary or taxes omitted from that budget.</p><p>Run a lower-hours scenario and check invoice due dates separately. Use the <a href=\"/freelance-rate-calculator/\">freelance rate calculator</a> for a salary target plus overhead, or the <a href=\"/contractor-vs-employee/\">contractor comparison</a> to compare a specific offer.</p>",
+    "quickAnswer": "Use savings to measure how long you can cover spending with no revenue. Use billable hours and a chosen contingency to estimate a revenue target. Neither is a probability of success.",
+    "resultNote": "The target covers only entered spending and contingency. Add business expenses and tax reserves to your budget as appropriate. It is not a validated risk score or a guaranteed safe rate.",
+    "sources": [
+        {
+            "href": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+            "label": "CFPB: emergency funds depend on your circumstances"
+        }
+    ],
+    "relatedGuides": [
+        {
+            "href": "/guides/freelance-risk-pricing/",
+            "label": "Plan for billable time and payment gaps"
+        }
+    ]
 }

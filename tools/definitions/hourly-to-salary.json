@@ -90,5 +90,11 @@
         "Estimate freelance equivalent",
         "Understand effective pay"
     ],
-    "noindex": true
+    "noindex": true,
+    "relatedGuides": [
+        {
+            "href": "/guides/total-compensation-equation/",
+            "label": "Separate salary, benefits and paid time"
+        }
+    ]
 }

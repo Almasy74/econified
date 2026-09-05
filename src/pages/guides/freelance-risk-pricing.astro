@@ -1,88 +1,26 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 ---
-<Layout title="How to Price Freelance Risk Correctly | Econified" description="Learn to calculate your true freelance risk premium. Covers gap probability, runway math, and the rate buffer needed to survive dry spells." canonicalUrl="https://econified.com/guides/freelance-risk-pricing/">
-  <main class="container" style="max-width: 780px;">
-    <nav class="breadcrumb" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
-      <a href="/" style="color: inherit;">Home</a> &rsaquo;
-      <a href="/guides/" style="color: inherit;">Guides</a> &rsaquo;
-      How to Price Freelance Risk
-    </nav>
+<Layout title="Freelance Pricing: Billable Hours, Cash Reserves and Payment Gaps | Econified" description="Freelance Pricing: Billable Hours, Cash Reserves and Payment Gaps. Follow worked examples and check assumptions before running your own numbers.">
+<main class="container" style="max-width:820px;">
+<nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/guides/">Guides</a></nav>
+<article class="guide-content"><h1>Freelance Pricing: Billable Hours, Cash Reserves and Payment Gaps</h1>
+<p class="byline">Econified · Updated September 5, 2026 · <a href="/how-it-works/">Methodology and corrections</a></p>
 
-    <article>
-      <h1>How to Price Freelance Risk Correctly</h1>
-      <p class="byline" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">By the <strong>Econified Editorial Team</strong> &middot; Last reviewed June 2026 &middot; Methodology-first, no sponsored placements</p>
-      <p class="lead" style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 2rem;">Most freelancers price their time. Very few price their risk. If you are not charging for the probability of gaps, late payments, and project cancellations, you are subsidizing your clients' flexibility with your own savings.</p>
+<p>A profitable contract can leave you short of cash before an invoice is paid. Calculate the revenue your hours must support, then test the cash you need between payments.</p>
+<h2>Build a budget before choosing a premium</h2><p>List personal spending, business costs, replacement benefits and tax reserves. Keep each item on one line so it appears once. A flat percentage is a scenario allowance, not evidence of your actual insurance or tax costs.</p>
+<p>For US contracting, <a href="https://www.irs.gov/taxtopics/tc554">IRS self-employment tax guidance</a> describes a calculation involving net earnings and specific rules. A budget allowance does not calculate that liability or replace income-tax planning.</p>
+<h2>Divide by hours clients pay for</h2><p>Suppose a budget requires $60,000 annual revenue. At 25 billable hours a week for 46 weeks, you have 1,150 annual billable hours and need $52.17/hour. At 20 hours over those weeks, you need $65.22/hour. The requirement is unchanged; fewer paid hours support it.</p>
+<p>Exclude sales, administration, unpaid leave and expected gaps from billable hours. If those hours are already excluded, do not add another percentage for the same missing hours. A contingency for unexpected expenses is a separate assumption.</p>
+<h2>Distinguish markup from revenue deductions</h2><p>A 20% markup on a $60,000 budget produces $72,000. A 20% deduction from revenue requires $75,000 to leave $60,000. The formulas are $60,000 × 1.2 and $60,000 / 0.8. Confusing them understates the required rate.</p>
+<p>The <a href="/freelance-rate-calculator/">freelance rate tool</a> adds a markup to a salary target. The <a href="/contractor-vs-employee/">contractor comparison</a> deducts overhead from revenue. Choose the interpretation matching your budget.</p>
+<h2>Check cash until payment</h2><p>With $24,000 available and $4,000 monthly spending, no-revenue runway is six months. A $3,000 tax bill already due reduces cash to $21,000 and runway to 5.25 months. An unpaid invoice is not cash in the bank.</p>
+<p>The <a href="https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/">CFPB's emergency-fund guidance</a> explains that reserve needs depend on your circumstances. No single reserve or rate guarantees safety.</p>
+<p>Run the <a href="/freelance-risk-calculator/">runway and revenue buffer calculator</a> with fewer hours and higher spending. Separately write down invoice dates, payment terms and bills due before payment. That reveals timing problems an annual rate cannot capture.</p>
 
-      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 2.5rem;">
-        <strong style="font-size: 1.1rem;">Short answer:</strong> Add a <strong>10–20% risk premium</strong> on top of your calculated freelance rate. The exact number depends on your contract length, industry stability, and savings buffer.
-      </div>
-
-      <h2>The Three Risks Most Freelancers Ignore</h2>
-
-      <h3 style="margin-top: 2rem;">1. Revenue Gaps</h3>
-      <p style="line-height: 1.7; margin-bottom: 1.5rem;">Between contracts, you earn zero. If there is even a 20% probability of a 2-month gap each year, your expected annual earnings drop by roughly 3.3%. That gap needs to be priced into every billable hour.</p>
-
-      <h3>2. Late and Non-Payment</h3>
-      <p style="line-height: 1.7; margin-bottom: 1.5rem;">Industry data shows that 29% of freelance invoices are paid late and roughly 5% go unpaid entirely. If you invoice $120,000/year, you should expect to lose $6,000 to payment friction.</p>
-
-      <h3>3. Scope Creep Without Rate Increase</h3>
-      <p style="line-height: 1.7; margin-bottom: 2rem;">Fixed-price projects almost always expand beyond the original scope. If you don't price in a buffer, every unbilled hour of extra work dilutes your effective rate.</p>
-
-      <h2>The Risk Premium Formula</h2>
-      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 1.5rem;">
-        <strong>Risk-Adjusted Rate</strong> = Base Rate × (1 + Gap Risk % + Bad Debt % + Scope Buffer %)
-      </div>
-      <p style="line-height: 1.7; margin-bottom: 2rem;">For example, if your base rate is $85/hour and you estimate 5% gap risk, 3% bad debt, and 7% scope buffer, your risk-adjusted rate is: $85 × 1.15 = <strong>$97.75/hour</strong>.</p>
-
-      <h2>Risk by Contract Type</h2>
-      <table class="base-table" style="width:100%; text-align:left; border-collapse: collapse; margin-bottom: 2rem;">
-        <thead>
-          <tr style="border-bottom: 2px solid var(--surface-border);">
-            <th style="padding: 0.75rem 0.5rem;">Contract Type</th>
-            <th style="padding: 0.75rem 0.5rem;">Risk Level</th>
-            <th style="padding: 0.75rem 0.5rem;">Suggested Premium</th>
-          </tr>
-        </thead>
-        <tbody style="font-size: 0.95rem; color: var(--text-secondary);">
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Long-term retainer (6+ months)</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">Low</td>
-            <td style="padding: 0.75rem 0.5rem;">5–10%</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Project-based (1–3 months)</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">Medium</td>
-            <td style="padding: 0.75rem 0.5rem;">10–15%</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>Short gig (< 1 month)</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">High</td>
-            <td style="padding: 0.75rem 0.5rem;">15–25%</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--surface-border);">
-            <td style="padding: 0.75rem 0.5rem; color: var(--text-primary);"><strong>New client, no track record</strong></td>
-            <td style="padding: 0.75rem 0.5rem;">Very High</td>
-            <td style="padding: 0.75rem 0.5rem;">20–30%</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>The Runway Test</h2>
-      <p style="line-height: 1.7; margin-bottom: 1rem;">Before going freelance, calculate your runway:</p>
-      <div style="background: rgba(30, 41, 59, 0.5); padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 1.5rem;">
-        <strong>Months of Runway</strong> = Savings Buffer ÷ Monthly Burn Rate
-      </div>
-      <p style="line-height: 1.7; margin-bottom: 2rem;">If your runway is less than 6 months, you are freelancing without a safety net. Every financial decision will be driven by short-term survival rather than long-term strategy, which leads to underpricing and burnout.</p>
-
-      <div class="glass-panel" style="margin-top: 3rem;">
-        <h2 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem;">Calculate Your Own Risk Profile</h2>
-        <ul style="list-style-type: none; margin: 0; padding: 0;">
-          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/freelance-risk-calculator/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Freelance Risk Calculator</a> — stress-test your runway and gap probability</li>
-          <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/freelance-rate-calculator/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Freelance Rate Calculator</a> — find your minimum sustainable hourly rate</li>
-          <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;"><span aria-hidden="true" style="position: absolute; left: 0;">&rarr;</span> <a href="/contractor-vs-employee/" style="color: var(--primary-light); text-decoration: none; font-weight: 500;">Contractor vs Employee</a> — compare your adjusted rate against a salaried offer</li>
-        </ul>
-      </div>
-    </article>
-  </main>
-</Layout>
+</article></main></Layout>
+<style>
+.guide-content { line-height: 1.8; }
+.guide-content h2 { margin-top: 2.25rem; }
+.byline { font-size: .85rem; color: var(--text-secondary); }
+</style>

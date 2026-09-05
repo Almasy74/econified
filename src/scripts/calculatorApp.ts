@@ -49,6 +49,26 @@ export function initCalculator(context: Record<string, string> = {}) {
         const localCurrency = currIn ? currIn.value : window.Currency.get();
         const values: Record<string, number> = {};
 
+        const advanced = !!advToggle?.checked;
+        const invalid = inputs.find(input => {
+            const def = allInputDefs.find((i: any) => i.name === input.name);
+            if (!def) return false;
+            if (advanced && definition.advanced?.replaces?.includes(input.name)) return false;
+            if (!advanced && definition.advanced?.inputs?.some((i: any) => i.name === input.name)) return false;
+            const value = Number(input.value);
+            return input.value.trim() === '' || !Number.isFinite(value)
+                || (def.min !== undefined && value < def.min)
+                || (def.max !== undefined && value > def.max);
+        });
+        if (invalid) {
+            const label = allInputDefs.find((i: any) => i.name === invalid.name)?.label || 'inputs';
+            definition.outputs.forEach((output: any) => {
+                const el = document.getElementById(`out-${output.name}`);
+                if (el) el.textContent = `Check ${label}`;
+            });
+            return;
+        }
+
         inputs.forEach(input => {
             let val = parseFloat(input.value) || 0;
             const inputDef = allInputDefs.find((i: any) => i.name === input.name);
@@ -78,6 +98,10 @@ export function initCalculator(context: Record<string, string> = {}) {
         Object.entries(results).forEach(([key, val]) => {
             const el = document.getElementById(`out-${key}`);
             if (el) {
+                if (typeof val === 'number' && !Number.isFinite(val)) {
+                    el.textContent = val === Infinity ? 'No finite result under these assumptions' : 'Check inputs';
+                    return;
+                }
                 const unit = el.dataset.unit;
                 if (unit === 'percent') {
                     el.textContent = (typeof val === 'number' && val > 0 ? '+' : '') + (typeof val === 'number' ? val.toFixed(1) : val) + '%';
